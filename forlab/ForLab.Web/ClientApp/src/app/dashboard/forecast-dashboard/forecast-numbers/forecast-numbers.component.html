@@ -1,0 +1,73 @@
+<div class="card" style="height: 95%;">
+  <div class="header">
+    <h2>Forecasts</h2>
+    <div class="mt-3">
+      <mat-form-field class="pr-2" appearance="fill">
+        <mat-label>Select Country</mat-label>
+        <mat-select [(ngModel)]="countryId" (ngModelChange)="regionId = null; loadData(); loadRegions();">
+          <mat-option value="">--all--</mat-option>
+          <mat-option *ngFor="let x of (countries$ | async)" [value]="x.id">{{x.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="pl-2" appearance="fill">
+        <mat-label>Select Region</mat-label>
+        <mat-select [(ngModel)]="regionId" (ngModelChange)="loadData();">
+          <mat-option value="">--all--</mat-option>
+          <mat-option *ngFor="let x of (regions$ | async)" [value]="x.id">{{x.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="pl-2" appearance="fill">
+        <mat-label>Search by {{columns[0].label}}</mat-label>
+        <input matInput #searchInput placeholder="search...">
+      </mat-form-field>
+    </div>
+  </div>
+
+  <section>
+    <div>
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div class="">
+            <div class="body">
+              <div class="table-responsive">
+
+                <mat-table [dataSource]="dataSource" matSort class="mat-cell">
+
+                  <!-- Columns -->
+                  <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
+                    <ng-container
+                      *ngIf="['text', 'date', 'datetime', 'price', 'number', 'int', 'percent', 'bool'].includes(column.type)"
+                      [matColumnDef]="column.property">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>{{ column.label }}</mat-header-cell>
+                      <mat-cell *matCellDef="let row" [ngClass]="column.cssClasses">
+                        <span *ngIf="column.type === 'text'">{{ row[column.property] || '-' | humanize }}</span>
+                        <span *ngIf="column.type === 'date'">{{ formatDate(row[column.property]) }}</span>
+                        <span *ngIf="column.type === 'datetime'">{{ formatDateTime(row[column.property]) }}</span>
+                        <span *ngIf="column.type === 'price'">{{ formatPrice(row[column.property]) }}</span>
+                        <span *ngIf="column.type === 'number'">{{ formatInt(row[column.property]) }}</span>
+                        <span *ngIf="column.type === 'int'">{{ formatInt(row[column.property], false) }}</span>
+                        <span *ngIf="column.type === 'percent'">{{ formatInt(row[column.property]) }}%</span>
+                        <span *ngIf="column.type === 'bool'">{{ row[column.property] ? 'Yes' : 'No' }}</span>
+                      </mat-cell>
+                    </ng-container>
+                  </ng-container>
+
+                  <!-- Visible Columns -->
+                  <mat-header-row *matHeaderRowDef="visibleColumns"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: visibleColumns;" [style.cursor]="'pointer'" matRipple>
+                  </mat-row>
+
+                </mat-table>
+
+                <mat-paginator [length]="dataSource?.totalCount" [pageSizeOptions]="[5]" [pageSize]="5"
+                  class="sticky left-0"></mat-paginator>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>

@@ -1,0 +1,82 @@
+<!--body content wrap start-->
+<div class="main">
+
+  <!--header section start-->
+  <section class="hero-section ptb-100 gradient-overlay"
+    style="background: url('assets/img/header-bg-5.jpg')no-repeat center center / cover">
+    <div class="hero-bottom-shape-two"
+      style="background: url('assets/img/hero-bottom-shape.svg')no-repeat bottom center"></div>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-7">
+          <div class="page-header-content text-white text-center pt-sm-5 pt-md-5 pt-lg-0">
+            <h1 class="text-white mb-0">{{ articleDto?.title }}</h1>
+            <div class="custom-breadcrumb">
+              <ol class="breadcrumb d-inline-block bg-transparent list-inline py-0">
+                <li class="list-inline-item breadcrumb-item"><a href="javascript:;" routerLink="/">Home</a></li>
+                <li class="list-inline-item breadcrumb-item"><a href="javascript:;" routerLink="/articles">Articles</a>
+                </li>
+                <li class="list-inline-item breadcrumb-item active">{{ articleDto?.title }}</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--header section end-->
+
+  <!--blog section start-->
+  <div class="module ptb-100">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-8">
+          <!-- Post-->
+          <article class="post">
+            <div class="post-preview"><img [src]="articleDto?.articleImageDtos[0]?.attachmentUrl" alt="article"
+                class="img-fluid" /></div>
+            <div class="post-wrapper">
+              <div class="post-header">
+                <h1 class="post-title">{{ articleDto?.title }}</h1>
+                <ul class="post-meta">
+                  <li>{{ formatDateTime(articleDto?.providedDate) }}</li>
+                  <li>By <a href="javascript:;">{{ articleDto?.providedBy }}</a></li>
+                </ul>
+              </div>
+              <div class="post-content" [innerHTML]="articleDto?.content"></div>
+
+              <div class="article-img">
+                <img [src]="x.attachmentUrl" alt="" *ngFor="let x of articleDto?.articleImageDtos">
+              </div>
+
+            </div>
+          </article>
+          <!-- Post end-->
+        </div>
+        <div class="col-lg-4 col-md-4">
+          <div class="sidebar-right pl-4">
+
+            <!-- Recent entries widget-->
+            <aside class="widget widget-recent-entries-custom">
+              <div class="widget-title">
+                <h6>Recent Posts</h6>
+              </div>
+              <ul>
+                <li class="clearfix" *ngFor="let x of (articles$ | async)">
+                  <div class="wi"><a href="javascript:;" routerLink="/articles/details/{{x.id}}"><img
+                        [src]="x.articleImageDtos[0].attachmentUrl" alt="recent post" class="img-fluid rounded" /></a>
+                  </div>
+                  <div class="wb"><a href="javascript:;" routerLink="/articles/details/{{x.id}}">{{ x.title }}</a><span
+                      class="post-date">{{ formatDateTime(x.providedDate) }}</span></div>
+                </li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--blog section end-->
+
+</div>
+<!--body content wrap end-->

@@ -1,0 +1,107 @@
+<section>
+  <div>
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+          <div class="body">
+            <div class="table-responsive">
+              <div class="materialTableHeader">
+                <div class="row">
+                  <div class="col-8">
+                    <ul class="header-buttons-left ml-0">
+                      <li class="dropdown">
+                        <h2>
+                          <strong>{{objectName | humanize}}</strong></h2>
+                      </li>
+                      <li class="dropdown m-l-20">
+                        <label for="search-input"><i class="material-icons search-icon">search</i></label>
+                        <input placeholder="Search by {{searchBy || ''}}..." type="text" #searchInput class="browser-default search-field"
+                          aria-label="Search box">
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="col-4">
+                    <ul class="header-buttons">
+                      <li>
+                        <div class="icon-button-demo">
+                          <button [matMenuTriggerFor]="columnFilterMenu" mat-mini-fab color="primary"
+                            matTooltip="Filter Columns">
+                            <mat-icon>filter_list</mat-icon>
+                          </button>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="icon-button-demo">
+                          <button mat-mini-fab color="primary" (click)="loadData()" matTooltip="Refresh Data">
+                            <mat-icon>refresh</mat-icon>
+                          </button>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <mat-table [dataSource]="dataSource" matSort class="mat-cell">
+
+                <!-- Active Column -->
+                <ng-container matColumnDef="isActive">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
+                  <mat-cell *matCellDef="let row">
+                    <div class="rounded px-2 py-1 font-medium text-xs" fxFlex="none"
+                      [style.background-color]="row['isActive'] ? 'rgba(76, 175, 80, 0.098)' : 'rgba(156, 39, 176, 0.098)'"
+                      [style.color]="row['isActive'] ? 'rgb(76, 175, 80)' : 'rgb(156, 39, 176)'">
+                      {{ row['isActive'] ? 'Active' : 'Disabled' }}
+                    </div>
+                  </mat-cell>
+                </ng-container>
+
+                <!-- Columns -->
+                <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
+                  <ng-container
+                    *ngIf="['text', 'date', 'datetime', 'price', 'number', 'int', 'percent', 'bool'].includes(column.type)"
+                    [matColumnDef]="column.property">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{ column.label }}</mat-header-cell>
+                    <mat-cell *matCellDef="let row" [ngClass]="column.cssClasses">
+                      <span *ngIf="column.type === 'text'">{{ row[column.property] || '-' | humanize }}</span>
+                      <span *ngIf="column.type === 'date'">{{ formatDate(row[column.property]) }}</span>
+                      <span *ngIf="column.type === 'datetime'">{{ formatDateTime(row[column.property]) }}</span>
+                      <span *ngIf="column.type === 'price'">{{ formatPrice(row[column.property]) }}</span>
+                      <span *ngIf="column.type === 'number'">{{ formatInt(row[column.property]) }}</span>
+                      <span *ngIf="column.type === 'int'">{{ formatInt(row[column.property], false) }}</span>
+                      <span *ngIf="column.type === 'percent'">{{ formatInt(row[column.property]) }}%</span>
+                      <span *ngIf="column.type === 'bool'">{{ row[column.property] ? 'Yes' : 'No' }}</span>
+                    </mat-cell>
+                  </ng-container>
+                </ng-container>
+
+                <!-- Visible Columns -->
+                <mat-header-row *matHeaderRowDef="visibleColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: visibleColumns;" [style.cursor]="'pointer'" matRipple>
+                </mat-row>
+
+              </mat-table>
+
+              <!-- <div class="no-results" [style.display]="dataSource.renderedData.length == 0 ? '' : 'none'">
+                No results
+              </div> -->
+
+              <mat-paginator [length]="dataSource?.totalCount" [pageSizeOptions]="[5, 10, 20, 50]" [pageSize]="10"
+                class="sticky left-0"></mat-paginator>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<mat-menu #columnFilterMenu="matMenu" xPosition="before" yPosition="below">
+  <button (click)="toggleColumnVisibility(column, $event)" *ngFor="let column of columns"
+    class="checkbox-item mat-menu-item">
+    <mat-checkbox (click)="$event.stopPropagation()" ngDefaultControl [(ngModel)]="column.visible" color="primary">
+      {{ column.label }}
+    </mat-checkbox>
+  </button>
+</mat-menu>

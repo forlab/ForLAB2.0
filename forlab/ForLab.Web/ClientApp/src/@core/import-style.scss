@@ -1,0 +1,99 @@
+mat-table.import-table {
+  mat-form-field {
+    width: 95% !important;
+  }
+  .mat-form-field-appearance-outline .mat-form-field-infix {
+    padding: 0em 0 0.51em 0 !important;
+  }
+  
+  .mat-form-field-appearance-outline .mat-form-field-wrapper {
+    margin-top: 9px !important;
+  }
+  
+  td .mat-form-field .mat-form-field-wrapper {
+    padding-bottom: 0px !important;
+  }
+  
+  // .mat-form-field-appearance-outline .mat-form-field-outline {
+  //   color: #fff;
+  // }
+  .mat-select-arrow {
+    width: 0;
+    height: 0;
+    border-left: 0px solid transparent !important;
+    border-right: 0px solid transparent !important;
+    border-top: 5px solid;
+    margin: 0 4px;
+  }
+  
+  .mat-select:focus .mat-select-arrow {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent !important;
+    border-right: 5px solid transparent !important;
+    border-top: 5px solid;
+    margin: 0 4px;
+    margin-top: 6px;
+  }
+  
+  input:hover
+    .mat-form-field-appearance-outline
+    .mat-form-field-outline {
+    // color: #f5f5f5;
+    border: 0px;
+  }
+  input:focus
+    .mat-form-field-appearance-outline
+    .mat-form-field-outline {
+    color: rgb(92, 119, 254);
+    border: 0px;
+  }
+  
+  //  :root .hover\:bg-hover:hover {
+  //   background-color: #fff;
+  // }
+  
+  .cardActive .mat-card:not([class*='mat-elevation-z']) {
+    box-shadow: 2px 2px 0px 6px rgba(144, 168, 215, 0.01),
+      0px 1px 15px 0px rgba(63, 82, 104, 0.1),
+      0px 4px 10px 0px rgba(21, 76, 223, 0.036);
+  }
+  
+  .mat-card h2 span {
+    width: 46px;
+    height: 22px;
+    padding: 0px 8px;
+    border-radius: 15px;
+    background-color: #5c77ff;
+    // color: #fff;
+    margin: 0 5px;
+  }
+  
+  .mat-card p span {
+    width: 46px;
+    height: 22px;
+    padding: 0px 6.5px;
+      border-radius: 9px;
+    background-color: #5c77ff;
+    // color: #fff;
+    margin: 0 5px;
+  }
+  
+  .mat-card .mat-icon {
+    background-repeat: no-repeat;
+    display: block;
+    fill: currentColor;
+    text-align: center;
+    margin: auto;
+    height: 75px;
+    width: 80px !important;
+    font-size: 80px !important;
+    color: gray;
+  }
+  
+  .cardActive a {
+    color: #fff !important;
+    text-decoration: inherit;
+    border: 0px !important;
+  }
+}

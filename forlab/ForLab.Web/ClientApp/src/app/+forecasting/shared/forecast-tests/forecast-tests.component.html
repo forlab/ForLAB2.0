@@ -1,0 +1,140 @@
+<div class="row">
+  <div class="col-md-4">
+    <div class="">
+      <div class="body">
+        <div id="mail-nav">
+          <h5 class="b-b p-10 text-strong"><strong>Testing </strong>Areas</h5>
+          <input type="text" [formControl]="testingAreaFilter" placeholder="Filter testing area"
+            class="form-control mb-3">
+          <ul class="testing-areas" id="mail-folders" [perfectScrollbar]>
+            <li [ngClass]="selectedTestingArea == x ? 'active' : ''" *ngFor="let x of (filteredTestingAreas$ | async)"
+              (click)="selectedTestingArea = x; loadTests(x.id)">
+              <a href="javascript:;" [title]="x.name">{{ x.name }}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-8">
+    <div class="">
+      <div class="body">
+        <h5 class="b-b p-10 text-strong"><strong>Tests </strong><span *ngIf="selectedTestingArea"> | {{ selectedTestingArea?.name }}</span></h5>
+        <div class="row tests-card" [perfectScrollbar]>
+          <div class="col-md-3" *ngFor="let x of (tests$ | async)">
+            <button style="border: none;" class="checkbox-item mat-menu-item">
+              <mat-checkbox color="primary" [checked]="isTestSelected(x)" (change)="toggleTestSelect($event, x)">
+                {{ x.name }}
+              </mat-checkbox>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="body">
+  <div class="table-responsive">
+    <div class="materialTableHeader">
+      <div class="row">
+        <div class="col-8">
+          <ul class="header-buttons-left ml-0">
+            <li class="dropdown">
+              <h2>
+                <strong>Forecast Tests</strong></h2>
+            </li>
+            <!-- <li class="dropdown m-l-20">
+              <label for="search-input"><i class="material-icons search-icon">search</i></label>
+              <input placeholder="Search..." type="text" #searchInput class="browser-default search-field"
+                aria-label="Search box">
+            </li> -->
+            <li>
+              <div class="icon-button-demo m-l-10" [hidden]=!selection.hasValue()>
+                <button mat-mini-fab color="warn" (click)="removeSelectedRows()">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="col-4">
+          <ul class="header-buttons">
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <mat-table [dataSource]="dataSource" matSort class="mat-cell">
+
+      <!-- Checkbox Column -->
+      <ng-container matColumnDef="select">
+        <mat-header-cell *matHeaderCellDef [ngClass]="'tbl-col-width-per-6'">
+          <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+            [indeterminate]="selection.hasValue() && !isAllSelected()" [ngClass]="'tbl-checkbox'">
+          </mat-checkbox>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row" [ngClass]="'tbl-col-width-per-6'">
+          <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+            [checked]="selection.isSelected(row)" [ngClass]="'tbl-checkbox'">
+          </mat-checkbox>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Active Column -->
+      <ng-container matColumnDef="isActive">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <div class="rounded px-2 py-1 font-medium text-xs" fxFlex="none"
+            [style.background-color]="row['isActive'] ? 'rgba(76, 175, 80, 0.098)' : 'rgba(156, 39, 176, 0.098)'"
+            [style.color]="row['isActive'] ? 'rgb(76, 175, 80)' : 'rgb(156, 39, 176)'">
+            {{ row['isActive'] ? 'Active' : 'Disabled' }}
+          </div>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Columns -->
+      <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
+        <ng-container
+          *ngIf="['text', 'date', 'datetime', 'price', 'number', 'int', 'percent', 'bool'].includes(column.type)"
+          [matColumnDef]="column.property">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>{{ column.label }}</mat-header-cell>
+          <mat-cell *matCellDef="let row" [ngClass]="column.cssClasses">
+            <span *ngIf="column.type === 'text'">{{ row[column.property] || '-' | humanize }}</span>
+            <span *ngIf="column.type === 'date'">{{ formatDate(row[column.property]) }}</span>
+            <span *ngIf="column.type === 'datetime'">{{ formatDateTime(row[column.property]) }}</span>
+            <span *ngIf="column.type === 'price'">{{ formatPrice(row[column.property]) }}</span>
+            <span *ngIf="column.type === 'number'">{{ formatInt(row[column.property]) }}</span>
+            <span *ngIf="column.type === 'int'">{{ formatInt(row[column.property], false) }}</span>
+            <span *ngIf="column.type === 'percent'">{{ formatInt(row[column.property]) }}%</span>
+            <span *ngIf="column.type === 'bool'">{{ row[column.property] ? 'Yes' : 'No' }}</span>
+          </mat-cell>
+        </ng-container>
+      </ng-container>
+
+      <!-- Action Column -->
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+        <mat-cell *matCellDef="let row; let index = index">
+          <button mat-icon-button (click)="deleteForecastTest(row, index)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Visible Columns -->
+      <mat-header-row *matHeaderRowDef="visibleColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: visibleColumns;" [style.cursor]="'pointer'" matRipple>
+      </mat-row>
+
+    </mat-table>
+
+    <!-- <div class="no-results" [style.display]="dataSource.renderedData.length == 0 ? '' : 'none'">
+      No results
+    </div> -->
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20, 50]" [pageSize]="10" class="sticky left-0"></mat-paginator>
+
+  </div>
+</div>

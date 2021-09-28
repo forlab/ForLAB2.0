@@ -1,0 +1,196 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="block-header">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <ul class="breadcrumb breadcrumb-style ">
+            <li class="breadcrumb-item">
+              <h4 class="page-title">Tabs</h4>
+            </li>
+            <li class="breadcrumb-item bcrumb-1">
+              <a routerLink="/dashboard/main">
+                <i class="fas fa-home"></i> Home</a>
+            </li>
+            <li class="breadcrumb-item bcrumb-2">
+              <a href="#" onClick="return false;">Lookups</a>
+            </li>
+            <li class="breadcrumb-item active">Static</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- Example Tab -->
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+          <div class="header">
+            <h2>Static Lookups</h2>
+          </div>
+          <div class="body">
+            <mat-tab-group>
+
+              <!--Data Tab-->
+              <mat-tab label="Data">
+                <div class="row clearfix py-5 px-3" style="width: 100%;">
+                  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="card">
+                      <div class="header">
+                        <h2><strong>Continents</strong></h2>
+                      </div>
+                      <div class="body">
+                        <mat-list role="list">
+                          <mat-list-item role="listitem" *ngFor="let option of (continentEnum | enumOptionlist: true)">
+                            {{ option.value | humanize }}</mat-list-item>
+                        </mat-list>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="card">
+                      <div class="header">
+                        <h2><strong>Product Types</strong></h2>
+                      </div>
+                      <div class="body">
+                        <mat-list role="list">
+                          <mat-list-item role="listitem"
+                            *ngFor="let option of (productTypeEnum | enumOptionlist: true)">
+                            {{ option.value | humanize }}</mat-list-item>
+                        </mat-list>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="card">
+                      <div class="header">
+                        <h2><strong>Forecast Info Levels</strong></h2>
+                      </div>
+                      <div class="body">
+                        <mat-list role="list">
+                          <mat-list-item role="listitem"
+                            *ngFor="let option of (forecastInfoLevelEnum | enumOptionlist: true)">
+                            {{ option.value | humanize }}</mat-list-item>
+                        </mat-list>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="card">
+                      <div class="header">
+                        <h2><strong>Forecast Methodology</strong></h2>
+                      </div>
+                      <div class="body">
+                        <mat-list role="list">
+                          <mat-list-item role="listitem"
+                            *ngFor="let option of (forecastMethodologyEnum | enumOptionlist: true)">
+                            {{ option.value | humanize }}</mat-list-item>
+                        </mat-list>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="card">
+                      <div class="header">
+                        <h2><strong>Scope Of The Forecast</strong></h2>
+                      </div>
+                      <div class="body">
+                        <mat-list role="list">
+                          <mat-list-item role="listitem"
+                            *ngFor="let option of (scopeOfTheForecastEnum | enumOptionlist: true)">
+                            {{ option.value | humanize }}</mat-list-item>
+                        </mat-list>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </mat-tab>
+              <!--/Data Tab-->
+
+              <!--Unit Tab-->
+              <mat-tab label="Units">
+                <div class="row clearfix py-5 px-3" style="width: 100%;">
+                  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="card">
+                      <div class="header">
+                        <h2><strong>Product Basic Units</strong></h2>
+                      </div>
+                      <div class="body">
+                        <mat-list role="list">
+                          <mat-list-item role="listitem" *ngFor="let option of (productBasicUnits$ | async)">
+                            {{ option.name | humanize }}</mat-list-item>
+                        </mat-list>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="card">
+                      <div class="header">
+                        <h2><strong>Through Put Units</strong></h2>
+                      </div>
+                      <div class="body">
+                        <mat-list role="list">
+                          <mat-list-item role="listitem"
+                            *ngFor="let option of (throughPutUnits$ | async)">
+                            {{ option.name | humanize }}</mat-list-item>
+                        </mat-list>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </mat-tab>
+              <!--/Unit Tab-->
+
+              <!--Period Tab-->
+              <mat-tab label="Periods">
+                <div class="row clearfix py-5 px-3" style="width: 100%;">
+                  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="card">
+                      <div class="header">
+                        <h2><strong>Control Requirement Units</strong></h2>
+                      </div>
+                      <div class="body">
+                        <mat-list role="list">
+                          <mat-list-item role="listitem" *ngFor="let option of (controlRequirementUnitEnum | enumOptionlist: true)">
+                            {{ option.value | humanize }}</mat-list-item>
+                        </mat-list>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="card">
+                      <div class="header">
+                        <h2><strong>Country Periods</strong></h2>
+                      </div>
+                      <div class="body">
+                        <mat-list role="list">
+                          <mat-list-item role="listitem"
+                            *ngFor="let option of (countryPeriodEnum | enumOptionlist: true)">
+                            {{ option.value | humanize }}</mat-list-item>
+                        </mat-list>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="card">
+                      <div class="header">
+                        <h2><strong>Forecast Consumable Usage Periods</strong></h2>
+                      </div>
+                      <div class="body">
+                        <mat-list role="list">
+                          <mat-list-item role="listitem"
+                            *ngFor="let option of (forecastConsumableUsagePeriodEnum | enumOptionlist: true)">
+                            {{ option.value | humanize }}</mat-list-item>
+                        </mat-list>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </mat-tab>
+              <!--/Period Tab-->
+
+            </mat-tab-group>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

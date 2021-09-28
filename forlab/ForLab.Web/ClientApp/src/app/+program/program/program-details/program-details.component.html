@@ -1,0 +1,112 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="block-header">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <ul class="breadcrumb breadcrumb-style ">
+            <li class="breadcrumb-item">
+              <h4 class="page-title">Program Details</h4>
+            </li>
+            <li class="breadcrumb-item bcrumb-1">
+              <a routerLink="/dashboard/main">
+                <i class="fas fa-home"></i> Home</a>
+            </li>
+            <li class="breadcrumb-item bcrumb-2">
+              <a href="javascript:;" routerLink="/program/programs" onClick="return false;">Programs</a>
+            </li>
+            <li class="breadcrumb-item active">Details</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="row clearfix">
+      <div class="col-lg-4 col-md-12">
+        <div class="card">
+          <div class="header">
+            <h2>About Program</h2>
+          </div>
+          <div class="tab-pane body active" id="about">
+            <small class="text-muted">Status: </small>
+            <p>{{ programDto?.isActive ? 'Active' : 'Disabled' }}</p>
+            <hr>
+            <small class="text-muted">Name: </small>
+            <p>{{ programDto?.name || '-' }}</p>
+            <hr>
+            <small class="text-muted">Disease: </small>
+            <p>{{ programDto?.diseaseName || '-' }}</p>
+            <hr>
+            <small class="text-muted">Number of Years: </small>
+            <p>{{ programDto?.numberOfYears }} Year{{ programDto?.numberOfYears > 1 ? 's' : ''}}</p>
+            <hr>
+            <small class="text-muted">Created By: </small>
+            <p>{{ programDto?.creator || '-' }}</p>
+            <hr>
+            <small class="text-muted">Created On: </small>
+            <p>{{ formatDateTime(programDto?.createdOn) }}</p>
+            <hr>
+            <ng-container *ngIf="programDto?.updator">
+              <small class="text-muted">Last Updated By: </small>
+              <p>{{ programDto?.updator || '-' }}</p>
+              <hr>
+              <small class="text-muted">Last Updated On: </small>
+              <p>{{ formatDateTime(programDto?.updatedOn) }}</p>
+              <hr>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8 col-md-12">
+        <div class="card">
+          <div class="profile-tab-box">
+            <div class="p-l-20">
+              <ul class="nav ">
+                <li class="nav-item tab-all p-l-20">
+                  <a class="nav-link active show" href="#programTests" data-toggle="tab">Program Tests</a>
+                </li>
+                <li class="nav-item tab-all p-l-20">
+                  <a class="nav-link" href="#patientAssumptions" data-toggle="tab">Patient Assumptions</a>
+                </li>
+                <li class="nav-item tab-all p-l-20">
+                  <a class="nav-link" href="#productAssumptions" data-toggle="tab">Product Assumptions</a>
+                </li>
+                <li class="nav-item tab-all p-l-20">
+                  <a class="nav-link" href="#testingAssumptions" data-toggle="tab">Testing Assumptions</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane active" id="programTests" aria-expanded="false">
+            <div class="row clearfix">
+              <div class="col-lg-12 col-md-12 col-sm-12">
+                <program-tests [fromProgramDetails]="true" [programId]="programId" [programCreatedBy]="programDto?.createdBy"></program-tests>
+              </div>
+            </div>
+          </div>
+          <div role="tabpanel" class="tab-pane" id="patientAssumptions" aria-expanded="false">
+            <div class="row clearfix">
+              <div class="col-lg-12 col-md-12 col-sm-12">
+                <patient-assumptions [fromProgramDetails]="true" [programId]="programId" [programCreatedBy]="programDto?.createdBy"></patient-assumptions>
+              </div>
+            </div>
+          </div>
+          <div role="tabpanel" class="tab-pane" id="productAssumptions" aria-expanded="false">
+            <div class="row clearfix">
+              <div class="col-lg-12 col-md-12 col-sm-12">
+                <product-assumptions [fromProgramDetails]="true" [programId]="programId" [programCreatedBy]="programDto?.createdBy"></product-assumptions>
+              </div>
+            </div>
+          </div>
+          <div role="tabpanel" class="tab-pane" id="testingAssumptions" aria-expanded="false">
+            <div class="row clearfix">
+              <div class="col-lg-12 col-md-12 col-sm-12">
+                <testing-assumptions [fromProgramDetails]="true" [programId]="programId" [programCreatedBy]="programDto?.createdBy"></testing-assumptions>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

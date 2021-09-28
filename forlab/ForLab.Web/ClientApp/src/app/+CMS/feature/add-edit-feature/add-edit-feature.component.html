@@ -1,0 +1,65 @@
+<div class="addContainer">
+  <div class="modalHeader">
+    <div class="editRowModal">
+      <div class="modalHeader clearfix">
+        <!-- <img [src]='staff.img' alt="avatar"> -->
+        <div class="modal-about">
+          <div class="font-weight-bold p-t-5 font-17">
+            <span *ngIf="isCreateMode()">New Feature</span>
+            <span *ngIf="isUpdateMode()">{{ data?.title }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div mat-dialog-content>
+    <form class="register-form m-4" [formGroup]="form" (ngSubmit)="save()">
+      <div class="row">
+        <div class="p-5 m-auto">
+          <input (change)="previewImage($event, imageTag)" type="file" style="display: none;" #file
+            name="profile_avatar" accept="image/*">
+          <div class="user-image">
+            <img #imageTag (click)="file.click()"
+              [src]="featureDto?.logoPath || 'assets/images/user/usrbig3.jpg'" class="user-img">
+            <mat-icon (click)="file.click()" size="20px">edit</mat-icon>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Title</mat-label>
+            <input matInput formControlName="title">
+            <mat-error *ngIf="form.get('title').hasError('required')">
+              Title is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Description</mat-label>
+            <textarea matInput formControlName="description" rows="6"></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+          <div class="example-button-row">
+            <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid || loading">
+              <span *ngIf="isCreateMode()">Add New</span>
+              <span *ngIf="isUpdateMode()">Edit</span>
+              <mat-icon class="ml-2" *ngIf="loading">
+                <mat-spinner color="accent" diameter="20"></mat-spinner>
+              </mat-icon>
+            </button>
+            <button mat-raised-button color="warn" type="button" [disabled]="loading" (click)="dialogRef.close()"
+              tabindex="-1">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

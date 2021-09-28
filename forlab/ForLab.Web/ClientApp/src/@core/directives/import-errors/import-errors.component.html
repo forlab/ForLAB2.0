@@ -1,0 +1,20 @@
+<div class="row" *ngIf="errors?.length > 0">
+  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+    <div class="mt-3 alert alert-danger">
+      <strong>Error!</strong>
+      There are <strong>{{formatInt(errors?.length, false)}}</strong> errors that you must fix in order to be able to
+      continue
+    </div>
+    <div class="body table-responsive" [perfectScrollbar]
+      style="max-height: 300px; position: relative; cursor: pointer;">
+      <table class="table table table-hover table-striped">
+        <tbody>
+          <tr *ngFor="let x of errors;" (click)="paginateToError(x)">
+            <td scope="row"><span>Record Number {{formatInt(x.rowNumber, false)}}</span> <span
+                style="color: red; margin-left: 10px;">{{ x.message }}</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

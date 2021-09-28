@@ -1,0 +1,107 @@
+<div class="addContainer">
+  <div class="modalHeader">
+    <div class="editRowModal">
+      <div class="modalHeader clearfix">
+        <!-- <img [src]='staff.img' alt="avatar"> -->
+        <div class="modal-about">
+          <div class="font-weight-bold p-t-5 font-17">
+            <span *ngIf="isCreateMode()">New {{ data?.fromProductDetails ? 'Product' : 'Test' }} Usage</span>
+            <span *ngIf="isUpdateMode()">Edit {{ data?.fromProductDetails ? 'Product' : 'Test' }} Usage</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div mat-dialog-content>
+    <form class="register-form m-4" [formGroup]="form" (ngSubmit)="save()">
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Product</mat-label>
+            <mat-select formControlName="productId">
+              <mat-option *ngFor="let option of products" [value]="option.id">{{ option.name }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.get('productId').hasError('required')">
+              Product is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2" *ngIf="data?.fromTestDetails">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Test</mat-label>
+            <mat-select formControlName="testId">
+              <mat-option *ngFor="let option of (tests$ | async)" [value]="option.id">{{ option.name }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.get('testId').hasError('required')">
+              Test is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Amount</mat-label>
+            <input matInput formControlName="amount" type="number" oninput="validity.valid||(value='');" step=".00000001"
+              min="0">
+            <mat-error *ngIf="form.get('amount').hasError('required')">
+              Amount is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3 pl-1" *ngIf="data?.fromProductDetails">
+          <mat-radio-group formControlName="perPeriod" class="example-full-width" appearance="outline">
+            <mat-radio-button class="example-margin" [value]="true">Per Period</mat-radio-button>
+            <mat-radio-button class="example-margin" [value]="false">Per Period Per Instrument</mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3 pl-1"
+          *ngIf="data?.fromTestDetails && getProductTypeId == productTypeEnum.QualityControl">
+          <mat-checkbox class="example-margin" formControlName="isForControl">Is For Control</mat-checkbox>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2"
+          *ngIf="form.value.perPeriod || form.value.perPeriodPerInstrument">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Country Period</mat-label>
+            <mat-select formControlName="countryPeriodId">
+              <mat-option *ngFor="let option of (countryPeriodEnum | enumOptionlist: true)" [value]="option.key">
+                {{ option.value | humanize }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.get('countryPeriodId').hasError('required')">
+              Field is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2"
+          *ngIf="data?.fromTestDetails || (data?.fromProductDetails && form.value.perPeriodPerInstrument)">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Instrument</mat-label>
+            <mat-select formControlName="instrumentId">
+              <mat-option *ngFor="let option of (instruments$ | async)" [value]="option.id">{{ option.name }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.get('instrumentId').hasError('required')">
+              Instrument is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+          <div class="example-button-row">
+            <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid || loading">
+              <span *ngIf="isCreateMode()">Add New</span>
+              <span *ngIf="isUpdateMode()">Edit</span>
+              <mat-icon class="ml-2" *ngIf="loading">
+                <mat-spinner color="accent" diameter="20"></mat-spinner>
+              </mat-icon>
+            </button>
+            <button mat-raised-button color="warn" type="button" [disabled]="loading" (click)="dialogRef.close()"
+              tabindex="-1">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

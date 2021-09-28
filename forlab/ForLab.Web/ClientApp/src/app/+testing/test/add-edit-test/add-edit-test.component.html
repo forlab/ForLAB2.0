@@ -1,0 +1,74 @@
+<div class="addContainer">
+  <div class="modalHeader">
+    <div class="editRowModal">
+      <div class="modalHeader clearfix">
+        <!-- <img [src]='staff.img' alt="avatar"> -->
+        <div class="modal-about">
+          <div class="font-weight-bold p-t-5 font-17">
+            <span *ngIf="isCreateMode()">New Test</span>
+            <span *ngIf="isUpdateMode()">{{ data?.name }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div mat-dialog-content>
+    <form class="register-form m-4" [formGroup]="form" (ngSubmit)="save()">
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name">
+            <mat-icon matSuffix>face</mat-icon>
+            <mat-error *ngIf="form.get('name').hasError('required')">
+              Name is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Short Name</mat-label>
+            <input matInput formControlName="shortName">
+            <mat-icon matSuffix>face</mat-icon>
+            <mat-error *ngIf="form.get('shortName').hasError('required')">
+              Short Name is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Testing Area</mat-label>
+            <mat-select formControlName="testingAreaId">
+              <mat-option *ngFor="let option of (testingAreas$ | async)" [value]="option.id">{{ option.name }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.get('testingAreaId').hasError('required')">
+              Testing Area is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+          <div class="example-button-row">
+            <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid || loading">
+              <span *ngIf="isCreateMode()">Add New</span>
+              <span *ngIf="isUpdateMode()">Edit</span>
+              <mat-icon class="ml-2" *ngIf="loading">
+                <mat-spinner color="accent" diameter="20"></mat-spinner>
+              </mat-icon>
+            </button>
+            <button mat-raised-button color="warn"    
+type="button" [disabled]="loading" (click)="dialogRef.close()"
+              tabindex="-1">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

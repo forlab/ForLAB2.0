@@ -1,0 +1,75 @@
+<div class="addContainer">
+  <div class="modalHeader">
+    <div class="editRowModal">
+      <div class="modalHeader clearfix">
+        <!-- <img [src]='staff.img' alt="avatar"> -->
+        <div class="modal-about">
+          <div class="font-weight-bold p-t-5 font-17">
+            <span *ngIf="isCreateMode()">New Channel Video</span>
+            <span *ngIf="isUpdateMode()">{{ data?.title }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div mat-dialog-content>
+    <form class="register-form m-4" [formGroup]="form" (ngSubmit)="save()">
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Title</mat-label>
+            <input matInput formControlName="title">
+            <mat-error *ngIf="form.get('title').hasError('required')">
+              Title is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <!-- <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2 pl-1 my-3">
+          <mat-radio-group formControlName="isExternalResource" class="example-full-width" appearance="outline">
+            <mat-radio-button class="example-margin" [value]="true">External URL</mat-radio-button>
+            <mat-radio-button class="example-margin" [value]="false">Browse my Files</mat-radio-button>
+          </mat-radio-group>
+        </div> -->
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2 mt-3" *ngIf="!form.value.isExternalResource">
+          <input type="file" accept="video/* " (change)="saveFileToVariable($event)">
+        </div>
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2" *ngIf="form.value.isExternalResource">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Youtube URL</mat-label>
+            <input matInput formControlName="attachmentUrl">
+            <mat-error *ngIf="form.get('attachmentUrl').hasError('required')">
+              URL is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Description</mat-label>
+            <textarea matInput formControlName="description" rows="7"></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row mt-4">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+          <div class="example-button-row">
+            <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid || loading">
+              <span *ngIf="isCreateMode()">Add New</span>
+              <span *ngIf="isUpdateMode()">Edit</span>
+              <mat-icon class="ml-2" *ngIf="loading">
+                <mat-spinner color="accent" diameter="20"></mat-spinner>
+              </mat-icon>
+            </button>
+            <button mat-raised-button color="warn" type="button" [disabled]="loading" (click)="dialogRef.close()"
+              tabindex="-1">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

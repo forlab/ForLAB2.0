@@ -1,0 +1,121 @@
+<div class="addContainer">
+  <div class="modalHeader">
+    <div class="editRowModal">
+      <div class="modalHeader clearfix">
+        <!-- <img [src]='staff.img' alt="avatar"> -->
+        <div class="modal-about">
+          <div class="font-weight-bold p-t-5 font-17">
+            <span *ngIf="isCreateMode()">New Laboratory Product Price</span>
+            <span *ngIf="isUpdateMode()">Edit Laboratory Product Price</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div mat-dialog-content>
+    <form class="register-form m-4" [formGroup]="form" (ngSubmit)="save()">
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Product</mat-label>
+            <mat-select formControlName="productId">
+              <mat-option *ngFor="let option of (products$ | async)" [value]="option.id">{{ option.name }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.get('productId').hasError('required')">
+              Product is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Country</mat-label>
+            <mat-select formControlName="countryId">
+              <mat-option *ngFor="let option of (countries$ | async)" [value]="option.id">{{ option.name }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.get('countryId').hasError('required')">
+              Country is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Region</mat-label>
+            <mat-select formControlName="regionId">
+              <mat-option *ngFor="let option of (regions$ | async)" [value]="option.id">{{ option.name }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.get('regionId').hasError('required')">
+              Region is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Laboratory</mat-label>
+            <mat-select formControlName="laboratoryId">
+              <mat-option *ngFor="let option of (laboratories$ | async)" [value]="option.id">{{ option.name }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.get('laboratoryId').hasError('required')">
+              Laboratory is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Price</mat-label>
+            <input matInput formControlName="price" type="number" oninput="validity.valid||(value='');" step=".0001"
+              min="0">
+            <mat-error *ngIf="form.get('price').hasError('required')">
+              Price is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Pack Size</mat-label>
+            <input matInput formControlName="packSize" type="number" oninput="validity.valid||(value='');" step=".001"
+              min="0">
+            <mat-error *ngIf="form.get('packSize').hasError('required')">
+              Pack Size is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>From Date</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="fromDate" required>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error *ngIf="form.get('fromDate').hasError('required')">
+              Please select date
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+          <div class="example-button-row">
+            <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid || loading">
+              <span *ngIf="isCreateMode()">Add New</span>
+              <span *ngIf="isUpdateMode()">Edit</span>
+              <mat-icon class="ml-2" *ngIf="loading">
+                <mat-spinner color="accent" diameter="20"></mat-spinner>
+              </mat-icon>
+            </button>
+            <button mat-raised-button color="warn" type="button" [disabled]="loading" (click)="dialogRef.close()"
+              tabindex="-1">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

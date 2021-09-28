@@ -1,0 +1,172 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="block-header">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <ul class="breadcrumb breadcrumb-style ">
+            <li class="breadcrumb-item">
+              <h4 class="page-title">View Configuration Audits</h4>
+            </li>
+            <li class="breadcrumb-item bcrumb-1">
+              <a routerLink="/dashboard/main">
+                <i class="fas fa-home"></i> Home</a>
+            </li>
+            <li class="breadcrumb-item bcrumb-2">
+              <a href="javascript:;" onClick="return false;">Configuration</a>
+            </li>
+            <li class="breadcrumb-item active">Audits</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+          <div class="body">
+            <div class="table-responsive">
+              <div class="materialTableHeader">
+                <div class="row">
+                  <div class="col-8">
+                    <ul class="header-buttons-left ml-0">
+                      <li class="dropdown">
+                        <h2>
+                          <strong>Configuration Audits</strong></h2>
+                      </li>
+                      <li class="dropdown m-l-20">
+                        <label for="search-input"><i class="material-icons search-icon">search</i></label>
+                        <input placeholder="Search by action" type="text" #searchInput
+                          class="browser-default search-field" aria-label="Search box">
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="col-4">
+                    <ul class="header-buttons">
+                      <li>
+                        <div class="icon-button-demo">
+                          <button [matMenuTriggerFor]="columnFilterMenu" mat-mini-fab color="primary"
+                            matTooltip="Filter Columns">
+                            <mat-icon>filter_list</mat-icon>
+                          </button>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="icon-button-demo">
+                          <button mat-mini-fab color="primary" (click)="export()" matTooltip="Export to Excel">
+                            <mat-icon>file_download</mat-icon>
+                          </button>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="icon-button-demo">
+                          <button mat-mini-fab color="primary" (click)="loadData()" matTooltip="Refresh Data">
+                            <mat-icon>refresh</mat-icon>
+                          </button>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <mat-table [dataSource]="dataSource" matSort class="mat-cell">
+
+                <ng-container matColumnDef="numOfDaysToChangePassword">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Days to Change Password</mat-header-cell>
+                  <mat-cell *matCellDef="let row">
+                    {{ formatInt(row['numOfDaysToChangePassword'], false) }} Day{{ row['numOfDaysToChangePassword'] > 1 ? 's' : '' }}
+                  </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="accountLoginAttempts">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Login Attempts</mat-header-cell>
+                  <mat-cell *matCellDef="let row">
+                    {{ formatInt(row['accountLoginAttempts'], false) }} Attempt{{ row['accountLoginAttempts'] > 1 ? 's' : '' }}
+                  </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="passwordExpiryTime">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Password Expiry Time</mat-header-cell>
+                  <mat-cell *matCellDef="let row">
+                    {{ formatInt(row['passwordExpiryTime'], false) }} Minute{{ row['passwordExpiryTime'] > 1 ? 's' : '' }}
+                  </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="userPhotosize">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>User Photo Size</mat-header-cell>
+                  <mat-cell *matCellDef="let row">
+                    {{ formatInt(row['userPhotosize'], false) }} KB
+                  </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="attachmentsMaxSize">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Attachments Max Size</mat-header-cell>
+                  <mat-cell *matCellDef="let row">
+                    {{ formatInt(row['attachmentsMaxSize'], false) }} KB
+                  </mat-cell>
+                </ng-container>
+
+
+                <!-- Columns -->
+                <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
+                  <ng-container
+                    *ngIf="['text', 'date', 'datetime', 'price', 'number', 'int', 'percent', 'bool'].includes(column.type)"
+                    [matColumnDef]="column.property">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{ column.label }}</mat-header-cell>
+                    <mat-cell *matCellDef="let row" [ngClass]="column.cssClasses">
+                      <span *ngIf="column.type === 'text'">{{ row[column.property] || '-' | humanize }}</span>
+                      <span *ngIf="column.type === 'date'">{{ formatDate(row[column.property]) }}</span>
+                      <span *ngIf="column.type === 'datetime'">{{ formatDateTime(row[column.property]) }}</span>
+                      <span *ngIf="column.type === 'price'">{{ formatPrice(row[column.property]) }}</span>
+                      <span *ngIf="column.type === 'number'">{{ formatInt(row[column.property]) }}</span>
+                      <span *ngIf="column.type === 'int'">{{ formatInt(row[column.property], false) }}</span>
+                      <span *ngIf="column.type === 'percent'">{{ formatInt(row[column.property]) }}%</span>
+                      <span *ngIf="column.type === 'bool'">{{ row[column.property] ? 'Yes' : 'No' }}</span>
+                    </mat-cell>
+                  </ng-container>
+                </ng-container>
+
+                <!-- Action Column -->
+                <ng-container matColumnDef="actions">
+                  <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+                  <mat-cell *matCellDef="let row">
+                    <button (click)="$event.stopPropagation()" [matMenuTriggerData]="{ record: row }"
+                      [matMenuTriggerFor]="actionsMenu" mat-icon-button type="button">
+                      <mat-icon>more_horiz</mat-icon>
+                    </button>
+                  </mat-cell>
+                </ng-container>
+
+                <!-- Visible Columns -->
+                <mat-header-row *matHeaderRowDef="visibleColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: visibleColumns;" [style.cursor]="'pointer'" matRipple>
+                </mat-row>
+
+              </mat-table>
+
+              <!-- <div class="no-results" [style.display]="dataSource.renderedData.length == 0 ? '' : 'none'">
+                No results
+              </div> -->
+
+              <mat-paginator [length]="dataSource?.totalCount" [pageSizeOptions]="[5, 10, 20, 50]" [pageSize]="10"
+                class="sticky left-0"></mat-paginator>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<mat-menu #columnFilterMenu="matMenu" xPosition="before" yPosition="below">
+  <button (click)="toggleColumnVisibility(column, $event)" *ngFor="let column of columns"
+    class="checkbox-item mat-menu-item">
+    <mat-checkbox (click)="$event.stopPropagation()" ngDefaultControl [(ngModel)]="column.visible" color="primary">
+      {{ column.label }}
+    </mat-checkbox>
+  </button>
+</mat-menu>
+
+<mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
+  <ng-template let-record="record" matMenuContent>
+  </ng-template>
+</mat-menu>

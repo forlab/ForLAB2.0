@@ -1,0 +1,119 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="block-header">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <ul class="breadcrumb breadcrumb-style ">
+            <li class="breadcrumb-item">
+              <h4 class="page-title">Edit Configuration</h4>
+            </li>
+            <li class="breadcrumb-item bcrumb-1">
+              <a routerLink="/dashboard/main">
+                <i class="fas fa-home"></i> Home</a>
+            </li>
+            <li class="breadcrumb-item bcrumb-2">
+              <a href="javascript:;" onClick="return false;">Configuration</a>
+            </li>
+            <li class="breadcrumb-item active">Edit</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="row clearfix">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="header">
+            <h2>Edit Configuration</h2>
+          </div>
+          <div class="body">
+            <form class="m-4" [formGroup]="form" (ngSubmit)="updateConfiguration()">
+              <div class="row">
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                    <mat-label>Num Of Days To Change Password</mat-label>
+                    <input matInput type="number" oninput="validity.valid||(value='');" step="1" min="0"
+                      formControlName="numOfDaysToChangePassword">
+                    <mat-error *ngIf="form.get('numOfDaysToChangePassword').hasError('required')">
+                      Field is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                    <mat-label>Login Attempts</mat-label>
+                    <input matInput type="number" oninput="validity.valid||(value='');" step="1" min="0"
+                      formControlName="accountLoginAttempts">
+                    <mat-error *ngIf="form.get('accountLoginAttempts').hasError('required')">
+                      Field is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <!-- <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                    <mat-label>Times Count Before Password Reuse</mat-label>
+                    <input matInput type="number" oninput="validity.valid||(value='');" step="1" min="0"
+                      formControlName="timesCountBeforePasswordReuse">
+                    <mat-error *ngIf="form.get('timesCountBeforePasswordReuse').hasError('required')">
+                      Field is required
+                    </mat-error>
+                  </mat-form-field>
+                </div> -->
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                    <mat-label>User Photo Size (KB)</mat-label>
+                    <input matInput type="number" oninput="validity.valid||(value='');" step="1" min="0"
+                      formControlName="userPhotosize">
+                    <mat-error *ngIf="form.get('userPhotosize').hasError('required')">
+                      Field is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                    <mat-label>Password Expiry Time (minutes)</mat-label>
+                    <input matInput type="number" oninput="validity.valid||(value='');" step="1" min="0"
+                      formControlName="passwordExpiryTime">
+                    <mat-error *ngIf="form.get('passwordExpiryTime').hasError('required')">
+                      Field is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                    <mat-label>Time To Session TimeOut (minutes)</mat-label>
+                    <input matInput type="number" oninput="validity.valid||(value='');" step="1" min="0"
+                      formControlName="timeToSessionTimeOut">
+                    <mat-error *ngIf="form.get('timeToSessionTimeOut').hasError('required')">
+                      Field is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                    <mat-label>Attachments Max Size (KB)</mat-label>
+                    <input matInput type="number" oninput="validity.valid||(value='');" step="1" min="0"
+                      formControlName="attachmentsMaxSize">
+                    <mat-error *ngIf="form.get('attachmentsMaxSize').hasError('required')">
+                      Field is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
+                  <button class="mr-3" [disabled]="form.invalid || loading" mat-raised-button color="primary" type="submit">Update
+                    Configuration
+                    <mat-icon class="ml-2" *ngIf="loading">
+                      <mat-spinner color="accent" diameter="20"></mat-spinner>
+                    </mat-icon>
+                  </button>
+                  <button type="button" [disabled]="loading" mat-button (click)="loadConfiguration()">Cancel</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

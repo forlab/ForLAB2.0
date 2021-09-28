@@ -1,0 +1,150 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="block-header">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <ul class="breadcrumb breadcrumb-style ">
+            <li class="breadcrumb-item">
+              <h4 class="page-title">{{ isUpdate ? 'Update Laboratory' : 'Add New Laboratory' }}</h4>
+            </li>
+            <li class="breadcrumb-item bcrumb-1">
+              <a routerLink="/dashboard/main">
+                <i class="fas fa-home"></i> Home</a>
+            </li>
+            <li class="breadcrumb-item bcrumb-2">
+              <a href="javascript:;" routerLink="/laboratory/laboratories">Laboratories</a>
+            </li>
+            <li class="breadcrumb-item active">{{ isUpdate ? laboratoryDto?.name : 'Add New Laboratory' }}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="row clearfix">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="header">
+            <h2>{{ isUpdate ? 'Update Laboratory' : 'Add New Laboratory' }}</h2>
+          </div>
+          <div class="body">
+            <form class="m-4" [formGroup]="form" (ngSubmit)="submitForm()">
+              <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Name</mat-label>
+                    <input matInput formControlName="name">
+                    <mat-error *ngIf="form.get('name').hasError('required')">
+                      Name is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Country</mat-label>
+                    <mat-select formControlName="countryId">
+                      <mat-option *ngFor="let option of userCountries" [value]="option.id">{{ option.name }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="form.get('countryId').hasError('required')">
+                      Country is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Region</mat-label>
+                    <mat-select formControlName="regionId">
+                      <mat-option *ngFor="let option of (regions$ | async)" [value]="option.id">{{ option.name }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="form.get('regionId').hasError('required')">
+                      Region is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Category</mat-label>
+                    <mat-select formControlName="laboratoryCategoryId">
+                      <mat-option *ngFor="let option of (laboratoryCategories$ | async)" [value]="option.id">
+                        {{ option.name }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="form.get('laboratoryCategoryId').hasError('required')">
+                      Category is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Level</mat-label>
+                    <mat-select formControlName="laboratoryLevelId">
+                      <mat-option *ngFor="let option of (laboratoryLevels$ | async)" [value]="option.id">
+                        {{ option.name }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="form.get('laboratoryLevelId').hasError('required')">
+                      Level is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Latitude</mat-label>
+                    <input matInput formControlName="latitude">
+                    <mat-icon matSuffix>location_on</mat-icon>
+                    <mat-error *ngIf="form.get('latitude').hasError('required')">
+                      Latitude is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Longitude</mat-label>
+                    <input matInput formControlName="longitude">
+                    <mat-icon matSuffix>location_on</mat-icon>
+                    <mat-error *ngIf="form.get('longitude').hasError('required')">
+                      Longitude is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-0">
+                  <mat-form-field class="example-full-width mb-3" appearance="fill">
+                    <mat-label>Search for country on the map</mat-label>
+                    <input ngx-google-places-autocomplete #placesRef (onAddressChange)="handleAddressChange($event)"
+                      matInput>
+                  </mat-form-field>
+                </div>
+                <!-- Goolge Maps-->
+                <agm-map (mapClick)="placeMarker($event)" [zoom]="14" [latitude]="lat" [longitude]="lng" [scrollwheel]="false">
+                  <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+                </agm-map>
+              </div>
+
+              <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
+                  <button class="mr-3" [disabled]="form.invalid || loading" mat-raised-button color="primary"
+                    type="submit">
+                    {{ isUpdate ? 'Update Laboratory' : 'Add New Laboratory' }}
+                    <mat-icon class="ml-2" *ngIf="loading">
+                      <mat-spinner color="accent" diameter="20"></mat-spinner>
+                    </mat-icon>
+                  </button>
+                  <button type="button" [disabled]="loading" mat-button
+                    routerLink="/laboratory/laboratories">Cancel</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

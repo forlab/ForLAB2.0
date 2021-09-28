@@ -1,0 +1,37 @@
+<!--blog section start-->
+<section class="our-blog-section ptb-100 gray-light-bg">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="section-heading mb-5">
+          <h2>Our Latest News</h2>
+          <p class="lead">
+            Enthusiastically drive revolutionary opportunities before emerging leadership. Distinctively
+            transform tactical methods of empowerment via resource.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4" *ngFor="let x of (articles$ | async)">
+        <div class="single-blog-card card border-0 shadow-sm">
+          <!-- <span class="category position-absolute badge badge-pill badge-primary">Lifestyle</span> -->
+          <img [src]="x.articleImageDtos[0].attachmentUrl" class="card-img-top position-relative" alt="blog">
+          <div class="card-body">
+            <h3 class="h5 mb-2 card-title"><a href="javascript:;" routerLink="/articles/details/{{x.id}}">{{ x.title }}</a></h3>
+            <div class="post-meta mb-2">
+              <ul class="list-inline meta-list">
+                <li class="list-inline-item">{{ formatDateTime(x.providedDate) }}</li>
+                <li class="list-inline-item"> {{ x.providedBy }}</li>
+              </ul>
+            </div>
+            <p class="card-text">{{ extractContent(x.content) | slice:0:100 }}</p>
+            <a href="javascript:;" routerLink="/articles/details/{{x.id}}" class="detail-link">Read more <span
+                class="ti-arrow-right"></span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--blog section end-->

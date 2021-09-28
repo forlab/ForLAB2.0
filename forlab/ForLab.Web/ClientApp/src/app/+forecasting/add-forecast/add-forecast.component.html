@@ -1,0 +1,415 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="block-header">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <ul class="breadcrumb breadcrumb-style ">
+            <li class="breadcrumb-item">
+              <h4 class="page-title">Add New Forecast</h4>
+            </li>
+            <li class="breadcrumb-item bcrumb-1">
+              <a routerLink="/dashboard/main">
+                <i class="fas fa-home"></i> Home</a>
+            </li>
+            <li class="breadcrumb-item bcrumb-2">
+              <a href="javascript:;" routerLink="/forecasting/forecasts">Forecasts</a>
+            </li>
+            <li class="breadcrumb-item active">Add New Forecast</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="row clearfix">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+          <div class="header">
+            <h2>
+              <strong>New Forecast</strong>
+            </h2>
+          </div>
+          <div class="body">
+            <mat-horizontal-stepper [linear]="isLinear" #stepper>
+
+              <!--Define Forecast-->
+              <mat-step [stepControl]="form">
+                <form [formGroup]="form">
+                  <ng-template matStepLabel>
+                    <span [ngClass]="isMorbidity ? 'all-tabs' : ''">Define Forecast</span>
+                  </ng-template>
+                  <div class="row">
+                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Name</mat-label>
+                        <input matInput formControlName="name">
+                        <mat-error *ngIf="form.get('name').hasError('required')">
+                          Name is required
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Level</mat-label>
+                        <mat-select formControlName="forecastInfoLevelId">
+                          <mat-option *ngFor="let option of (forecastInfoLevelEnum | enumOptionlist: true)"
+                            [value]="option.key">{{option.value | humanize}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="form.get('forecastInfoLevelId').hasError('required')">
+                          Level is required
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Country</mat-label>
+                        <mat-select formControlName="countryId">
+                          <mat-option *ngFor="let option of userCountries" [value]="option.id">
+                            {{ option.name }}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="form.get('countryId').hasError('required')">
+                          Field is required
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Scope</mat-label>
+                        <mat-select formControlName="scopeOfTheForecastId">
+                          <mat-option *ngFor="let option of (scopeOfTheForecastEnum | enumOptionlist: true)"
+                            [value]="option.key">{{option.value | humanize}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="form.get('scopeOfTheForecastId').hasError('required')">
+                          Scope is required
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Start Date</mat-label>
+                        <input matInput [matDatepicker]="startDateRef" formControlName="startDate">
+                        <mat-datepicker-toggle matSuffix [for]="startDateRef"></mat-datepicker-toggle>
+                        <mat-datepicker #startDateRef startView="multi-year" (yearSelected)="chosenYearHandler($event)"
+                          (monthSelected)="chosenMonthHandler($event, startDateRef)" panelClass="example-month-picker">
+                        </mat-datepicker>
+                        <mat-error *ngIf="form.get('startDate').hasError('required')">
+                          Start Date is required
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Duration</mat-label>
+                        <input matInput formControlName="duration" type="number" oninput="validity.valid||(value='');"
+                          step="1" min="0">
+                        <mat-error *ngIf="form.get('duration').hasError('required')">
+                          Duration is required
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>End Date</mat-label>
+                        <input matInput [matDatepicker]="endDateRef" formControlName="endDate">
+                        <mat-datepicker-toggle matSuffix [for]="endDateRef"></mat-datepicker-toggle>
+                        <mat-datepicker #endDateRef startView="multi-year" (yearSelected)="chosenYearHandler($event)"
+                          (monthSelected)="chosenMonthHandler($event, endDateRef)" panelClass="example-month-picker">
+                        </mat-datepicker>
+                        <mat-error *ngIf="form.get('endDate').hasError('required')">
+                          End Date is required
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div>
+                    <button mat-raised-button matStepperNext color="primary">Next</button>
+                  </div>
+                </form>
+              </mat-step>
+              <!--/Define Forecast-->
+
+              <!--Methodology-->
+              <mat-step [stepControl]="methodologyForm">
+                <form [formGroup]="methodologyForm">
+                  <ng-template matStepLabel>
+                    <span [ngClass]="isMorbidity ? 'all-tabs' : ''">Methodology</span>
+                  </ng-template>
+                  <div class="row p-5">
+                    <div class="col-md-4 col-sm-6"
+                      *ngFor="let option of (forecastMethodologyEnum | enumOptionlist: true)">
+                      <div class="pricingTable"
+                        (click)="methodologyForm.controls['forecastMethodologyId'].patchValue(option.key)"
+                        [ngClass]="methodologyForm.value.forecastMethodologyId == option.key ? 'selected-methodology' : ''">
+                        <h3 class="heading pt-5 mb-0">{{option.value | humanize}}</h3>
+                        <div class="pricing-content">
+                          <p class="p-5" *ngIf="option.key == forecastMethodologyEnum.Service">
+                            Serng servevice statistics data are also historical, program-level or facility-level data on
+                            the number of patient visits to facilities, the number of services provided, or the number
+                            of
+                            people who received a specific service or treatment within a given time period. Service
+                            statistics data can be found in program monitoring reports, HMIS data, facility-level data
+                            on
+                            service utilization and attendance rates, or in patient records. In some programs, the LMIS
+                            captures a limited number of service statistics. For ARVs, service statistics data would be
+                            the total number of ART patients on treatment at a facility, or perhaps the total number of
+                            patient visits to a facility at a point in time. For HIV tests, service statistics would be
+                            the total number of clients tested during a certain period. For laboratory supplies, service
+                            statistics are the total number of tests performed in a certain period (e.g., CD4 count
+                            testsperformed in a given quarter).
+                          </p>
+                          <p class="p-5" *ngIf="option.key == forecastMethodologyEnum.Consumption">
+                            Consumption data are historical data on the actual quantities of a product that have been
+                            dispensed to patients or used at a service delivery point within a given time period, and
+                            are
+                            typically reported per month or per quarter. Daily consumption data can be found in pharmacy
+                            dispensing registers, laboratory registers, or other point of service registers. Where a
+                            well-functioning LMIS captures and aggregates these data from service delivery points,
+                            aggregated consumption data can be found in monthly and annual facility-level and
+                            program-level reports. For antiretroviral drugs (ARVs), consumption data would be the actual
+                            quantity of each ARV dispensed to ART patients. For HIV tests, consumption data or “usage
+                            data” are the actual number of HIV tests used over a given period. For laboratory supplies,
+                            consumption data are the actual number of laboratory commodities used.
+                          </p>
+                          <p class="p-5" *ngIf="option.key == forecastMethodologyEnum.DempgraphicMorbidity">
+                            Consumption data are historical data on the actual quantities of a product that have been
+                            dispensed to patients or used at a service delivery point within a given time period, and
+                            are
+                            typically reported per month or per quarter. Daily consumption data can be found in pharmacy
+                            dispensing registers, laboratory registers, or other point of service registers. Where a
+                            well-functioning LMIS captures and aggregates these data from service delivery points,
+                            aggregated consumption data can be found in monthly and annual facility-level and
+                            program-level reports. For antiretroviral drugs (ARVs), consumption data would be the actual
+                            quantity of each ARV dispensed to ART patients. For HIV tests, consumption data or “usage
+                            data” are the actual number of HIV tests used over a given period. For laboratory supplies,
+                            consumption data are the actual number of laboratory commodities used.
+                          </p>
+                        </div>
+                        <div class="pricingTable-signup">
+                          <a *ngIf="methodologyForm.value.forecastMethodologyId != option.key"
+                            (click)="methodologyForm.controls['forecastMethodologyId'].patchValue(option.key)"
+                            href="javascript:;">Select</a>
+                          <div
+                            *ngIf="methodologyForm.value.forecastMethodologyId == forecastMethodologyEnum.DempgraphicMorbidity && option.key == forecastMethodologyEnum.DempgraphicMorbidity">
+                            <mat-label>Data Source:</mat-label>
+                            <mat-radio-group formControlName="isWorldHealthOrganization">
+                              <mat-radio-button class="example-margin" [value]="true">World Health Organization
+                              </mat-radio-button>
+                              <mat-radio-button class="example-margin" [value]="false">Target Based</mat-radio-button>
+                            </mat-radio-group>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+                <div>
+                  <button mat-raised-button matStepperPrevious color="warn" class="mr-2">Back</button>
+                  <button mat-raised-button matStepperNext color="primary">Next</button>
+                </div>
+              </mat-step>
+              <!--/Methodology-->
+
+              <!--Tests-->
+              <mat-step *ngIf="methodologyForm.value.forecastMethodologyId == forecastMethodologyEnum.Service"
+                [completed]="forecastTestsComponent?.isValid || false">
+                <ng-template matStepLabel>
+                  <span [ngClass]="isMorbidity ? 'all-tabs' : ''">Tests</span>
+                </ng-template>
+                <forecast-tests></forecast-tests>
+                <div>
+                  <button mat-raised-button matStepperPrevious color="warn" class="mr-2">Back</button>
+                  <button mat-raised-button matStepperNext color="primary"
+                    [disabled]="!forecastTestsComponent?.isValid || false">Next</button>
+                </div>
+              </mat-step>
+              <!--/Tests-->
+
+              <!--Instruments-->
+              <mat-step
+                *ngIf="methodologyForm.value.forecastMethodologyId == forecastMethodologyEnum.Service || methodologyForm.value.forecastMethodologyId == forecastMethodologyEnum.DempgraphicMorbidity"
+                [completed]="forecastInstrumentsComponent?.isValid || false">
+                <ng-template matStepLabel>
+                  <span [ngClass]="isMorbidity ? 'all-tabs' : ''">Instruments</span>
+                </ng-template>
+                <forecast-instruments></forecast-instruments>
+                <div>
+                  <button mat-raised-button matStepperPrevious color="warn" class="mr-2">Back</button>
+                  <button mat-raised-button matStepperNext color="primary"
+                    [disabled]="!forecastInstrumentsComponent?.isValid || false">Next</button>
+                </div>
+              </mat-step>
+              <!--/Instruments-->
+
+              <!--Programs-->
+              <mat-step
+                *ngIf="methodologyForm.value.forecastMethodologyId == forecastMethodologyEnum.DempgraphicMorbidity"
+                [completed]="forecastMorbidityProgramsComponent?.isValid || false">
+                <ng-template matStepLabel>
+                  <span [ngClass]="isMorbidity ? 'all-tabs' : ''">Programs</span>
+                </ng-template>
+                <forecast-morbidity-programs (notify)="refreshAddedPrograms($event)"></forecast-morbidity-programs>
+                <div>
+                  <button mat-raised-button matStepperPrevious color="warn" class="mr-2">Back</button>
+                  <button mat-raised-button matStepperNext color="primary"
+                  (click)="forecastMorbidityProgramsComponent?.setErrors()">Next</button>
+                </div>
+              </mat-step>
+              <!--/Programs-->
+
+              <!--Histoical Consumption-->
+              <mat-step *ngIf="methodologyForm.value.forecastMethodologyId == forecastMethodologyEnum.Consumption"
+                [completed]="histoicalConsumptionsComponent?.isValid || false">
+                <ng-template matStepLabel>
+                  <span [ngClass]="isMorbidity ? 'all-tabs' : ''">Histoical Consumptions</span>
+                </ng-template>
+                <histoical-consumptions [countryId]="form.value.countryId"></histoical-consumptions>
+                <div>
+                  <button mat-raised-button matStepperPrevious color="warn" class="mr-2">Back</button>
+                  <button mat-raised-button matStepperNext color="primary"
+                    (click)="histoicalConsumptionsComponent?.setErrors()">Next</button>
+                </div>
+              </mat-step>
+              <!--/Histoical Consumption-->
+
+              <!--Histoical Service Data-->
+              <mat-step *ngIf="methodologyForm.value.forecastMethodologyId == forecastMethodologyEnum.Service"
+                [completed]="histoicalServiceDataComponent?.isValid || false">
+                <ng-template matStepLabel>
+                  <span [ngClass]="isMorbidity ? 'all-tabs' : ''">Histoical Service Data</span>
+                </ng-template>
+                <histoical-service-data [countryId]="form.value.countryId"></histoical-service-data>
+                <div>
+                  <button mat-raised-button matStepperPrevious color="warn" class="mr-2">Back</button>
+                  <button mat-raised-button matStepperNext color="primary"
+                  (click)="histoicalServiceDataComponent?.setErrors()">Next</button>
+                </div>
+              </mat-step>
+              <!--/Histoical Service Data-->
+
+              <!--Target Bases-->
+              <mat-step
+                *ngIf="methodologyForm.value.forecastMethodologyId == forecastMethodologyEnum.DempgraphicMorbidity && !methodologyForm.value.isWorldHealthOrganization"
+                [completed]="forecastTargetBasesComponent?.isValid || false">
+                <ng-template matStepLabel>
+                  <span [ngClass]="isMorbidity ? 'all-tabs' : ''">Target Bases</span>
+                </ng-template>
+                <forecast-target-bases [countryId]="form.value.countryId"></forecast-target-bases>
+                <div>
+                  <button mat-raised-button matStepperPrevious color="warn" class="mr-2">Back</button>
+                  <button mat-raised-button matStepperNext color="primary"
+                  (click)="forecastTargetBasesComponent?.setErrors()">Next</button>
+                </div>
+              </mat-step>
+              <!--/Target Bases-->
+
+              <!--WHO-->
+              <mat-step
+                *ngIf="methodologyForm.value.forecastMethodologyId == forecastMethodologyEnum.DempgraphicMorbidity && methodologyForm.value.isWorldHealthOrganization"
+                [completed]="forecastWhoBasesComponent?.isValid || false">
+                <ng-template matStepLabel>
+                  <span [ngClass]="isMorbidity ? 'all-tabs' : ''">WHO</span>
+                </ng-template>
+                <forecast-who-bases></forecast-who-bases>
+                <div>
+                  <button mat-raised-button matStepperPrevious color="warn" class="mr-2">Back</button>
+                  <button mat-raised-button matStepperNext color="primary" (click)="forecastWhoBasesComponent?.setErrors()">Next</button>
+                </div>
+              </mat-step>
+              <!--/WHO-->
+
+              <!--Patient Groups-->
+              <mat-step
+                *ngIf="methodologyForm.value.forecastMethodologyId == forecastMethodologyEnum.DempgraphicMorbidity"
+                [completed]="forecastPatientGroupsComponent?.isValid || false">
+                <ng-template matStepLabel>
+                  <span [ngClass]="isMorbidity ? 'all-tabs' : ''">Patient Groups</span>
+                </ng-template>
+                <forecast-patient-groups [programDtos]="getAddedPrograms"></forecast-patient-groups>
+                <div>
+                  <button mat-raised-button matStepperPrevious color="warn" class="mr-2">Back</button>
+                  <button mat-raised-button matStepperNext color="primary"
+                    [disabled]="!forecastPatientGroupsComponent?.isValid || false">Next</button>
+                </div>
+              </mat-step>
+              <!--/Patient Groups-->
+
+              <!--Assumptions-->
+              <mat-step
+                *ngIf="methodologyForm.value.forecastMethodologyId == forecastMethodologyEnum.DempgraphicMorbidity">
+                <ng-template matStepLabel>
+                  <span [ngClass]="isMorbidity ? 'all-tabs' : ''">Assumptions</span>
+                </ng-template>
+                <mat-tab-group>
+                  <mat-tab label="Patient Assumptions">
+                    <br>
+                    <forecast-patient-assumptions [programDtos]="getAddedPrograms"></forecast-patient-assumptions>
+                  </mat-tab>
+                  <mat-tab label="Testing Assumptions">
+                    <br>
+                    <forecast-testing-assumptions [programDtos]="getAddedPrograms"></forecast-testing-assumptions>
+                  </mat-tab>
+                  <mat-tab label="Product Assumptions">
+                    <br>
+                    <forecast-product-assumptions [programDtos]="getAddedPrograms"></forecast-product-assumptions>
+                  </mat-tab>
+                </mat-tab-group>
+                <div>
+                  <button mat-raised-button matStepperPrevious color="warn" class="mr-2">Back</button>
+                  <button mat-raised-button matStepperNext color="primary">Next</button>
+                </div>
+              </mat-step>
+              <!--/Assumptions-->
+
+              <!--Months-->
+              <mat-step
+                *ngIf="methodologyForm.value.forecastMethodologyId == forecastMethodologyEnum.DempgraphicMorbidity">
+                <ng-template matStepLabel>
+                  <span [ngClass]="isMorbidity ? 'all-tabs' : ''">Months</span>
+                </ng-template>
+                <forecast-testing-protocol-months [programDtos]="getAddedPrograms"></forecast-testing-protocol-months>
+                <div>
+                  <button mat-raised-button matStepperPrevious color="warn" class="mr-2">Back</button>
+                  <button mat-raised-button matStepperNext color="primary">Next</button>
+                </div>
+              </mat-step>
+              <!--/Months-->
+
+              <!--Confirm-->
+              <mat-step>
+                <ng-template matStepLabel>
+                  <span [ngClass]="isMorbidity ? 'all-tabs' : ''">Confirm & Submit</span>
+                </ng-template>
+                <div class="row">
+                  <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label>Wastage Rate %</mat-label>
+                      <input [(ngModel)]="wastageRate" matInput required type="number" oninput="validity.valid||(value='');" step="0.01"
+                      min="0" max="100">
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="text-center" style="margin: 0 auto;">
+                  <h4>If you are ready, press the submit button below</h4>
+                  <mat-icon style="color: green; font-size: 75px; width: 75px; height: 75px;">done</mat-icon><br>
+                </div>
+                <div>
+                  <button mat-raised-button matStepperPrevious color="warn" class="mr-2"
+                    [disabled]="loading">Back</button>
+                  <button mat-raised-button color="primary" [disabled]="loading || !wastageRate" (click)="submitForm()">
+                    Add New Forecast
+                    <mat-icon class="ml-2" *ngIf="loading">
+                      <mat-spinner color="accent" diameter="20"></mat-spinner>
+                    </mat-icon>
+                  </button>
+                </div>
+              </mat-step>
+              <!--/Confirm-->
+
+            </mat-horizontal-stepper>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

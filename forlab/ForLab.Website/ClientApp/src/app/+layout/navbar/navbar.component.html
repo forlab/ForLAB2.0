@@ -1,0 +1,31 @@
+<!--header section start-->
+<header class="header">
+  <!--start navbar-->
+  <nav class="navbar navbar-expand-lg fixed-top bg-transparent">
+    <div class="container">
+      <a class="navbar-brand" href="javascript:;" (click)="navigate('/')">
+        <img src="assets/img/logo-white.png" alt="logo" class="img-fluid" />
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="ti-menu"></span>
+      </button>
+      <div class="collapse navbar-collapse h-auto" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto menu">
+          <li><a href="javascript:;" (click)="navigate('/')" routerLinkActive="active-link">Home</a></li>
+          <li><a href="javascript:;" (click)="navigate('/articles')" routerLinkActive="active-link">Articles</a></li>
+          <li><a href="javascript:;" class="dropdown-toggle"> Resources</a>
+            <ul class="sub-menu">
+              <li><a href="javascript:;" (click)="navigate('/channel-videos')" routerLinkActive="active-link">Videos</a></li>
+              <li><a href="javascript:;" (click)="navigate('/useful-resources')" routerLinkActive="active-link">Useful Resources</a></li>
+            </ul>
+          </li>
+          <li><a href="javascript:;" (click)="navigate('/faq')" routerLinkActive="active-link">FAQ</a></li>
+          <li><a href="javascript:;" (click)="navigate('/contact-us')" routerLinkActive="active-link">Contact Us</a></li>
+          <li><a [href]="adminPanelURL" target="__blank" class="btn accent-solid-btn get-started">Get Started</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+<!--header section end-->

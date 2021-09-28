@@ -1,0 +1,57 @@
+<!--body content wrap start-->
+<div class="main">
+
+  <!--header section start-->
+  <section class="hero-section ptb-100 gradient-overlay"
+    style="background: url('assets/img/header-bg-5.jpg')no-repeat center center / cover">
+    <div class="hero-bottom-shape-two"
+      style="background: url('assets/img/hero-bottom-shape.svg')no-repeat bottom center">
+    </div>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-7">
+          <div class="page-header-content text-white text-center pt-sm-5 pt-md-5 pt-lg-0">
+            <h1 class="text-white mb-0">Useful Resources</h1>
+            <div class="custom-breadcrumb">
+              <ol class="breadcrumb d-inline-block bg-transparent list-inline py-0">
+                <li class="list-inline-item breadcrumb-item"><a href="javascript:;" routerLink="/">Home</a></li>
+                <li class="list-inline-item breadcrumb-item active">Useful Resources</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--header section end-->
+
+  <!--services section start-->
+  <section class="services-section ptb-100 gray-light-bg">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <div class="section-heading text-center mb-5">
+            <h2>We Provide Useful Resources</h2>
+            <p class="lead">Efficiently aggregate end-to-end core competencies without maintainable ideas. Dynamically
+              foster tactical solutions without enabled value.</p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-6" *ngFor="let x of (usefulResources$ | async)">
+          <div
+            class="services-single animated-hover text-center p-5 my-md-3 my-lg-3 my-sm-0 shadow-sm white-bg rounded">
+            <!-- <img src="assets/img/consult.svg" alt="consulting" width="80" class="mb-3"> -->
+            <h5>{{ x.title }}</h5>
+            <p class="mb-0">{{ formatInt(x.downloadCount, false) }} downloads</p>
+            <a href="javascript:;" (click)="DownloadResourceFile(x)" class="detail-link mt-4">Download <span
+                class="ti-arrow-down"></span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--services section end-->
+
+</div>
+<!--body content wrap end-->

@@ -1,0 +1,158 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="block-header">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <ul class="breadcrumb breadcrumb-style ">
+            <li class="breadcrumb-item">
+              <h4 class="page-title">Forecast Details</h4>
+            </li>
+            <li class="breadcrumb-item bcrumb-1">
+              <a routerLink="/dashboard/main">
+                <i class="fas fa-home"></i> Home</a>
+            </li>
+            <li class="breadcrumb-item bcrumb-2">
+              <a href="javascript:;" routerLink="/forecasting/forecasts" onClick="return false;">Forecasts</a>
+            </li>
+            <li class="breadcrumb-item active">Details</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="row clearfix">
+      <div class="col-lg-4 col-md-12">
+        <div class="card">
+          <div class="m-b-20">
+            <div class="contact-grid">
+              <div class="profile-header bg-dark" style="min-height: 70px;">
+                <div class="user-name">{{ forecastInfoDto?.name }}</div>
+                <div class="name-center">{{ forecastInfoDto?.forecastMethodologyName | humanize}}</div>
+              </div>
+              <div class="row pt-4">
+                <div class="col-5">
+                  <h5>{{ formatDate(forecastInfoDto?.startDate) }}</h5>
+                  <small>Start Date</small>
+                </div>
+                <div class="col-6">
+                  <h5>{{ formatDate(forecastInfoDto?.endDate) }}</h5>
+                  <small>End Date</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <ul class="nav nav-tabs">
+            <li class="nav-item m-l-10">
+              <a class="nav-link active" data-toggle="tab" href="#about">About</a>
+            </li>
+            <li class="nav-item m-l-10">
+              <a class="nav-link" data-toggle="tab" href="#audits">Audits</a>
+            </li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane body active" id="about">
+              <small class="text-muted">Forecast Status: </small>
+              <p>{{ forecastInfoDto?.isActive ? 'Open' : 'Closed' }}</p>
+              <hr>
+              <small class="text-muted">Forecast Level: </small>
+              <p>{{ forecastInfoDto?.forecastInfoLevelName | humanize }}</p>
+              <hr>
+              <small class="text-muted">Scope of the Forecast: </small>
+              <p>{{ forecastInfoDto?.scopeOfTheForecastName | humanize }}</p>
+              <hr>
+              <small class="text-muted">Country Name: </small>
+              <p>{{ forecastInfoDto?.countryName }}</p>
+              <hr>
+              <small class="text-muted">Wastage Rate: </small>
+              <p>{{ formatInt(forecastInfoDto?.wastageRate) }}%</p>
+              <hr>
+            </div>
+            <div class="tab-pane body" id="audits">
+              <small class="text-muted">Created By: </small>
+              <p>{{ forecastInfoDto?.creator || '-' }}</p>
+              <hr>
+              <small class="text-muted">Created On: </small>
+              <p>{{ formatDateTime(forecastInfoDto?.createdOn) }}</p>
+              <hr>
+              <ng-container *ngIf="forecastInfoDto?.updator != 'System'">
+                <small class="text-muted">Last Updated By: </small>
+                <p>{{ forecastInfoDto?.updator || '-' }}</p>
+                <hr>
+                <small class="text-muted">Last Updated On: </small>
+                <p>{{ formatDateTime(forecastInfoDto?.updatedOn) }}</p>
+                <hr>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8 col-md-12">
+        <div class="card">
+          <div class="profile-tab-box">
+            <div class="p-l-20">
+              <ul class="nav ">
+                <!--Chart-->
+                <li class="nav-item tab-all">
+                  <a class="nav-link active show" href="#chart" data-toggle="tab">Chart</a>
+                </li>
+                <!--/Chart-->
+                <ng-container *ngFor="let link of liks">
+                  <li class="nav-item tab-all" *ngIf="link.visible">
+                    <a class="nav-link" href="#{{link.objectName}}" data-toggle="tab">{{ link.title }}</a>
+                  </li>
+                </ng-container>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="tab-content">
+          <!--Chart-->
+          <div role="tabpanel" class="tab-pane active" id="chart" aria-expanded="true">
+            <div class="row clearfix">
+              <div class="col-lg-12 col-md-12 col-sm-12">
+                <app-forecast-chart 
+                  [forecastInfoId]="forecastInfoId" 
+                  [forecastMethodologyId]="forecastInfoDto?.forecastMethodologyId"
+                  [isTargetBased]="forecastInfoDto?.isTargetBased">
+                </app-forecast-chart>
+              </div>
+            </div>
+          </div>
+          <!--/Chart-->
+          <ng-container *ngFor="let link of liks">
+            <div *ngIf="link.visible" role="tabpanel" class="tab-pane" id="{{link.objectName}}"
+              aria-expanded="true">
+              <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                  <forecast-child-list
+                    *ngIf="link.objectName != 'ForecastResult'" 
+                    [forecastInfoId]="forecastInfoId" 
+                    [objectName]="link.objectName" 
+                    [isAggregate]="forecastInfoDto?.isAggregate"
+                    [forecastMethodologyId]="forecastInfoDto?.forecastMethodologyId">
+                  </forecast-child-list>
+
+                  <mat-tab-group *ngIf="link.objectName == 'ForecastResult'">
+                    <mat-tab label="Result Data" [isActive]="true">
+                      <forecast-child-list
+                        [forecastInfoId]="forecastInfoId" 
+                        [objectName]="link.objectName" 
+                        [isAggregate]="forecastInfoDto?.isAggregate"
+                        [forecastMethodologyId]="forecastInfoDto?.forecastMethodologyId">
+                      </forecast-child-list>
+                    </mat-tab>
+                    <mat-tab label="Result Chart">
+                      <app-result-chart [forecastInfoId]="forecastInfoId" ></app-result-chart>
+                    </mat-tab>
+                  </mat-tab-group>
+
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

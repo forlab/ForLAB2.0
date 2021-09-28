@@ -1,0 +1,58 @@
+<nav #navbar class="navbar active">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a href="javascript:;" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse"
+        aria-expanded="false"></a>
+      <a href="javascript:;" class="bars" (click)="mobileMenuSidebarOpen($event,'overlay-open')"></a>
+      <a class="navbar-brand ml-0" routerLink="dashboard/main">
+        <img class="logo-img" src="assets/images/logo.png" alt="" />
+        <!-- <span class="logo-name">For Lab</span> -->
+      </a>
+    </div>
+    <div class="collapse navbar-collapse" id="navbar-collapse">
+      <ul class="pull-left collapse-menu-icon">
+        <li>
+          <button mat-icon-button (click)="callSidemenuCollapse()" class="sidemenu-collapse">
+            <mat-icon>menu</mat-icon>
+          </button>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <!-- Full Screen Button -->
+        <li class="fullscreen">
+          <button mat-icon-button (click)="callFullscreen()" class=" nav-notification-icons">
+            <mat-icon>fullscreen</mat-icon>
+          </button>
+        </li>
+        <!-- #END# Full Screen Button -->
+        <li class="dropdown user_profile" *ngIf="authService.loggedInUser$ | async; let user">
+          <a href="javascript:;" data-toggle="dropdown" role="button" class="pt-0">
+            <img [src]="user?.personalImagePath ? user?.personalImagePath : 'assets/images/user.jpg'" class="rounded-circle" width="32" height="32" alt="User">
+          </a>
+          <ul class="dropdown-menu pullDown">
+            <li class="body">
+              <ul class="user_dw_menu">
+                <li>
+                  <a href="javascript:;" routerLink="/user/profile">
+                    <mat-icon aria-hidden="false" class="mr-2">person</mat-icon>Profile
+                  </a>
+                </li>
+                <li>
+                  <a href="javascript:;" (click)="logout()">
+                    <mat-icon aria-hidden="false" class="mr-2">power_settings_new</mat-icon>Logout
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <!-- #END# Tasks -->
+        <li class="pull-right">
+          <button mat-icon-button (click)="toggleRightSidebar()" class="nav-notification-icons js-right-sidebar">
+            <mat-icon id="settingBtn">settings</mat-icon>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

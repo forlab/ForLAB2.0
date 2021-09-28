@@ -1,0 +1,280 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="block-header">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <ul class="breadcrumb breadcrumb-style ">
+            <li class="breadcrumb-item">
+              <h4 class="page-title">View Users</h4>
+            </li>
+            <li class="breadcrumb-item bcrumb-1">
+              <a routerLink="/dashboard/main">
+                <i class="fas fa-home"></i> Home</a>
+            </li>
+            <li class="breadcrumb-item bcrumb-2">
+              <a href="javascript:;" onClick="return false;">Users</a>
+            </li>
+            <li class="breadcrumb-item active">View</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+          <!--Advanced Search-->
+          <div class="body">
+            <mat-accordion>
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Advanced search
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="row">
+                  <mat-form-field class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2" appearance="fill">
+                    <mat-label>Status</mat-label>
+                    <mat-select [(ngModel)]="filterDto.status">
+                      <mat-option *ngFor="let option of (userStatusEnum | enumOptionlist: true)" [value]="option.value">
+                        {{ option.value | humanize }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2" appearance="fill">
+                    <mat-label>Role</mat-label>
+                    <mat-select [(ngModel)]="filterDto.roleId">
+                      <mat-option *ngFor="let option of (applicationRolesEnum | enumOptionlist: true)"
+                        [value]="option.key">{{ option.value | humanize }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2" appearance="fill">
+                    <mat-label>Name</mat-label>
+                    <input type="text" [(ngModel)]="filterDto.name" matInput>
+                  </mat-form-field>
+                  <mat-form-field class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2" appearance="fill">
+                    <mat-label>Telephone</mat-label>
+                    <input type="text" [(ngModel)]="filterDto.phoneNumber" matInput>
+                  </mat-form-field>
+                </div>
+                <div class="row">
+                  <mat-form-field class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2" appearance="fill">
+                    <mat-label>Email</mat-label>
+                    <input type="text" [(ngModel)]="filterDto.email" matInput>
+                  </mat-form-field>
+                  <mat-form-field class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2" appearance="fill">
+                    <mat-label>Job Title</mat-label>
+                    <input type="text" [(ngModel)]="filterDto.jobTitle" matInput>
+                  </mat-form-field>
+                </div>
+
+                <mat-action-row>
+                  <button mat-button color="warn" [disabled]="loading" (click)="reset()">RESET</button>
+                  <button mat-button color="primary" [disabled]="loading" (click)="loadData()">SEARCH
+                    <mat-icon class="ml-2" *ngIf="loading">
+                      <mat-spinner color="accent" diameter="20"></mat-spinner>
+                    </mat-icon>
+                  </button>
+                </mat-action-row>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </div>
+          <!--/Advanced Search-->
+          <div class="body">
+            <div class="table-responsive">
+              <div class="materialTableHeader">
+                <div class="row">
+                  <div class="col-8">
+                    <ul class="header-buttons-left ml-0">
+                      <li class="dropdown">
+                        <h2>
+                          <strong>Users</strong></h2>
+                      </li>
+                      <li class="dropdown m-l-20">
+                        <label for="search-input"><i class="material-icons search-icon">search</i></label>
+                        <input placeholder="Search by name" type="text" #searchInput
+                          class="browser-default search-field" aria-label="Search box">
+                      </li>
+                      <!-- <li>
+                        <div class="icon-button-demo m-l-10" [hidden]=!selection.hasValue()>
+                          <button mat-mini-fab color="warn" (click)="removeSelectedRows()">
+                            <mat-icon>delete</mat-icon>
+                          </button>
+                        </div>
+                      </li> -->
+                    </ul>
+                  </div>
+                  <div class="col-4">
+                    <ul class="header-buttons">
+                      <li>
+                        <div class="icon-button-demo">
+                          <button [matMenuTriggerFor]="columnFilterMenu" mat-mini-fab color="primary"
+                            matTooltip="Filter Columns">
+                            <mat-icon>filter_list</mat-icon>
+                          </button>
+                        </div>
+                      </li>
+                      <!-- <li>
+                        <div class="icon-button-demo">
+                          <button mat-mini-fab color="primary" routerLink="/user/add" matTooltip="Add New">
+                            <mat-icon>add</mat-icon>
+                          </button>
+                        </div>
+                      </li> -->
+                      <li>
+                        <div class="icon-button-demo">
+                          <button mat-mini-fab color="primary" (click)="export()" matTooltip="Export to Excel">
+                            <mat-icon>file_download</mat-icon>
+                          </button>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="icon-button-demo">
+                          <button mat-mini-fab color="primary" (click)="loadData()" matTooltip="Refresh Data">
+                            <mat-icon>refresh</mat-icon>
+                          </button>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <mat-table [dataSource]="dataSource" matSort class="mat-cell">
+
+                <!-- Checkbox Column -->
+                <ng-container matColumnDef="select">
+                  <mat-header-cell *matHeaderCellDef [ngClass]="'tbl-col-width-per-6'">
+                    <mat-checkbox (change)="$event ? masterToggle() : null"
+                      [checked]="selection.hasValue() && isAllSelected()"
+                      [indeterminate]="selection.hasValue() && !isAllSelected()" [ngClass]="'tbl-checkbox'">
+                    </mat-checkbox>
+                  </mat-header-cell>
+                  <mat-cell *matCellDef="let row" [ngClass]="'tbl-col-width-per-6'">
+                    <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+                      [checked]="selection.isSelected(row)" [ngClass]="'tbl-checkbox'">
+                    </mat-checkbox>
+                  </mat-cell>
+                </ng-container>
+
+                <!-- Image Column -->
+                <ng-container matColumnDef="personalImagePath">
+                  <mat-header-cell *matHeaderCellDef [ngClass]="'tbl-col-width-per-5'">Image</mat-header-cell>
+                  <mat-cell *matCellDef="let row" class="table-img tbl-col-width-per-5">
+                    <img *ngIf="row['personalImagePath']" [src]="row['personalImagePath']"
+                      class="avatar h-8 w-8 align-middle">
+                    <ngx-avatar size="30" *ngIf="!row['personalImagePath']"
+                      name="{{row['firstName'] +' '+ row['lastName']}}">
+                    </ngx-avatar>
+                  </mat-cell>
+                </ng-container>
+
+                <!-- Active Column -->
+                <ng-container matColumnDef="status">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
+                  <mat-cell *matCellDef="let row">
+                    <div class="rounded px-2 py-1 font-medium text-xs" fxFlex="none"
+                      [style.background-color]="row['status'] ? 'rgba(76, 175, 80, 0.098)' : 'rgba(156, 39, 176, 0.098)'"
+                      [style.color]="row['status'] == 'Active' ? 'rgb(76, 175, 80)' : 'rgb(156, 39, 176)'">
+                      <span *ngIf="row['status'] == 'Active'">Active</span>
+                      <span *ngIf="row['status'] == 'NotActive'">Not Active</span>
+                      <span *ngIf="row['status'] == 'Locked'">Locked</span>
+                    </div>
+                  </mat-cell>
+                </ng-container>
+
+                <!-- Role Column -->
+                <ng-container matColumnDef="roles">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Roles</mat-header-cell>
+                  <mat-cell *matCellDef="let row">
+                    <span>{{ formatUserRoles(row['userRoles']) }}</span>
+                  </mat-cell>
+                </ng-container>
+
+                <!-- Columns -->
+                <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
+                  <ng-container
+                    *ngIf="['text', 'date', 'datetime', 'price', 'number', 'int', 'percent', 'bool'].includes(column.type)"
+                    [matColumnDef]="column.property">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{ column.label }}</mat-header-cell>
+                    <mat-cell *matCellDef="let row" [ngClass]="column.cssClasses">
+                      <span *ngIf="column.type === 'text'">{{ row[column.property] || '-' | humanize }}</span>
+                      <span *ngIf="column.type === 'date'">{{ formatDate(row[column.property]) }}</span>
+                      <span *ngIf="column.type === 'datetime'">{{ formatDateTime(row[column.property]) }}</span>
+                      <span *ngIf="column.type === 'price'">{{ formatPrice(row[column.property]) }}</span>
+                      <span *ngIf="column.type === 'number'">{{ formatInt(row[column.property]) }}</span>
+                      <span *ngIf="column.type === 'int'">{{ formatInt(row[column.property], false) }}</span>
+                      <span *ngIf="column.type === 'percent'">{{ formatInt(row[column.property]) }}%</span>
+                      <span *ngIf="column.type === 'bool'">{{ row[column.property] ? 'Yes' : 'No' }}</span>
+                    </mat-cell>
+                  </ng-container>
+                </ng-container>
+
+                <!-- Action Column -->
+                <ng-container matColumnDef="actions">
+                  <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+                  <mat-cell *matCellDef="let row">
+                    <button *ngIf="row.email != defaultSuperAdmin" (click)="$event.stopPropagation()" [matMenuTriggerData]="{ record: row }"
+                      [matMenuTriggerFor]="actionsMenu" mat-icon-button type="button">
+                      <mat-icon>more_horiz</mat-icon>
+                    </button>
+                  </mat-cell>
+                </ng-container>
+
+                <!-- Visible Columns -->
+                <mat-header-row *matHeaderRowDef="visibleColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: visibleColumns;" [style.cursor]="'pointer'" matRipple>
+                </mat-row>
+
+              </mat-table>
+
+              <!-- <div class="no-results" [style.display]="dataSource.renderedData.length == 0 ? '' : 'none'">
+                No results
+              </div> -->
+
+              <mat-paginator [length]="dataSource?.totalCount" [pageSizeOptions]="[5, 10, 20, 50]" [pageSize]="10"
+                class="sticky left-0"></mat-paginator>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<mat-menu #columnFilterMenu="matMenu" xPosition="before" yPosition="below">
+  <button (click)="toggleColumnVisibility(column, $event)" *ngFor="let column of columns"
+    class="checkbox-item mat-menu-item">
+    <mat-checkbox (click)="$event.stopPropagation()" ngDefaultControl [(ngModel)]="column.visible" color="primary">
+      {{ column.label }}
+    </mat-checkbox>
+  </button>
+</mat-menu>
+
+<mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
+  <ng-template let-record="record" matMenuContent>
+    <button routerLink="/user/update/{{record.id}}" mat-menu-item *ngIf="record.email != defaultSuperAdmin">
+      <mat-icon aria-label="Edit">edit</mat-icon>
+      <span>Edit</span>
+    </button>
+    <!-- <button (click)="mandatoryChangePassword(customer)" mat-menu-item>
+      <mat-icon [icIcon]="icSecurity"></mat-icon>
+      <span>Reset Password</span>
+    </button> -->
+    <button *ngIf="record.status == 'Active' && record.email != defaultSuperAdmin"
+      (click)="changeUserStatus(record, 'NotActive')" mat-menu-item>
+      <mat-icon>highlight_off</mat-icon>
+      <span>Deactivate</span>
+    </button>
+    <button *ngIf="record.status == 'NotActive'" (click)="changeUserStatus(record, 'Active')" mat-menu-item>
+      <mat-icon>done</mat-icon>
+      <span>Activate</span>
+    </button>
+    <button *ngIf="record.status == 'Locked'" (click)="changeUserStatus(record, 'Active')" mat-menu-item>
+      <mat-icon>lock_open</mat-icon>
+      <span>Unlock User</span>
+    </button>
+  </ng-template>
+</mat-menu>

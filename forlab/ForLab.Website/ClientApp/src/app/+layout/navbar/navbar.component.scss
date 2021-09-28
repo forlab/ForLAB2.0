@@ -1,0 +1,17 @@
+.img-fluid {
+  width: 100px;
+}
+.get-started {
+  height: 0;
+  line-height: 0;
+}
+.active-link {
+  color: #83e2d4;
+}
+
+@media screen and (max-width: 980px) {
+  .get-started {
+    height: 30px;
+    line-height: 1;
+  }
+}

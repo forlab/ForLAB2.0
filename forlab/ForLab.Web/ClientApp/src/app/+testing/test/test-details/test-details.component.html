@@ -1,0 +1,78 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="block-header">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <ul class="breadcrumb breadcrumb-style ">
+            <li class="breadcrumb-item">
+              <h4 class="page-title">Test Details</h4>
+            </li>
+            <li class="breadcrumb-item bcrumb-1">
+              <a routerLink="/dashboard/main">
+                <i class="fas fa-home"></i> Home</a>
+            </li>
+            <li class="breadcrumb-item bcrumb-2">
+              <a href="javascript:;" routerLink="/testing/tests" onClick="return false;">Tests</a>
+            </li>
+            <li class="breadcrumb-item active">Details</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="row clearfix">
+      <div class="col-lg-4 col-md-12">
+        <div class="card">
+          <div class="header">
+            <h2>About Test</h2>
+          </div>
+          <div class="tab-pane body active" id="about">
+            <small class="text-muted">Status: </small>
+            <p>{{ testDto?.isActive ? 'Active' : 'Disabled' }}</p>
+            <hr>
+            <small class="text-muted">Name: </small>
+            <p>{{ testDto?.name || '-' }}</p>
+            <hr>
+            <small class="text-muted">Short Name: </small>
+            <p>{{ testDto?.shortName || '-' | humanize }}</p>
+            <hr>
+            <small class="text-muted">Testing Area: </small>
+            <p>{{ testDto?.testingAreaName || '-' }}</p>
+            <hr>
+            <small class="text-muted">Created By: </small>
+            <p>{{ testDto?.creator || '-' }}</p>
+            <hr>
+            <small class="text-muted">Created On: </small>
+            <p>{{ formatDateTime(testDto?.createdOn) }}</p>
+            <hr>
+            <ng-container *ngIf="testDto?.updator">
+              <small class="text-muted">Last Updated By: </small>
+              <p>{{ testDto?.updator || '-' }}</p>
+              <hr>
+              <small class="text-muted">Last Updated On: </small>
+              <p>{{ formatDateTime(testDto?.updatedOn) }}</p>
+              <hr>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8 col-md-12">
+        <div class="card">
+          <div class="profile-tab-box">
+            <div class="p-l-20">
+              <ul class="nav ">
+                <li class="nav-item tab-all p-l-20">
+                  <a class="nav-link active show" href="#testUsages" data-toggle="tab">Test Usages</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane active" id="testUsages" aria-expanded="true">
+            <app-product-usages [fromTestDetails]="true" [testId]="testId" [testCreatedBy]="testDto?.createdBy"></app-product-usages>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

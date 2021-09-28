@@ -1,0 +1,38 @@
+<div class="row">
+  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+    <div class="card">
+      <div class="header">
+        <div class="row">
+          <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+            <h2 style="line-height: 3;">Forecast Results</h2>
+          </div>
+          <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
+            <mat-paginator [length]="totalCount" [pageSizeOptions]="[5, 8, 10, 12]" [pageSize]="10"
+              class="sticky left-0">
+            </mat-paginator>
+          </div>
+        </div>
+      </div>
+
+      <div class="body">
+        <canvas baseChart class="chart" [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions"
+          [colors]="barChartColors" [legend]="barChartLegend" [chartType]="barChartType"></canvas>
+        <div class="text-center p-t-20">
+          <div class="chart-note">
+            <span class="dot dot-product1"></span>
+            <span>Total Price</span>
+          </div>
+          <div class="chart-note mr-2">
+            <span class="dot dot-service1" style="background-color: rgba(155, 0, 0, 1);"></span>
+            <span>Total Value</span>
+          </div>
+          <div class="chart-note mr-0">
+            <span class="dot dot-service1"></span>
+            <span>Amount Forecasted</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

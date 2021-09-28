@@ -1,0 +1,138 @@
+<div class="addContainer">
+  <div class="modalHeader">
+    <div class="editRowModal">
+      <div class="modalHeader clearfix">
+        <!-- <img [src]='staff.img' alt="avatar"> -->
+        <div class="modal-about">
+          <div class="font-weight-bold p-t-5 font-17">
+            <span *ngIf="isCreateMode()">New Country Disease Incident</span>
+            <span *ngIf="isUpdateMode()">Edit Country Disease Incident</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div mat-dialog-content>
+    <form class="register-form m-4" [formGroup]="form" (ngSubmit)="save()">
+      <div class="row">
+        <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Country</mat-label>
+            <mat-select formControlName="countryId">
+              <mat-option *ngFor="let option of (countries$ | async)" [value]="option.id">{{ option.name }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.get('countryId').hasError('required')">
+              Country is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Disease</mat-label>
+            <mat-select formControlName="diseaseId">
+              <mat-option *ngFor="let option of (diseases$ | async)" [value]="option.id">{{ option.name }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.get('diseaseId').hasError('required')">
+              Disease is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Year</mat-label>
+            <input matInput formControlName="year" type="number" oninput="validity.valid||(value='');" step="1" min="0">
+            <mat-error *ngIf="form.get('year').hasError('required')">
+              Year is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Incidence</mat-label>
+            <input matInput formControlName="incidence" type="number" oninput="validity.valid||(value='');" step=".001"
+              min="0">
+            <mat-error *ngIf="form.get('incidence').hasError('required')">
+              Field is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Incidence per 1k Population</mat-label>
+            <input matInput formControlName="incidencePer1kPopulation" type="number"
+              oninput="validity.valid||(value='');" step=".001" min="0">
+            <mat-error *ngIf="form.get('incidencePer1kPopulation').hasError('required')">
+              Field is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Incidence per 100k Population</mat-label>
+            <input matInput formControlName="incidencePer100kPopulation" type="number"
+              oninput="validity.valid||(value='');" step=".001" min="0">
+            <mat-error *ngIf="form.get('incidencePer100kPopulation').hasError('required')">
+              Field is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Prevalence Rate</mat-label>
+            <input matInput formControlName="prevalenceRate" type="number" oninput="validity.valid||(value='');"
+              step=".001" min="0">
+            <mat-error *ngIf="form.get('prevalenceRate').hasError('required')">
+              Field is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Prevalence Rate per 1k Population</mat-label>
+            <input matInput formControlName="prevalenceRatePer1kPopulation" type="number"
+              oninput="validity.valid||(value='');" step=".001" min="0">
+            <mat-error *ngIf="form.get('prevalenceRatePer1kPopulation').hasError('required')">
+              Field is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Prevalence Rate per 100k Population</mat-label>
+            <input matInput formControlName="prevalenceRatePer100kPopulation" type="number"
+              oninput="validity.valid||(value='');" step=".001" min="0">
+            <mat-error *ngIf="form.get('prevalenceRatePer100kPopulation').hasError('required')">
+              Field is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Note</mat-label>
+            <textarea matInput formControlName="note"></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+          <div class="example-button-row">
+            <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid || loading">
+              <span *ngIf="isCreateMode()">Add New</span>
+              <span *ngIf="isUpdateMode()">Edit</span>
+              <mat-icon class="ml-2" *ngIf="loading">
+                <mat-spinner color="accent" diameter="20"></mat-spinner>
+              </mat-icon>
+            </button>
+            <button mat-raised-button color="warn" type="button" [disabled]="loading" (click)="dialogRef.close()"
+              tabindex="-1">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

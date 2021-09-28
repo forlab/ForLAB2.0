@@ -1,0 +1,19 @@
+<div class="container">
+  <h3 mat-dialog-title>Are you sure?</h3>
+  <div mat-dialog-content>
+    <ul class="clearfix">
+      <li *ngFor="let x of data?.objectInfo">
+        <p><span class="font-weight-bold"> {{x.key}}: </span>{{x.value}}</p>
+      </li>
+    </ul>
+  </div>
+  <div mat-dialog-actions class="mb-1">
+    <button mat-flat-button color="warn" [disabled]="loading" (click)="submit()" class="mr-2">
+      <span>Delete</span>
+      <mat-icon class="ml-2" *ngIf="loading" style="display: inline-block;">
+        <mat-spinner color="accent" diameter="20"></mat-spinner>
+      </mat-icon>
+    </button>
+    <button mat-flat-button (click)="dialogRef.close()" tabindex="-1">Cancel</button>
+  </div>
+</div>

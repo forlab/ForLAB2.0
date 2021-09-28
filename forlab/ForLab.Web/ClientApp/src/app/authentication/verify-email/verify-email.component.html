@@ -1,0 +1,24 @@
+<div *ngIf="loading">
+  <mat-spinner style="margin: 100px auto;"></mat-spinner>
+</div>
+
+<div class="container text-center" style="margin-top: 150px;" *ngIf="!loading && verifed">
+  <div style="margin-bottom: 100px;">
+    <img src="assets/images/logo.png" alt="" style="width: 150px; object-fit: contain;">
+  </div>
+  <span class="login100-form-title p-b-30 text-success">
+    <strong>{{email}}</strong> has been verified successfully. Please log in to your account.
+  </span>
+  <a href="javascript:;" routerLink="/authentication/signin">Login to your account!</a>
+</div>
+
+
+<div class="container text-center" style="margin-top: 150px;" *ngIf="!loading && !verifed">
+  <div style="margin-bottom: 100px;">
+    <img src="assets/images/logo.png" alt="" style="width: 150px; object-fit: contain;">
+  </div>
+  <span class="login100-form-title p-b-30 text-danger">
+    Invalid Token
+  </span>
+  <a href="javascript:;" routerLink="/authentication/signin">Signin!</a>
+</div>

@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="DotNetCore.NPOI" Version="1.2.2" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.7.1" />
+    <PackageReference Include="NETCore.MailKit" Version="2.0.3" />
+    <PackageReference Include="NPOI" Version="2.4.1" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.7.1" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.0" />
+    <PackageReference Include="Twilio.AspNet.Core" Version="5.33.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ForLab.Core\ForLab.Core.csproj" />
+    <ProjectReference Include="..\ForLab.Data\ForLab.Data.csproj" />
+    <ProjectReference Include="..\ForLab.DTO\ForLab.DTO.csproj" />
+    <ProjectReference Include="..\ForLab.Repositories\ForLab.Repositories.csproj" />
+  </ItemGroup>
+
+</Project>

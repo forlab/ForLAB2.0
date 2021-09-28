@@ -1,0 +1,187 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="block-header">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <ul class="breadcrumb breadcrumb-style ">
+            <li class="breadcrumb-item">
+              <h4 class="page-title">Add New Program</h4>
+            </li>
+            <li class="breadcrumb-item bcrumb-1">
+              <a routerLink="/dashboard/main">
+                <i class="fas fa-home"></i> Home</a>
+            </li>
+            <li class="breadcrumb-item bcrumb-2">
+              <a href="javascript:;" routerLink="/program/programs">Programs</a>
+            </li>
+            <li class="breadcrumb-item active">Add New Program</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="row clearfix">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+          <div class="header">
+            <h2>
+              <strong>New Program</strong>
+            </h2>
+          </div>
+          <div class="body">
+            <mat-horizontal-stepper [linear]="isLinear" #stepper>
+
+              <mat-step [stepControl]="form">
+                <form [formGroup]="form">
+                  <ng-template matStepLabel>Define Program</ng-template>
+                  <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Name</mat-label>
+                        <input matInput formControlName="name">
+                        <mat-error *ngIf="form.get('name').hasError('required')">
+                          Name is required
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Disease</mat-label>
+                        <mat-select formControlName="diseaseId">
+                          <mat-option *ngFor="let option of (diseases$ | async)" [value]="option.id">{{ option.name }}
+                          </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="form.get('diseaseId').hasError('required')">
+                          Disease is required
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+                      <mat-label>Number of Years</mat-label>
+                      <mat-radio-group formControlName="numberOfYears">
+                        <mat-radio-button class="example-margin" [value]="1">1 Year</mat-radio-button>
+                        <mat-radio-button class="example-margin" [value]="2">2 Years</mat-radio-button>
+                      </mat-radio-group>
+                      <mat-hint><br><br>
+                        <div class="alert alert-info">
+                          <strong>Number of Years!</strong>
+                          According to the testing guidline you use for the treatment program you are trying to create,
+                          how does the testing cycle work? For example for HIV treatment program, the cycle is on a
+                          yearly base. For TB, the testing program lasts 18 month
+                        </div>
+                      </mat-hint>
+                    </div>
+                  </div>
+                  <div>
+                    <button mat-raised-button matStepperNext color="primary" [disabled]="form.invalid">Next</button>
+                  </div>
+                </form>
+              </mat-step>
+
+              <mat-step [completed]="importProgramTestsComponent?.isValid || false">
+                <form>
+                  <ng-template matStepLabel>Program Tests</ng-template>
+                  <import-program-tests [fromCreatingProgram]="true">
+                  </import-program-tests>
+                  <div>
+                    <button mat-raised-button matStepperPrevious color="warn" class="mr-2">Back</button>
+                    <button mat-raised-button matStepperNext color="primary"
+                      (click)="importProgramTestsComponent?.setErrors()">Next</button>
+                  </div>
+                </form>
+              </mat-step>
+
+              <mat-step [completed]="importPatientAssumptionParametersComponent?.isValid || false">
+                <form>
+                  <ng-template matStepLabel>Patient Assumptions</ng-template>
+                  <import-patient-assumption-parameters [fromCreatingProgram]="true">
+                  </import-patient-assumption-parameters>
+                  <div>
+                    <button mat-raised-button matStepperPrevious color="warn" class="mr-2">Back</button>
+                    <button mat-raised-button matStepperNext color="primary"
+                      (click)="importPatientAssumptionParametersComponent?.setErrors();">Next</button>
+                  </div>
+                </form>
+              </mat-step>
+              <mat-step [completed]="importProductAssumptionParametersComponent?.isValid || false">
+                <form>
+                  <ng-template matStepLabel>Product Assumptions</ng-template>
+                  <import-product-assumption-parameters [fromCreatingProgram]="true">
+                  </import-product-assumption-parameters>
+                  <div>
+                    <button mat-raised-button matStepperPrevious color="warn" class="mr-2">Back</button>
+                    <button mat-raised-button matStepperNext color="primary"
+                      (click)="importProductAssumptionParametersComponent?.setErrors();">Next</button>
+                  </div>
+                </form>
+              </mat-step>
+              <mat-step [completed]="importTestingAssumptionParametersComponent?.isValid || false">
+                <form>
+                  <ng-template matStepLabel>Testing Assumptions</ng-template>
+                  <import-testing-assumption-parameters [fromCreatingProgram]="true">
+                  </import-testing-assumption-parameters>
+                  <div>
+                    <button mat-raised-button matStepperPrevious color="warn" class="mr-2">Back</button>
+                    <button mat-raised-button matStepperNext color="primary"
+                      (click)="importTestingAssumptionParametersComponent?.setErrors();">Next</button>
+                  </div>
+                </form>
+              </mat-step>
+
+              <mat-step>
+                <ng-template matStepLabel>Confirm & Submit</ng-template>
+
+                <div class="body">
+                  <p class="text-default" style="font-weight: 500; font-size: initial;">Please review the data that was
+                    entered And if you are ready, press the submit button below</p>
+                  <small class="text-muted">Program Name: </small>
+                  <p>{{ form.getRawValue().name || '-'}}</p>
+                  <hr>
+                  <small class="text-muted">Number of Years: </small>
+                  <p><strong>{{ form.getRawValue().numberOfYears }}</strong>
+                    Year{{form.getRawValue().numberOfYears > 1 ? 's' : ''}}</p>
+                  <hr>
+                  <small class="text-muted">Number of Program Tests: </small>
+                  <p><strong>{{ importProgramTestsComponent?.formArry?.length || '0'}}</strong> Program
+                    Test{{importProgramTestsComponent?.formArry?.length > 1 ? 's' : ''}}</p>
+                  <hr>
+                  <small class="text-muted">Number of Testing Assumption Parameters: </small>
+                  <p>
+                    <strong>{{ importTestingAssumptionParametersComponent?.formArry?.length || '0'}}</strong>
+                    Parameter{{importTestingAssumptionParametersComponent?.formArry?.length > 1 ? 's' : ''}}
+                  </p>
+                  <hr>
+                  <small class="text-muted">Number of Product Assumption Parameters: </small>
+                  <p>
+                    <strong>{{ importProductAssumptionParametersComponent?.formArry?.length || '0'}}</strong>
+                    Parameter{{importProductAssumptionParametersComponent?.formArry?.length > 1 ? 's' : ''}}
+                  </p>
+                  <hr>
+                  <small class="text-muted">Number of Patient Assumption Parameters: </small>
+                  <p>
+                    <strong>{{ importPatientAssumptionParametersComponent?.formArry?.length|| '0'}}</strong>
+                    Parameter{{importPatientAssumptionParametersComponent?.formArry?.length > 1 ? 's' : ''}}
+                  </p>
+                  <hr>
+                </div>
+
+                <div>
+                  <button mat-raised-button matStepperPrevious color="warn" class="mr-2"
+                    [disabled]="loading">Back</button>
+                  <button mat-raised-button color="primary" [disabled]="loading" (click)="submitForm()">
+                    Submit
+                    <mat-icon class="ml-2" *ngIf="loading">
+                      <mat-spinner color="accent" diameter="20"></mat-spinner>
+                    </mat-icon>
+                  </button>
+                </div>
+              </mat-step>
+
+            </mat-horizontal-stepper>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

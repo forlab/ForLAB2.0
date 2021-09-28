@@ -1,0 +1,70 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="block-header">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <ul class="breadcrumb breadcrumb-style ">
+            <li class="breadcrumb-item">
+              <h4 class="page-title">Vendor Details</h4>
+            </li>
+            <li class="breadcrumb-item bcrumb-1">
+              <a routerLink="/dashboard/main">
+                <i class="fas fa-home"></i> Home</a>
+            </li>
+            <li class="breadcrumb-item bcrumb-2">
+              <a href="javascript:;" routerLink="/vendor/vendors" onClick="return false;">Vendors</a>
+            </li>
+            <li class="breadcrumb-item active">Details</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="row clearfix">
+      <div class="col-lg-4 col-md-12">
+        <div class="card">
+          <div class="header">
+            <h2>About Vendor</h2>
+          </div>
+          <div class="tab-pane body active" id="about">
+            <small class="text-muted">Status: </small>
+            <p>{{ vendorDto?.isActive ? 'Active' : 'Disabled' }}</p>
+            <hr>
+            <small class="text-muted">Name: </small>
+            <p>{{ vendorDto?.name || '-' }}</p>
+            <hr>
+            <small class="text-muted">Email address: </small>
+            <p>{{ vendorDto?.email || '-' }}</p>
+            <hr>
+            <small class="text-muted">Phone: </small>
+            <p>{{ vendorDto?.telephone || '-' }}</p>
+            <hr>
+            <small class="text-muted">Address: </small>
+            <p>{{ vendorDto?.address || '-' }}</p>
+            <hr>
+            <small class="text-muted">Created By: </small>
+            <p>{{ vendorDto?.creator || '-' }}</p>
+            <hr>
+            <small class="text-muted">Created On: </small>
+            <p>{{ formatDateTime(vendorDto?.createdOn) }}</p>
+            <hr>
+            <ng-container *ngIf="vendorDto?.updator">
+              <small class="text-muted">Last Updated By: </small>
+              <p>{{ vendorDto?.updator || '-' }}</p>
+              <hr>
+              <small class="text-muted">Last Updated On: </small>
+              <p>{{ formatDateTime(vendorDto?.updatedOn) }}</p>
+              <hr>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8 col-md-12">
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane active" aria-expanded="true">
+            <app-vendor-contacts [vendorId]="vendorId" [fromVendorDetails]="true" [vendorCreatedBy]="vendorDto?.createdBy"></app-vendor-contacts>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

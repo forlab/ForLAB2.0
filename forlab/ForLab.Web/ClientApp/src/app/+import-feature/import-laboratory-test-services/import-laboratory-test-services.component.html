@@ -1,0 +1,195 @@
+<section>
+  <div class="container-fluid">
+
+    <!--Errors-->
+    <import-errors *ngIf="errors?.length > 0" [errors]="errors" [pageSize]="paginator?.pageSize || 0"
+      (notify)="paginator.pageIndex = $event; dataSource.paginator = paginator">
+    </import-errors>
+    <!--/Errors-->
+
+    <div *ngIf="loadingData">
+      <mat-spinner style="margin: 100px auto;"></mat-spinner>
+    </div>
+
+    <div class="row" *ngIf="!done" [style.opacity]="loadingData ? '0' : '1'">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+          <div class="body">
+            <div class="table-responsive">
+              <div class="materialTableHeader">
+                <div class="row">
+                  <div class="col-8">
+                    <ul class="header-buttons-left ml-0">
+                      <li class="dropdown">
+                        <h2>
+                          <strong>Laboratory Test Services</strong></h2>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="col-4">
+                    <ul class="header-buttons">
+                      <li>
+                        <div class="icon-button-demo">
+                          <button [matMenuTriggerFor]="columnFilterMenu" mat-mini-fab color="primary"
+                            matTooltip="Filter Columns">
+                            <mat-icon>filter_list</mat-icon>
+                          </button>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="icon-button-demo">
+                          <button mat-mini-fab color="primary" (click)="addObject()" matTooltip="Add New">
+                            <mat-icon>add</mat-icon>
+                          </button>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <cdk-virtual-scroll-viewport tvsItemSize class="wrapper">
+
+                <mat-table [dataSource]="dataSource" class="mat-cell import-table">
+                  <!-- Columns -->
+                  <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
+                    <ng-container *ngIf="column.type === 'custom' && column.property == 'index'" [matColumnDef]="column.property">
+                      <mat-header-cell *matHeaderCellDef class="uppercase">#</mat-header-cell>
+                      <mat-cell *matCellDef="let row; let i = index" [formGroup]="row" [ngClass]="column.cssClasses">
+                        <span>{{ getRowNumber(i) }}</span>
+                      </mat-cell>
+                    </ng-container>
+                    <ng-container *ngIf="column.type === 'text'" [matColumnDef]="column.property">
+                      <mat-header-cell *matHeaderCellDef class="uppercase">
+                        {{ column.label | humanize}}</mat-header-cell>
+                      <mat-cell *matCellDef="let row" [formGroup]="row" [ngClass]="column.cssClasses">
+                        <mat-form-field appearance="outline">
+                          <input matInput placeholder="{{ column.label }}" formControlName="{{ column.property }}"
+                            autocomplete="off" />
+                        </mat-form-field>
+                      </mat-cell>
+                    </ng-container>
+                    <ng-container *ngIf="column.type === 'number'" [matColumnDef]="column.property">
+                      <mat-header-cell *matHeaderCellDef class="uppercase">
+                        {{ column.label | humanize}}</mat-header-cell>
+                      <mat-cell *matCellDef="let row" [formGroup]="row" [ngClass]="column.cssClasses">
+                        <mat-form-field appearance="outline">
+                          <input type="number" matInput placeholder="{{ column.label }}"
+                            formControlName="{{ column.property }}" autocomplete="off" />
+                        </mat-form-field>
+                      </mat-cell>
+                    </ng-container>
+                    <ng-container *ngIf="column.type === 'date'" [matColumnDef]="column.property">
+                      <mat-header-cell *matHeaderCellDef class="uppercase">
+                        {{ column.label | humanize}}</mat-header-cell>
+                      <mat-cell *matCellDef="let row" [formGroup]="row" [ngClass]="column.cssClasses">
+                        <mat-form-field appearance="outline">
+                          <input [matDatepicker]="datepickerRef" matInput placeholder="{{ column.label }}"
+                            formControlName="{{ column.property }}">
+                          <mat-datepicker-toggle [for]="datepickerRef" matSuffix></mat-datepicker-toggle>
+                          <mat-datepicker #datepickerRef></mat-datepicker>
+                        </mat-form-field>
+                      </mat-cell>
+                    </ng-container>
+                    <ng-container *ngIf="column.type === 'select'" [matColumnDef]="column.property">
+                      <mat-header-cell *matHeaderCellDef class="uppercase">
+                        {{ column.label | humanize}}</mat-header-cell>
+                      <mat-cell *matCellDef="let row" [formGroup]="row" [ngClass]="column.cssClasses">
+                        <mat-form-field appearance="outline">
+                          <mat-select placeholder="{{ column.label }}" formControlName="{{ column.property }}">
+                            <ng-container *ngIf="column.property == 'laboratoryRegionCountryId'">
+                              <mat-option *ngFor="let option of countries" [value]="option.id">
+                                {{ option.name }}
+                              </mat-option>
+                            </ng-container>
+                            <ng-container *ngIf="column.property == 'laboratoryRegionId'">
+                              <mat-option *ngFor="let option of getFilteredRegions(row.value.laboratoryRegionCountryId)"
+                                [value]="option.id">
+                                {{ option.name }}
+                              </mat-option>
+                            </ng-container>
+                            <ng-container *ngIf="column.property == 'laboratoryId'">
+                              <mat-option *ngFor="let option of getFilteredLabs(row.value.laboratoryRegionId)"
+                                [value]="option.id">
+                                {{ option.name }}
+                              </mat-option>
+                            </ng-container>
+                            <ng-container *ngIf="column.property == 'testId'">
+                              <mat-option *ngFor="let option of tests" [value]="option.id">
+                                {{ option.name }}
+                              </mat-option>
+                            </ng-container>
+                          </mat-select>
+
+                        </mat-form-field>
+                      </mat-cell>
+                    </ng-container>
+                  </ng-container>
+
+
+                  <!-- Action Column -->
+                  <ng-container matColumnDef="actions">
+                    <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+                    <mat-cell *matCellDef="let row;">
+                      <button mat-icon-button (click)="deleteObject(row)">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    </mat-cell>
+                  </ng-container>
+
+                  <!-- Visible Columns -->
+                  <mat-header-row *matHeaderRowDef="visibleColumns"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: visibleColumns;" [style.cursor]="'pointer'" matRipple>
+                  </mat-row>
+
+                </mat-table>
+              </cdk-virtual-scroll-viewport>
+              <mat-paginator [pageSizeOptions]="[5, 10]" [pageSize]="10" class="sticky left-0"></mat-paginator>
+
+            </div>
+          </div>
+        </div>
+        <div class="mt-3">
+          <button [disabled]="loading" mat-raised-button color="defult" type="button" (click)="submit()">Submit the
+            Batch
+            <mat-icon class="ml-2" *ngIf="loading">
+              <mat-spinner color="accent" diameter="20"></mat-spinner>
+            </mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="row clearfix" *ngIf="done">
+      <div class="offset-lg-3 offset-md-3 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="card text-center pt-5">
+          <div class="body">
+            <mat-card class="text-center" style="width: 50%; margin: 0 auto;">
+              <h2>Completed</h2>
+              <p class="mt-5">Summary of import process</p>
+              <mat-icon style="color: green; font-size: 75px; width: 75px; height: 75px;">done</mat-icon><br>
+              <p class="m-5">Number of records uploaded:
+                <strong>{{ successRes?.numberOfUploded || '0' }}</strong> </p>
+              <p class="m-5">Records Added: <strong>{{ successRes?.numberOfAdded || '0' }}</strong> </p>
+              <p class="m-5">Records Updated: <strong>{{ successRes?.numberOfUpdated || '0' }}</strong>
+              <p class="m-5">Records Skipped: <strong>{{ successRes?.numberOfSkipped || '0' }}</strong>
+              </p>
+              <button mat-raised-button color="primary" routerLink="/laboratory/laboratory-test-services">OK</button>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<mat-menu #columnFilterMenu="matMenu" xPosition="before" yPosition="below">
+  <button (click)="toggleColumnVisibility(column, $event)" *ngFor="let column of columns"
+    class="checkbox-item mat-menu-item">
+    <mat-checkbox (click)="$event.stopPropagation()" ngDefaultControl [(ngModel)]="column.visible" color="primary">
+      {{ column.label }}
+    </mat-checkbox>
+  </button>
+</mat-menu>

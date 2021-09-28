@@ -1,0 +1,19 @@
+<div class="container">
+  <h3 mat-dialog-title>Are you sure?</h3>
+  <div mat-dialog-content>
+    <p *ngIf="data?.type == 'isActive'">{{ data?.isActive ? 'Activate' : 'Deactivate' }}
+      <strong>{{data?.ids?.length}}</strong> objects</p>
+    <p *ngIf="data?.type == 'shared'">{{ data?.shared ? 'Share' : 'Stop Share' }} <strong>{{data?.ids?.length}}</strong>
+      objects</p>
+  </div>
+  <div mat-dialog-actions class="mb-1">
+    <button mat-flat-button color="warn" [disabled]="loading" class="mr-2" (click)="submit()">
+      <span *ngIf="data?.type == 'isActive'">{{ data?.isActive ? 'Activate' : 'Deactivate' }}</span>
+      <span *ngIf="data?.type == 'shared'">{{ data?.shared ? 'Share' : 'Stop Share' }}</span>
+      <mat-icon class="ml-2" *ngIf="loading" style="display: inline-block;">
+        <mat-spinner color="accent" diameter="20"></mat-spinner>
+      </mat-icon>
+    </button>
+    <button mat-flat-button (click)="dialogRef.close()" tabindex="-1">Cancel</button>
+  </div>
+</div>

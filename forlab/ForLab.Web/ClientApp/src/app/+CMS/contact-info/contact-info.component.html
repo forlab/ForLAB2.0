@@ -1,0 +1,145 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="block-header">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <ul class="breadcrumb breadcrumb-style ">
+            <li class="breadcrumb-item">
+              <h4 class="page-title">Edit Contact Info</h4>
+            </li>
+            <li class="breadcrumb-item bcrumb-1">
+              <a routerLink="/dashboard/main">
+                <i class="fas fa-home"></i> Home</a>
+            </li>
+            <li class="breadcrumb-item bcrumb-2">
+              <a href="javascript:;" onClick="return false;">Contact Info</a>
+            </li>
+            <li class="breadcrumb-item active">Edit</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="row clearfix">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="header">
+            <h2>Edit Contact Info</h2>
+          </div>
+          <div class="body">
+            <form class="m-4" [formGroup]="form" (ngSubmit)="updateContactInfo()">
+              <div class="row">
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                    <mat-label>Phone</mat-label>
+                    <input matInput formControlName="phone">
+                    <mat-error *ngIf="form.get('phone').hasError('required')">
+                      Field is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                    <mat-label>Email</mat-label>
+                    <input matInput formControlName="email">
+                    <mat-error *ngIf="form.get('email').hasError('required')">
+                      Field is required
+                    </mat-error>
+                    <mat-error *ngIf="form.get('email').hasError('email')">
+                      Please enter a valid email address
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                    <mat-label>Facebook URL</mat-label>
+                    <input matInput formControlName="facebook">
+                    <mat-icon matSuffix class="fab fa-facebook-f"></mat-icon>
+                    <mat-error *ngIf="form.get('facebook').hasError('required')">
+                      Field is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                    <mat-label>Twitter URL</mat-label>
+                    <input matInput formControlName="twitter">
+                    <mat-icon matSuffix class="fab fa-twitter"></mat-icon>
+                    <mat-error *ngIf="form.get('twitter').hasError('required')">
+                      Field is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                    <mat-label>LinkedIn URL</mat-label>
+                    <input matInput formControlName="linkedIn">
+                    <mat-icon matSuffix class="fab fa-linkedin-in"></mat-icon>
+                    <mat-error *ngIf="form.get('linkedIn').hasError('required')">
+                      Field is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Address</mat-label>
+                    <textarea matInput formControlName="address"></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                    <mat-label>Latitude</mat-label>
+                    <input matInput type="number" formControlName="latitude">
+                    <mat-error *ngIf="form.get('latitude').hasError('required')">
+                      Field is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                    <mat-label>Longitude</mat-label>
+                    <input matInput type="number" formControlName="longitude">
+                    <mat-error *ngIf="form.get('longitude').hasError('required')">
+                      Field is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-0">
+                  <mat-form-field class="example-full-width mb-3" appearance="fill">
+                    <mat-label>Search for country on the map</mat-label>
+                    <input ngx-google-places-autocomplete #placesRef (onAddressChange)="handleAddressChange($event)" matInput>
+                  </mat-form-field>
+                </div>
+                <!-- Goolge Maps-->
+                <agm-map (mapClick)="placeMarker($event)" [zoom]="14" [latitude]="lat" [longitude]="lng" [scrollwheel]="false">
+                  <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+                </agm-map>
+              </div>
+              
+              <div class="row mt-5">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
+                  <button class="mr-3" [disabled]="form.invalid || loading" mat-raised-button color="primary"
+                    type="submit">Update
+                    Contact Info
+                    <mat-icon class="ml-2" *ngIf="loading">
+                      <mat-spinner color="accent" diameter="20"></mat-spinner>
+                    </mat-icon>
+                  </button>
+                  <button type="button" [disabled]="loading" mat-button (click)="loadContactInfo()">Cancel</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
