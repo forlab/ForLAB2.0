@@ -1,5 +1,5 @@
 ##ForLAB (multi-method laboratory quantification tool)
-![ForLAB logo](https://github.com/forlab/ForLAB/raw/master/ForLABlogo.png)
+![ForLAB logo](https://github.com/forlab/ForLAB2.0/raw/main/ForLABlogo.png)
 
 ForLab is a standardized, open-source tool developed by CHAI and SCMS with clearly defined requirements, improving programs’ ability to collect and analyze data to accurately forecast commodity needs. ForLAB performs long- and short-term forecasts and guides improvements in diagnostic services.
 
