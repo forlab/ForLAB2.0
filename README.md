@@ -24,7 +24,7 @@ generate informed, evidence-based forecasts:
 
 ###Source code
 
-* Clone the sources: git clone https://github.com/forlab/ForLAB.git
+* Clone the sources: git clone https://github.com/forlab/ForLAB2.0.git
 
 ###Building
 
