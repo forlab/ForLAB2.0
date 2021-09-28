@@ -46,14 +46,14 @@ Before you contribute, please read through the contributing and developer guides
 Want to get more familiar with what's going on in the code?
 
 * [Pull requests](https://github.com/forlab/ForLAB/pulls): [Open](https://github.com/forlab/ForLAB/pulls?q=is%3Aopen+is%3Apr)/[Closed](https://github.com/forlab/ForLAB/pulls?q=is%3Apr+is%3Aclosed)
-* [Issues](https://github.com/forlab/ForLAB/issues)
+* [Issues](https://github.com/forlab/ForLAB2.0/issues)
 
 You are also encouraged to start a discussion by filing an issue or creating a gist.
 
 ###Found a bug?
 Another way you can contribute to ForLAB is by providing issue reports, for information on how to submit an issue report refer to our [online guide for reporting issues.](https://github.com/forlab/ForLAB/)
 
-To view existing issues please visit [https://github.com/forlab/ForLAB/issues](https://github.com/forlab/ForLAB/issues)
+To view existing issues please visit [https://github.com/forlab/ForLAB2.0/issues](https://github.com/forlab/ForLAB2.0/issues)
 
 ###License
 ForLAB is licensed under the [Affero GPL (AGPL) v3](LICENSE).
