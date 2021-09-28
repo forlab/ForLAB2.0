@@ -34,7 +34,7 @@ To get started on **Visual Studio 2017:**
 
 1. Install Visual Studio 2017 or later.
 2. Clone the source code (see above).
-3. Open ForLab.sln solution in Visual Studio 2010.
+3. Open ForLab.sln solution in Visual Studio 2017.
 
 ###How to Engage, Contribute and Provide Feedback
 
