@@ -1,0 +1,75 @@
+<div class="forecast-add-modal-header">
+  <a type="button" class="close-button" (click)="onCloseModal()" aria-hidden="true">
+  </a>
+</div>
+<div class="forecast-add-modal-body text-center">
+  <span class="forecast-add-modal-title color-darkblue">Select Morbidity Disease Program From Default Created By Forlab+
+    Or Create New</span>
+  <form class="forecast-add-form" [formGroup]="newProgram">
+    <div class="row">
+      <div class="col-md-offset-3 col-md-6">
+        <div class="form-group">
+          <div class="forecast-select-program__buttons">
+            <div *ngFor="let program of morbidityPrograms; let i = index">
+              <div *ngIf="i<4" class="forecast-select-program__buttons--button"
+                [ngClass]="{'selected': selectedProgram == i}" (click)="handleChangeProgram(i)">
+                {{ program.programName }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <span class="line-or">OR</span>
+        <div class="form-group">
+          <div class="forecast-new-program__form">
+            <div class="add-program__form">
+              <div class="form-group"
+                [ngClass]="{'has-error':!newProgram.controls['ProgramName'].valid &&  newProgram.controls['ProgramName'].touched}">
+                <input type="text" class="form-control" name="ProgramName" formControlName="ProgramName"
+                  placeholder="Program Name" />
+                <div class="note note-error"
+                  *ngIf="newProgram.controls['ProgramName'].hasError('required') && newProgram.controls['ProgramName'].touched">
+                  Program Name must not be empty</div>
+              </div>
+              <button (click)="onCreateProgram()" class="btn btn-cyan add-program"
+                [disabled]="!newProgram.controls['ProgramName'].valid">Add</button>
+            </div>
+            <div class="add-program__detail">
+              <p>We will take you for a few steps here to create your own program</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="forecast-add-modal-footer">
+      <div class="forecast-add-modal-footer__container">
+        <button type="button" (click)="openPreviousModal()" class="btn btn-outline-cyan">Back</button>
+
+        <div class="forecast-form-step">
+          <div class="steps">
+            <div class="progressbar-wrapper">
+              <ul class="progressbar">
+                <li class="passed"></li>
+                <li class="passed"></li>
+                <li class="passed"></li>
+                <li class="passed"></li>
+                <li class="passed"></li>
+                <li class="passed"></li>
+                <li class="active"></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <button (click)="openNextModal()" class="btn btn-cyan" [disabled]="loading">Next</button>
+      </div>
+    </div>
+  </form>
+</div>

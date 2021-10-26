@@ -1,0 +1,789 @@
+<div class="test-add-modal-header">
+  <a type="button" class="close-button" (click)="onCloseModal()" aria-hidden="true">
+  </a>
+</div>
+<div class="test-add-modal-body text-center">
+  <span class="test-add-modal-title">Test Form</span>
+  <form class="test-add-form" [formGroup]="testForm" >
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group test-name-form-group"
+          [ngClass]="{'has-error':!testForm.controls['testName'].valid && testForm.controls['testName'].touched}">
+          <input type="text" class="form-control" name="testName" placeholder="Test Name" formControlName="testName"
+            required />
+        </div>
+        <div class="note note-error"
+          *ngIf="testForm.controls['testName'].hasError('required') && testForm.controls['testName'].touched">
+          Please Enter Test Name</div>
+        <div class="note note-error"
+          *ngIf="testForm.controls['testName'].hasError('maxlength') && testForm.controls['testName'].touched">
+          Maximum 64 characters are allowed</div>
+
+        <div class="test-area-select__list">
+          <ul class="list-group">
+            <li class="list-group-item" *ngFor="let data of testingAreaList" (click)="handleSelectTestArea(data)"  [ngClass]="{'disabled':data.type=='T'}"  [ngClass]="{'selected': currentTestArea == 3 && data.type=='A'}">{{data.name}}</li>
+            <!-- <li class="list-group-item" (click)="handleSelectTestArea(1)"
+              [ngClass]="{'selected': currentTestArea == 1}">Measles IgM</li>
+            <li class="list-group-item" (click)="handleSelectTestArea(2)"
+              [ngClass]="{'selected': currentTestArea == 2}">Rubella IgM</li>
+            <li class="list-group-item" (click)="handleSelectTestArea(3)"
+              [ngClass]="{'selected': currentTestArea == 3}">Rotavirus</li>
+            <li class="list-group-item disabled">Molecular EID POC</li>
+            <li class="list-group-item" (click)="handleSelectTestArea(4)"
+              [ngClass]="{'selected': currentTestArea == 4}">POC EID</li>
+            <li class="list-group-item disabled">Molecular EID</li>
+            <li class="list-group-item" (click)="handleSelectTestArea(5)"
+              [ngClass]="{'selected': currentTestArea == 5}">EID</li>
+            <li class="list-group-item disabled">Molecular VL</li>
+            <li class="list-group-item" (click)="handleSelectTestArea(6)"
+              [ngClass]="{'selected': currentTestArea == 6}">Viral Load</li> -->
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-md-8">
+        <ul class="nav nav-tabs" role="tablist">
+          <li class="active">
+            <a href="#testProduct" role="tab" data-toggle="tab">Test Product Usage Rate</a>
+          </li>
+          <li>
+            <a href="#qcProduct" role="tab" data-toggle="tab">QC Product Usage Rate</a>
+          </li>
+          <li>
+            <a href="#consumeProduct" role="tab" data-toggle="tab">Consumable Product Usage Rate</a>
+          </li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <div class="tab-pane fade active in" id="testProduct">
+            <div class="test-product-select">
+              <div class="test-product-select__inst">
+                <select class="form-control" (change)="selectTestInstChange($event)">
+                  <option value="0" selected>Select</option>
+                  <option *ngFor="let instrument of instrumentList" [value]="instrument.instrumentID">
+                    {{instrument.instrumentName}}
+                  </option>
+                </select>
+              </div>
+
+              <div class="test-product-select__prodType">
+                <select class="form-control" (change)="getProductList($event)">
+                  <option value="0" selected>Select Product Type</option>
+                  <option *ngFor="let productType of productTypeList" [value]="productType.typeID">
+                    {{productType.typeName}}
+                  </option>
+                </select>
+              </div>
+
+              <div class="test-product-select__product">
+                <select class="form-control" (change)="selectTestProductChange($event)">
+                  <option value="0" selected>Select</option>
+                  <option *ngFor="let product of productList" [value]="product.productID">
+                    {{product.productName}}
+                  </option>
+                </select>
+              </div>
+
+              <button class="btn btn-cyan" type="button" (click)="addTestUsageRate()">
+                Add</button>
+            </div>
+
+            <div class="test-product-content">
+              <!-- <table class="table table-striped table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <th data-class="expand">Product Name</th>
+                    <th data-class="expand">Rate</th>
+                    <th data-class="expand">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of testArray; let i = index;">
+                    <td>
+                      <input type="text" name="testingareaName" value="Rubella Ab lgM (Euroimmun)" />
+                    </td>
+                    <td class="mt-touch">
+                      <input type="number" name="testingdays" class="form-control color-darkblue" value="1" />
+                    </td>
+                    <td>
+                      <a type="button" class="del icon-trash">
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table> -->
+            
+                <ng-template ngFor let-box [ngForOf]="testForm.controls.ProductUsageArray['controls']" let-boxIndex="index">
+                  <div class="tab-content" formArrayName="ProductUsageArray" style="
+                  text-align: left;
+              ">
+
+
+
+                    <div [formGroup]="box" >
+
+
+
+                      <label class="input">
+                        {{box.getRawValue().name}}
+                        <!-- <input type="text" class="form-control" formControlName="name" > -->
+                      </label>
+
+
+
+
+                      <div formArrayName="values">
+                        <div *ngFor="let pack of box.controls.values.controls; let packIndex=index" class="panel panel-default">
+                          <div class="panel-body" [formGroupName]="packIndex">
+                            <div [formGroup]="pack">
+                              <div class="col-md-8">
+                                <label class="input" style="width: 100%;">
+                                  <input type="text" class="form-control" formControlName="productName" >
+                                </label>
+                              </div>
+                              <div class="col-md-2">
+                                <label class="input">
+                                  <input type="number" class="form-control" formControlName="rate" style="text-align: right">
+                              
+
+                                  <!-- <input type="text" class="form-control" formControlName="rate"
+                                  pattern="[0-9]+" minlength="1" maxlength="4" style="text-align: right"    > -->
+
+                                </label>
+                              </div>
+                              <div class="note note-error" *ngIf="box.controls.values.controls[packIndex].controls.rate.invalid">Character are not allowed in number field</div>
+
+                              <div class="col-md-1"style="padding: 6px;">
+                               
+                                    <a type="button" class="del icon-trash"(click)="deltest(boxIndex,packIndex)">
+                                      <img src="assets/img/new/icon-trash.png" alt="site-logo">
+                                    </a>
+                                <!-- <a  type="button"  ><i class="fa fa-trash-o"></i></a> -->
+                              
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
+
+
+                    </div>
+
+
+
+                  </div>
+                </ng-template>
+             
+            </div>
+          </div>
+
+          <div class="tab-pane fade" id="qcProduct">
+            <div class="test-product-select">
+              <div class="test-product-select__inst">
+                <select class="form-control" (change)="selectcontrolInschange($event)">
+                  <option value="0" selected>Select</option>
+                  <option *ngFor="let instrument of instrumentList" [value]="instrument.instrumentID">
+                    {{instrument.instrumentName}}
+                  </option>
+                </select>
+              </div>
+
+              <div class="test-product-select__prodType">
+                <select class="form-control" (change)="getProductList($event)">
+                  <option value="0" selected>Select Product Type</option>
+                  <option *ngFor="let productType of productTypeList" [value]="productType.typeID">
+                    {{productType.typeName}}
+                  </option>
+                </select>
+              </div>
+
+              <div class="test-product-select__product">
+                <select class="form-control" (change)="selectcontrolProductchange($event)">
+                  <option value="0" selected>Select</option>
+                  <option *ngFor="let product of productList" [value]="product.productID">
+                    {{product.productName}}
+                  </option>
+                </select>
+              </div>
+
+              <button class="btn btn-cyan" type="button" (click)="AddControlUsageRate()">
+                Add</button>
+            </div>
+
+            <div class="test-product-content">
+              <!-- <table class="table table-striped table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <th data-class="expand">Product Name</th>
+                    <th data-class="expand">Rate</th>
+                    <th data-class="expand">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of testArray; let i = index;">
+                    <td>
+                      <input type="text" name="testingareaName" value="Rubella Ab lgM (Euroimmun)" />
+                    </td>
+                    <td class="mt-touch">
+                      <input type="number" name="testingdays" class="form-control color-darkblue" value="1" />
+                    </td>
+                    <td>
+                      <a type="button" class="del icon-trash">
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table> -->
+         
+              <ng-template ngFor let-box [ngForOf]="testForm.controls.ControlUsageArray['controls']" let-boxIndex="index">
+                <div class="tab-content" formArrayName="ControlUsageArray" style="
+                text-align: left;
+            ">
+
+
+
+                  <div [formGroup]="box" >
+
+
+
+                    <label class="input">
+                      {{box.getRawValue().name}}
+                      <!-- <input type="text" class="form-control" formControlName="name" > -->
+                    </label>
+
+
+
+
+                    <div formArrayName="values">
+                      <div *ngFor="let pack of box.controls.values.controls; let packIndex=index" class="panel panel-default">
+                        <div class="panel-body" [formGroupName]="packIndex">
+                          <div [formGroup]="pack">
+                            <div class="col-md-8">
+                              <label class="input" style="width: 100%;">
+                                <input type="text" class="form-control" formControlName="productName" >
+                              </label>
+                            </div>
+                            <div class="col-md-2">
+                              <label class="input">
+                                <input type="text" class="form-control" formControlName="rate"
+                                pattern="[0-9]+" minlength="1" maxlength="4" style="text-align: right"    >
+
+                              </label>
+                            </div>
+                            <div class="note note-error" *ngIf="box.controls.values.controls[packIndex].controls.rate.invalid">Character are not allowed in number field</div>
+                            <div class="col-md-1"style="padding: 6px;">
+                               
+                                  <a type="button" class="del icon-trash"(click)="delcontrol(boxIndex,packIndex)">
+                                    <img src="assets/img/new/icon-trash.png" alt="site-logo">
+                                  </a>
+                              <!-- <a  type="button"  (click)="delcontrol(boxIndex,packIndex)"><i class="fa fa-trash-o"></i></a> -->
+                           
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+
+
+                  </div>
+
+
+
+                </div>
+              </ng-template>
+         
+            </div>
+          </div>
+          <div class="tab-pane fade" id="consumeProduct">
+            <ul class="nav nav-tabs" role="tablist">
+              <li class="active">
+                <a href="#perTest" role="tab" data-toggle="tab">Per Test</a>
+              </li>
+              <li>
+                <a href="#perPeriod" role="tab" data-toggle="tab">Per Period</a>
+              </li>
+              <li>
+                <a href="#perInstr" role="tab" data-toggle="tab">Per Instrument Per Period</a>
+              </li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+              <div class="tab-pane fade active in" id="perTest">
+                <div class="per-test-select">
+                  <!-- <input type="text" class="form-control" name="productName" placeholder="Product Name" required /> -->
+                  <input type="text" class="form-control" formControlName="nooftest"
+                  pattern="[0-9]+" minlength="1" maxlength="4" style="text-align: right" placeholder="No of Test"    >
+
+                  <div class="per-test-select__prodType">
+                    <select class="form-control" (change)="getProductList($event,'Test')">
+                      <option value="0" selected>Select Product Type</option>
+                      <option *ngFor="let productType of productTypeList" [value]="productType.typeID">
+                        {{productType.typeName}}
+                      </option>
+                    </select>
+                  </div>
+
+                  <div class="per-test-select__product">
+                    <select class="form-control" (change)="selectconsumtestproductchange($event)">
+                      <option value="0" selected>Select Product</option>
+                      <option *ngFor="let product of productList" [value]="product.productID">
+                        {{product.productName}}
+                      </option>
+                    </select>
+                  </div>
+
+                  <button class="btn btn-cyan" type="button" (click)="AddconsumtestUsageRate()">
+                    Add</button>
+                </div>
+
+                <div class="per-test-content">
+                  <ng-template ngFor let-box [ngForOf]="testForm.controls.ConsumableTestArray['controls']" let-boxIndex="index">
+                    <div class="tab-content" formArrayName="ConsumableTestArray" style="text-align: left;">
+
+
+
+                      <div [formGroup]="box" >
+
+
+
+                        <label class="input">
+                          {{box.getRawValue().name}}
+                          
+                          <!-- <input type="text" class="form-control" formControlName="name" > -->
+                        </label>
+
+
+
+
+                        <div formArrayName="values">
+                          <div *ngFor="let pack of box.controls.values.controls; let packIndex=index" class="panel panel-default">
+                            <div class="panel-body" [formGroupName]="packIndex">
+                              <div [formGroup]="pack">
+                                <div class="col-md-4">
+                                  <label class="input" style="width: 100%;">
+                                    <input type="text" class="form-control" formControlName="productName" >
+                                  </label>
+                                </div>
+                                <div class="col-md-4">
+                                    <!-- <label class="input">
+                                      <input type="number" class="form-control" formControlName="noOfTest" style="text-align: right">
+                                    </label>
+                                  </div> -->
+
+
+                                  <label class="input">
+                                  <input type="text" class="form-control" formControlName="noOfTest"
+                                  pattern="[0-9]+" minlength="1" maxlength="4" style="text-align: right"    >
+
+                                </label>
+                              </div>
+                              <div class="note note-error" *ngIf="box.controls.values.controls[packIndex].controls.noOfTest.invalid">Character are not allowed in number field</div>
+
+                                <div class="col-md-2">
+                                  <!-- <label class="input">
+                                    <input type="number" class="form-control" formControlName="usageRate" style="text-align: right">
+                                  </label>
+                                </div> -->
+                                <label class="input">
+                                <input type="text" class="form-control" formControlName="usageRate"
+                                pattern="[0-9]+" minlength="1" maxlength="4" style="text-align: right"    >
+
+                              </label>
+                            </div>
+                            <div class="note note-error" *ngIf="box.controls.values.controls[packIndex].controls.usageRate.invalid">Character are not allowed in number field</div>
+
+                                
+
+                                <div class="col-md-1"style="padding: 6px;">
+                                 
+                                      <a type="button" class="del icon-trash"(click)="delpertestcon(boxIndex,packIndex)">
+                                        <img src="assets/img/new/icon-trash.png" alt="site-logo">
+                                      </a>
+                                  <!-- <a  type="button"  (click)="delpertestcon(boxIndex,packIndex)"><i class="fa fa-trash-o"></i></a> -->
+                               
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+
+
+
+                      </div>
+
+
+
+                    </div>
+                  </ng-template>
+
+                  <!-- <table class="table table-striped table-hover">
+                    <thead>
+                      <tr>
+                        <th>Product Name</th>
+                        <th>No of Test</th>
+                        <th>Rate</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="text-align-left">
+                          Rubella Ab IgM (Euroimmun)
+                        </td>
+                        <td>
+                          <input type="number" class="form-control" name="testNumber" />
+                        </td>
+                        <td>
+                          <input type="number" class="form-control" name="rate" />
+                        </td>
+                        <td>
+                          <a type="button" class='del del icon-trash'>
+                            <!-- (click)="delproductprice(i)"  
+                          </a>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="text-align-left">
+                          Pipette tips (1000ul, filtered, sterile, long tip)
+                        </td>
+                        <td>
+                          <input type="number" class="form-control" name="testNumber" />
+                        </td>
+                        <td>
+                          <input type="number" class="form-control" name="rate" />
+                        </td>
+                        <td>
+                          <a type="button" class='del del icon-trash'>
+                            <!-- (click)="delproductprice(i)" 
+                          </a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table> -->
+                </div>
+              </div>
+
+              <div class="tab-pane fade in" id="perPeriod">
+                <div class="per-period-select">
+                  <div class="per-period-select__left">
+                    <div class="per-period-select__times">
+                      <div class="control-req__buttons">
+                        <div *ngFor="let period of perPeriodArray; let i = index">
+                          <div class="control-req__buttons--button" [ngClass]="{'selected': currentPerPeriod == i}"
+                            (click)="handleControlPerPeriod(i)">
+                            {{ period }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="per-period-select__detail">
+                      <div class="per-period-select__prodType">
+                        <select class="form-control" (change)="getProductList($event,'period')">
+                          <option value="0" selected>Select Product Type</option>
+                          <option *ngFor="let productType of productTypeList" [value]="productType.typeID">
+                            {{ productType.typeName }}
+                          </option>
+                        </select>
+                      </div>
+
+                      <div class="per-period-select__product">
+                        <select class="form-control" (change)="selectconsumperiodproductchange($event)">
+                          <option value="0" selected>Select Product</option>
+                          <option *ngFor="let product of productList" [value]="product.productID">
+                            {{ product.productName }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <button class="btn btn-cyan" type="button" (click)="AddconsumperiodUsageRate()">
+                    Add</button>
+                </div>
+
+                <div class="per-test-content">
+                  <ng-template ngFor let-box [ngForOf]="testForm.controls.ConsumablePeriodArray['controls']" let-boxIndex="index">
+                    <div class="tab-content" formArrayName="ConsumablePeriodArray" style="text-align: left;">
+
+
+
+                      <div [formGroup]="box" >
+
+
+
+                        <label class="input">
+                          {{box.getRawValue().name}}
+                          <!-- <input type="text" class="form-control" formControlName="name" > -->
+                        </label>
+
+
+
+
+                        <div formArrayName="values">
+                          <div *ngFor="let pack of box.controls.values.controls; let packIndex=index" class="panel panel-default">
+                            <div class="panel-body" [formGroupName]="packIndex">
+                              <div [formGroup]="pack">
+                                <div class="col-md-4">
+                                  <label class="input" style="width:100%">
+                                    <input type="text" class="form-control" formControlName="productName" >
+                                  </label>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="input">
+                                      <input type="text" class="form-control" formControlName="period" >
+                                    </label>
+                                  </div>
+                                <div class="col-md-2">
+                                    <label class="input">
+                                  <input type="text" class="form-control" formControlName="usageRate"
+                                  pattern="[0-9]+" minlength="1" maxlength="4" style="text-align: right"    >
+
+                                </label>
+                              </div>
+                              <div class="note note-error" *ngIf="box.controls.values.controls[packIndex].controls.usageRate.invalid">Character are not allowed in number field</div>
+
+
+                                <div class="col-md-1"style="padding: 6px;">
+                                  
+                                      <a type="button" class="del icon-trash"(click)="delperperiodcon(boxIndex,packIndex)">
+                                        <img src="assets/img/new/icon-trash.png" alt="site-logo">
+                                      </a>
+                                  <!-- <a  type="button"  (click)="delperperiodcon(boxIndex,packIndex)"><i class="fa fa-trash-o"></i></a> -->
+                             
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+
+
+
+                      </div>
+
+
+
+                    </div>
+                  </ng-template>
+                  <!-- <table class="table table-striped table-hover">
+                    <thead>
+                      <tr>
+                        <th>Product Name</th>
+                        <th>Period</th>
+                        <th>Rate</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="text-align-left">
+                          Rubella Ab IgM (Euroimmun)
+                        </td>
+                        <td>
+                          Monthly
+                        </td>
+                        <td>
+                          <input type="number" class="form-control" name="rate" />
+                        </td>
+                        <td>
+                          <a type="button" class='del del icon-trash'>
+                            <!-- (click)="delproductprice(i)" 
+                          </a>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="text-align-left">
+                          Pipette tips (1000ul, filtered, sterile, long tip)
+                        </td>
+                        <td>
+                          Monthly
+                        </td>
+                        <td>
+                          <input type="number" class="form-control" name="rate" />
+                        </td>
+                        <td>
+                          <a type="button"  class='del del icon-trash'>
+                            <!-- (click)="delproductprice(i)" 
+                          </a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table> -->
+                </div>
+              </div>
+
+              <div class="tab-pane fade in" id="perInstr">
+                <div class="per-period-select">
+                  <div class="per-period-select__left">
+                    <div class="per-period-select__times">
+                      <div class="control-req__buttons">
+                        <div *ngFor="let period of perInstrArray; let i = index">
+                          <div class="control-req__buttons--button" [ngClass]="{'selected': currentPerInstr == i}"
+                            (click)="handleControlPerInstr(i)">
+                            {{ period }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="per-period-select__detail">
+                      <div class="test-product-select__inst">
+                        <select class="form-control" (change)="selectconsuminschange($event)">
+                          <option value="0" selected>Select</option>
+                          <option *ngFor="let instrument of instrumentList" [value]="instrument.instrumentID">
+                            {{instrument.instrumentName}}
+                          </option>
+                        </select>
+                      </div>
+        
+                      <div class="per-period-select__prodTypeins">
+                        <select class="form-control" (change)="getProductList($event,'Ins')">
+                          <option value="0" selected>Select Product Type</option>
+                          <option *ngFor="let productType of productTypeList" [value]="productType.typeID">
+                            {{ productType.typeName }}
+                          </option>
+                        </select>
+                      </div>
+
+                      <div class="per-period-select__productins">
+                        <select class="form-control" (change)="selectconsuminsprochange($event)">
+                          <option value="0" selected>Select Product</option>
+                          <option *ngFor="let product of productList" [value]="product.productID">
+                            {{ product.productName }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <button class="btn btn-cyan" type="button" (click)="AddconsuminsUsageRate()">
+                    Add</button>
+                </div>
+
+                <div class="per-test-contentins">
+                  <ng-template ngFor let-box [ngForOf]="testForm.controls.ConsumableInsArray['controls']" let-boxIndex="index">
+                    <div class="tab-content" formArrayName="ConsumableInsArray" style="text-align: left;">
+
+
+
+                      <div [formGroup]="box" >
+
+
+
+                        <label class="input">
+                          {{box.getRawValue().name}}
+                          <!-- <input type="text" class="form-control" formControlName="name" > -->
+                        </label>
+
+
+
+
+                        <div formArrayName="values">
+                          <div *ngFor="let pack of box.controls.values.controls; let packIndex=index" class="panel panel-default">
+                            <div class="panel-body" [formGroupName]="packIndex">
+                              <div [formGroup]="pack">
+                                <div class="col-md-4">
+                                  <label class="input">
+                                    <input type="text" class="form-control" formControlName="productName" >
+                                  </label>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="input">
+                                      <input type="text" class="form-control" formControlName="period" >
+                                    </label>
+                                  </div>
+                                <div class="col-md-2">
+                                    <label class="input">
+                                  <input type="text" class="form-control" formControlName="usageRate"
+                                  pattern="[0-9]+" minlength="1" maxlength="4" style="text-align: right"    >
+
+                                </label>
+                              </div>
+                              <div class="note note-error" *ngIf="box.controls.values.controls[packIndex].controls.usageRate.invalid">Character are not allowed in number field</div>
+
+                                <div class="col-md-1"style="padding: 6px;">
+                               
+                                      <a type="button" class="del icon-trash"(click)="delperinscon(boxIndex,packIndex)">
+                                        <img src="assets/img/new/icon-trash.png" alt="site-logo">
+                                      </a>
+                                  <!-- <a  type="button"  (click)="delperinscon(boxIndex,packIndex)"><i class="fa fa-trash-o"></i></a> -->
+                               
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+
+
+
+                      </div>
+
+
+
+                    </div>
+                  </ng-template>
+                  <!-- <table class="table table-striped table-hover">
+                    <thead>
+                      <tr>
+                        <th>Product Name</th>
+                        <th>Period</th>
+                        <th>Rate</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="text-align-left">
+                          Rubella Ab IgM (Euroimmun)
+                        </td>
+                        <td>
+                          Monthly
+                        </td>
+                        <td>
+                          <input type="number" class="form-control" name="rate" />
+                        </td>
+                        <td>
+                          <a type="button"  class='del del icon-trash'>
+                            <!-- (click)="delproductprice(i)"
+                          </a>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="text-align-left">
+                          Pipette tips (1000ul, filtered, sterile, long tip)
+                        </td>
+                        <td>
+                          Monthly
+                        </td>
+                        <td>
+                          <input type="number" class="form-control" name="rate" />
+                        </td>
+                        <td>
+                          <a type="button"  class='del del icon-trash'>
+                            <!-- //(click)="delproductprice(i)" 
+                          </a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div class="test-add__buttons">
+    <button type="button" (click)="onCloseModal()" class="btn btn-outline-cyan">Cancel</button>
+    <button type="submit" class="btn btn-cyan" [disabled]="!testForm.valid" (click)="save()">{{submitBtnName}}</button>
+  </div>
+</div>

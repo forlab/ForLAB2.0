@@ -1,0 +1,233 @@
+<div class="forecast-add-modal-header">
+  <a type="button" class="close-button" (click)="onCloseModal()" aria-hidden="true">
+  </a>
+</div>
+<div class="forecast-add-modal-body text-center">
+  <span class="forecast-add-modal-title color-darkblue">BASED ON GUIDELINE, HOW OFTEN DO PATIENTS GET THE FOLLOWING
+    TESTS</span>
+  <form class="forecast-add-form" novalidate="novalidate" [formGroup]="demographictestingprotocol">
+    <!-- <div class="forecast-test-type row">
+      <div class="col-md-offset-4 col-md-4">
+        <div class="forecast-test-type__buttons">
+          <div *ngFor="let group of groupList; let i = index">
+            <div class="forecast-test-type__buttons--button" [ngClass]="{'selected': selectedGroupID == group.groupID}"
+              (click)="handleForecastTestType(group.groupID)">
+              {{ group.patientGroupName }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+    <div class="forecast-test-list" formArrayName="_testingprotocol">
+      <!-- <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th data-class="expand" style="min-width: 140px;">Test Name</th>
+            <th data-class="expand">Percentage Panel</th>
+            <th data-class="expand">Baseline</th>
+            <th data-class="expand"></th>
+            <th data-class="expand">
+              <button class="header-button" (click)="handleSelecteHeaderBtn(0)"
+                [ngClass]="{'selected': selectedHearderBtn == 0}">6th Months</button>
+            </th>
+            <th data-class="expand"></th>
+            <th data-class="expand">
+              <button class="header-button" (click)="handleSelecteHeaderBtn(1)"
+                [ngClass]="{'selected': selectedHearderBtn == 1}">6nd Months</button>
+            </th>
+            <th data-class="expand"></th>
+            <th data-class="expand">
+              <button class="header-button" (click)="handleSelecteHeaderBtn(2)"
+                [ngClass]="{'selected': selectedHearderBtn == 2}">6rd Months</button>
+            </th>
+            <th data-class="expand" style="max-width: 70px;">Repeat Rate</th>
+            <th data-class="expand">Actions</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container
+            *ngFor="let item of demographictestingprotocol.get('_testingprotocol')['controls']; let i=index;"
+            [formGroupName]="i">
+            <tr *ngIf="item['value'].patientGroupID == selectedGroupID">
+              <td class="text-align-left">
+                <input type="text" class="form-control site-name" name="testName" formControlName="testName">
+              </td>
+              <td>
+                <div class="left-inner-addon">
+                  <span class="percent-icon">%</span>
+                  <input type="number" class="form-control color-darkblue percent-type" name="percentagePanel"
+                    formControlName="percentagePanel">
+                </div>
+              </td>
+              <td>
+                <input type="number" class="form-control" name="baseline" formControlName="baseline" />
+              </td>
+              <td>
+                <input type="number" class="form-control" name="sixthone" value="0" />
+              </td>
+              <td>
+                <input type="number" class="form-control" name="sixthtwo" value="0" />
+              </td>
+              <td>
+                <input type="number" class="form-control" name="sixndone" value="0" />
+              </td>
+              <td>
+                <input type="number" class="form-control" name="sixndtwo" value="0" />
+              </td>
+              <td>
+                <input type="number" class="form-control" name="sixrdone" value="0" />
+              </td>
+              <td>
+                <input type="number" class="form-control" name="sixrdtwo" value="0" />
+              </td>
+              <td>
+                <input type="number" class="form-control" name="totalTestPerYear" formControlName="totalTestPerYear" />
+              </td>
+              <td>
+                <a type="button" (click)="deltest(item,i)" class='del icon-trash'>
+                </a>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table> -->
+    
+      <table class="table table-striped table-hover" >
+          
+        <thead>
+          <tr >
+             
+              <th  data-class="expand" *ngFor="let item of HeaderArray" style="vertical-align: middle">{{item}}</th>
+              <!-- <th data-class="expand"  style="vertical-align: middle">Edit</th> -->
+              <th  data-class="expand" style="vertical-align: middle">Remove</th>
+          </tr>
+      </thead>
+        <tbody>
+          <tr *ngFor="let item1 of demographictestingprotocol.get('_testingprotocol')['controls']; let i = index;" [formGroupName]="i">
+
+            <td *ngFor="let item of controlArray">
+        
+              <label class="input">
+                <input type="{{item.type}}" class="form-control site-name" name="{{item.name}}" formControlName="{{item.name}}" min="1" [attr.max]="item.datatype === '2' ? '100' : 1000"  [attr.disabled] = "item.type === 'text' ? 'disabled' : null" [style.text-align]="item.type === 'text' ? 'left' : 'right'"  (input)="inputvalue($event,i,item.datatype);"/>
+              </label>
+
+           
+            </td>
+            <!-- <td>
+              <label class="input">
+                  <a type="button" (click)="edit(item1,i)">
+                      <i class="fa fa-pencil"></i>
+                  </a>
+              </label>
+          </td> -->
+
+            <td>
+            
+                  <a type="button" (click)="deltest(item,i)" class='del icon-trash'>
+                  </a>
+                    <!-- <a type="button" (click)="deltest(item1,i)">
+                        <i class="fa fa-trash-o"></i>
+                    </a> -->
+                
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="forecast-test-add">
+      <div class="row">
+        <div class="col-md-5 add-test__select">
+          <select class="form-control" (change)="getTestList($event.target.value)">
+            <option value="0" selected>Select Test</option>
+            <option *ngFor="let test of testList" [value]="test.testID">
+              {{test.testName}}
+            </option>
+          </select>
+        </div>
+        <div class="col-md-1 add-test__button">
+          <button (click)="addtestdata()" class="btn btn-cyan add-test">Add</button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div class="forecast-add-modal-footer">
+    <div class="forecast-add-modal-footer__container">
+      <button type="button" (click)="openPreviousModal()" class="btn btn-outline-cyan">Back</button>
+
+      <div class="forecast-form-step">
+        <div class="steps">
+          <div class="progressbar-wrapper">
+            <ul class="progressbar">
+              <li class="passed"></li>
+              <li class="passed"></li>
+              <li class="passed"></li>
+              <li class="passed"></li>
+              <li class="passed"></li>
+              <li class="passed"></li>
+              <li class="passed"></li>
+              <li class="passed"></li>
+              <li class="passed"></li>
+              <li class="passed"></li>
+              <li class="passed"></li>
+              <li class="active"></li>
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <button (click)="openNextModal()" class="btn btn-cyan" [disabled]="loading">Next</button>
+    </div>
+  </div>
+</div>
+<div bsModal #lgModal4="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content" style="
+    border-radius: 0%;
+    background-color: white;
+    color: gray;
+">
+
+      <div class="modal-body">
+        <button type="button" class="close" (click)="lgModal4.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+         <form class="smart-form" novalidate="novalidate" [formGroup]="demographictestingprotocolmodel"  >  
+           <!-- [formGroup]="demographictestingprotocolmodel" -->
+
+          <div class="table-responsive" style="overflow-y: auto;height: 318px;border-style: ridge;margin-top: 26px" formArrayName="_testingprotocolVariable">
+          
+          
+          
+            <table  class="table table-bordered table-striped table-hover" >
+
+            <tbody>
+                <tr  *ngFor="let item1 of demographictestingprotocolmodel.get('_testingprotocolVariable')['controls']; let i = index;" [formGroupName]="i">
+                  <th>  {{item1.getRawValue().variable}}</th>
+                  <td >
+                        
+                    <label class="input">
+                      <input type="number" name="value" formControlName="value" min="1"  [style.text-align]="'right'"  (input)="inputvalue($event,i,item.datatype);"/>
+                    </label>
+
+                 
+                  </td>
+                </tr>
+
+                </tbody>
+                </table>
+              </div>
+          </form> 
+       
+      </div>
+
+      <div class="modal-footer">
+        <button type="btn btn-primary" class="close" (click)="addgeneralassumption()" aria-label="Close">Save</button>
+      </div>
+
+    </div>
+  </div>
+</div>

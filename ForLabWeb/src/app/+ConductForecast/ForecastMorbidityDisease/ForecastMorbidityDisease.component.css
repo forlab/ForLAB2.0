@@ -1,0 +1,159 @@
+.close-button {
+  position: absolute;
+  right: 18px;
+  top: 14px;
+  width: 0;
+  height: 0;
+  opacity: 1;
+}
+
+.close-button:before, .close-button:after {
+  position: absolute;
+  left: 0;
+  content: ' ';
+  height: 13px;
+  width: 3px;
+  background-color: #F35A48;
+  z-index: 1;
+}
+
+.close-button:before {
+  transform: rotate(45deg);
+}
+
+.close-button:after {
+  transform: rotate(-45deg);
+}
+
+.forecast-add-modal-header {
+  height: 16px;
+}
+
+.forecast-add-modal-body {
+  height: calc(100% - 50px);
+  margin: auto 30px;
+  position: relative;
+}
+
+.forecast-add-modal-footer {
+  height: 34px;
+  bottom: 0;
+}
+
+.forecast-add-modal-title {
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+}
+
+.forecast-add-form {
+  margin-top: 55px;
+  height: inherit;
+  display: flex;
+  justify-content: center;
+}
+
+.forecast-add-form .row {
+  width: 100%;
+}
+
+.forecast-add-form input {
+  font-size: 12px;
+  font-family: "OpenSans-Bold";
+  border-radius: 5px !important;
+  border-color: transparent;
+  background-color: #F3F4F5;
+  padding: 12px 14px;
+  height: auto;
+}
+
+.forecast-select-program__buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 120px;
+}
+
+.forecast-select-program__buttons--button {
+  width: 100px;
+  padding: 13px;
+  font-size: 12px;
+  font-family: 'OpenSans-Semibold';
+  border-radius: 5px;
+  color: rgba(43, 57, 78, .4);
+  background-color: rgba(43, 57, 78, .1);
+  cursor: pointer;
+}
+
+.selected {
+  color: #fff;
+  background-color: #2B394E;
+}
+
+.forecast-new-program__form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.add-program__form {
+  display: flex;
+}
+
+.add-program__form input {
+  width: 346px;
+}
+
+.add-program__form .add-program {
+  height: 36px;
+  padding-top: 9px;
+  border-radius: 20px;
+  width: 76px;
+  margin: 3px 24px;
+}
+
+.add-program__detail {
+  text-align: left;
+  font-size: 12px;
+  color: #959CA6;
+}
+
+.forecast-add-modal-footer {
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  width: 100%;
+}
+
+.forecast-add-modal-footer__container {
+  margin: 0 40px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.forecast-add-modal-footer button {
+  min-width: 130px;
+}
+
+.line-or {
+  position: relative;
+}
+
+.line-or:before, .line-or:after {
+  content: "";
+  flex: 1 1;
+  border-bottom: 1px solid #2B394E;
+  margin: auto;
+  width: 62px;
+  position: absolute;
+  left: -85px;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+
+.line-or:after {
+  right: -85px;
+  left: unset;
+}

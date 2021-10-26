@@ -1,0 +1,90 @@
+<div class="forecast-add-modal-header">
+  <a type="button" class="close-button" (click)="onCloseModal()" aria-hidden="true">
+  </a>
+</div>
+<div class="forecast-add-modal-body text-center">
+  <span class="forecast-add-modal-title color-darkblue">WHAT FORECAST CALCULATION DO YOU WANT TO USE</span>
+  <form class="forecast-add-form">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="method-container" [ngClass]="{'selected': currentCalculation == 0}"
+          (click)="handleSelectCalculation(0)">
+          <div class="control-req__buttons--button">
+            User Specified % Growth
+          </div>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+            ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+            nulla pariatur.
+          </p>
+          <a>Read More</a>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="method-container" [ngClass]="{'selected': currentCalculation == 1}"
+          (click)="handleSelectCalculation(1)">
+          <div class="control-req__buttons--button">
+            Simple Moving Average
+          </div>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+            ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+            nulla pariatur.</p>
+          <a>Read More</a>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="method-container" [ngClass]="{'selected': currentCalculation == 2}"
+          (click)="handleSelectCalculation(2)">
+          <div class="control-req__buttons--button">
+            Weighted Moving Average
+          </div>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+            ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+            nulla pariatur.</p>
+          <a>Read More</a>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="method-container" [ngClass]="{'selected': currentCalculation == 3}"
+          (click)="handleSelectCalculation(3)">
+          <div class="control-req__buttons--button">
+            Simple Linear Regression
+          </div>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+            ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+            nulla pariatur.</p>
+          <a>Read More</a>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div class="forecast-add-modal-footer">
+    <div class="forecast-add-modal-footer__container">
+      <button type="button" (click)="openPreviousModal()" class="btn btn-outline-cyan">Back</button>
+
+      <div class="forecast-form-step">
+        <div class="steps">
+          <div class="progressbar-wrapper">
+            <ul class="progressbar">
+              <li class="passed"></li>
+              <li class="passed"></li>
+              <li class="passed"></li>
+              <li class="passed"></li>
+              <li class="passed"></li>
+              <li class="passed"></li>
+              <li class="passed"></li>
+              <li class="passed"></li>
+              <li class="active"></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <button (click)="openNextModal()" class="btn btn-cyan">Run Forecast</button>
+    </div>
+  </div>
+</div>

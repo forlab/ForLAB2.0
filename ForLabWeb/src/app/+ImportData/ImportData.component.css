@@ -1,0 +1,147 @@
+.forecast-import-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.forecast-import-section p {
+  text-align: left;
+  color: #2B394E;
+  font-family: "OpenSans-Semibold";
+  font-size: 12px;
+  margin: 0;
+}
+
+.forecast-import-section span {
+  color: rgba(43, 57, 78, .4);
+  font-size: 11px;
+  font-family: "OpenSans-Semibold";
+}
+
+.forecast-import-section button {
+  border-radius: 25px;
+}
+
+.forecast-import-section .input-file span.btn {
+  color: #FFFFFF;
+  cursor: pointer;
+  position: relative;
+  width: 90px;
+  border-radius: 20px;
+}
+
+.forecast-import-section .input-file span.btn input {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  right: 0;
+  padding: 0;
+  font-size: 30px;
+  cursor: pointer;
+  opacity: 0;
+}
+
+.forecast-import-section .input-file .file-name {
+  width: 220px;
+}
+
+.forecast-import-section .input-file input {
+  border: none;
+}
+
+.download-sample {
+  display: flex;
+  justify-content: center;
+}
+
+.btn-download {
+  color: #20BDEF;
+  background: #FFFFFF;
+  border: 1px solid #20BDEF;
+}
+
+footer .btn {
+  padding: 6px 22px !important;
+  margin: 0 20px;
+  height: 41px;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.table>tbody tr td:last-child {
+  display: table-cell;
+}
+
+.site-test-checkboxes__checkbox {
+  padding: 10px 0 0 10px;
+}
+
+.styled-checkbox {
+  width: auto!important;
+}
+
+.styled-checkbox+label:before {
+  margin-left: 21px;
+}
+
+.check-panel {
+  height: calc(100vh - 260px);
+  margin-top: 10px;
+  font-size: 13px !important;
+}
+
+.table thead tr {
+  font-size: 13px !important;
+}
+
+.table tbody .item-status {
+  font-size: 14px;
+}
+
+.table tbody .item-status .fa-check {
+  color: #1BB192;
+}
+
+.table tbody .item-status .fa-times {
+  color: #F35A48;
+}
+
+.table tbody .item-detail .btn {
+  height: 34px;
+  min-width: 80px;
+  font-family: "OpenSans-Semibold";
+  border-radius: 5px;
+  box-shadow: 0 3px 16px rgba(99, 130, 254, .16);
+  background-color: transparent;
+  padding: 0 15px;
+  margin-top: 8px;
+}
+
+.btn-outline-success {
+  border-color: #1BB192;
+  color: #1BB192;
+}
+
+.btn-outline-fail {
+  border-color: #F35A48;
+  color: #F35A48;
+}
+
+.btn-sm {
+  height: 34px;
+  min-width: 80px;
+  padding: 0 15px;
+}
+
+.user-sheets, .user-columns {
+  border-radius: 5px !important;
+  width: 70%;
+}
+
+.table-select-columns>tbody>tr, .table-select-columns>thead>tr {
+  height: 45px;
+}
+
+.table-select-columns>tbody>tr>td {
+  padding: 0 10px;
+}

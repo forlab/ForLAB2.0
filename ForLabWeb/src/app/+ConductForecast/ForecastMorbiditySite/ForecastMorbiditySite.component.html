@@ -1,0 +1,96 @@
+<div class="forecast-add-modal-header">
+  <a type="button" class="close-button" (click)="onCloseModal()" aria-hidden="true">
+  </a>
+</div>
+<div class="forecast-add-modal-body text-center">
+  <span class="forecast-add-modal-title color-darkblue">Review Patient Data and PROVIDE ASSUMPTIONs WHICH WILL AFFECT
+    THE PATIENTs NUMBERs TO TREAT</span>
+  <form class="forecast-add-form" novalidate="novalidate" [formGroup]="siteForm">
+    <div class="forecast-site-list">
+      <table class="table table-striped table-hover" formArrayName="_patientnumber">
+        <thead>
+          <tr>
+            <th data-class="expand">Site Name</th>
+            <!-- <th data-class="expand">Attrition</th> -->
+            <th *ngIf="Show" data-class="expand">Current Patient</th>
+            <th *ngIf="Show" data-class="expand">New Target Patients</th>
+            <th *ngIf="!Show">Population Number</th>
+            <th *ngIf="!Show"> Prevalence Rate</th>
+            <th data-class="expand">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of siteForm.get('_patientnumber')['controls']; let i = index;" [formGroupName]="i">
+            <td class="text-align-left">
+              {{item.getRawValue().SiteName}}
+            </td>
+            <!-- <td>
+              <input type="number" class="form-control" name="attrition" value="{{item.attrition}}" />
+            </td> -->
+            <td *ngIf="Show">
+              <input type="number" class="form-control" formControlName="Currentpatient" />
+            </td>
+            <td *ngIf="Show">
+              <input type="number" class="form-control" formControlName="Targetpatient" />
+            </td>
+            <td *ngIf="!Show">
+              <input type="number" class="form-control" formControlName="PopulationNumber" />
+            </td>
+            <td *ngIf="!Show">
+              <input type="number" class="form-control" formControlName="PrevalenceRate" />
+            </td>
+            <td>
+              <a type="button" (click)="deleteSite(i)" class='del icon-trash'>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="forecast-site-add">
+      <div class="row">
+        <div class="col-md-5 add-site__select">
+          <select class="form-control" (change)="getSiteList($event.target.value)">
+            <option value="0" selected>Select Site</option>
+            <option *ngFor="let site of selectSiteList" [value]="site.siteID">
+              {{site.siteName}}
+            </option>
+          </select>
+        </div>
+        <div class="col-md-1 add-site__button">
+          <button (click)="onCreateSite()" class="btn btn-cyan add-program" [disabled]="loading">Add</button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div class="forecast-add-modal-footer">
+    <div class="forecast-add-modal-footer__container">
+      <button type="button" (click)="openPreviousModal()" class="btn btn-outline-cyan">Back</button>
+
+      <div class="forecast-form-step">
+        <div class="steps">
+          <div class="progressbar-wrapper">
+            <ul class="progressbar">
+              <li class="passed"></li>
+              <li class="passed"></li>
+              <li class="passed"></li>
+              <li class="passed"></li>
+              <li class="passed"></li>
+              <li class="passed"></li>
+              <li class="passed"></li>
+              <li class="passed"></li>
+              <li class="passed"></li>
+              <li class="active"></li>
+              <li></li>
+              <li></li>
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <button (click)="openNextModal()" class="btn btn-cyan" [disabled]="loading">Next</button>
+    </div>
+  </div>
+</div>

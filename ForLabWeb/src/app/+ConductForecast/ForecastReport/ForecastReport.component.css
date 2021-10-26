@@ -1,0 +1,128 @@
+#conduct-forecast-output {
+  padding: 13px 25px;
+  font-family: "Roboto";
+}
+
+#conduct-forecast-content {
+  padding: 25px 32px;
+  background-color: #FFFFFF;
+}
+
+.btn .btn-default a.btn-export {
+  background-image: url(../../../assets/img/new/btn-export.png);
+}
+
+.report-title {
+  display: flex;
+  justify-content: space-between;
+  letter-spacing: 0.1em;
+  font-size: 14px;
+  color: #2B394E;
+  margin-bottom: 52px;
+}
+
+.report-title p, .report-cost-values p {
+  margin: 0;
+}
+
+.report-title .report-title-period {
+  display: flex;
+  flex-direction: column;
+}
+
+.report-title .report-title-period .report-forecast-title {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.report-title .report-title-period .report-forecast-period {
+  font-size: 12px;
+  color: #959CA6;
+}
+
+.report-title .total-cost {
+  display: flex;
+  align-items: center;
+  color: #959CA6;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.report-title .cost-value {
+  font-size: 24px;
+  color: #20BDEF;
+  margin-left: 24px;
+}
+
+.report-cost-values {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 64px;
+}
+
+.report-cost-values .title {
+  font-size: 14px;
+  color: #959CA6;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  margin-bottom: 16px;
+}
+
+.report-cost-values .value {
+  font-size: 18px;
+  color: #2B394E;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+}
+
+.report-charts {
+  margin-bottom: 64px;
+}
+
+.report-charts-title {
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  color: #959CA6;
+  padding-left: 20px;
+}
+
+.report-charts-title p {
+  margin: 0;
+}
+
+.cost-pie__charts {
+  text-align: center;
+}
+
+.cost-products-table .table-title p {
+  margin: 0;
+  font-size: 14px;
+  font-weight: bold;
+  color: #2B394E;
+  letter-spacing: 0.1em;
+}
+
+.table>tbody tr td:last-child {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 12px 10px;
+  border-top: none;
+}
+
+.table>tbody tr {
+  border-bottom: 1px solid #DDDDDD;
+}
+
+.table>tbody tr td {
+  font-size: 12px;
+}
+
+.table>tbody tr td.price {
+  color: #20BDEF;
+}
+
+.export-buttons {
+  display: flex;
+  justify-content: space-between;
+}

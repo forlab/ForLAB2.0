@@ -1,0 +1,61 @@
+<div class="forecast-add-modal-header">
+  <a type="button" class="close-button" (click)="onCloseModal()" aria-hidden="true">
+  </a>
+</div>
+<div class="forecast-add-modal-body text-center">
+  <span class="forecast-add-modal-title color-darkblue">Select CONDUCT SITE BY SITE OR AGGREGATE FORECAST</span>
+  <form class="forecast-add-form">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="method-container" [ngClass]="{'selected': currentConductType == 0}" (click)="handleSelectType(0)">
+          <div class="control-req__buttons--button">
+            Site by Site
+          </div>
+          <p>This means, you have service or consumption data for each site you are going to conduct a forecast for
+          </p>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="method-container" [ngClass]="{'selected': currentConductType == 1}" (click)="handleSelectType(1)">
+          <div class="control-req__buttons--button">
+            Aggregate
+          </div>
+          <p>In this approach, you wont need to specify each site.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="forecast-add-modal-footer">
+      <div class="forecast-add-modal-footer__container">
+        <button type="button" (click)="openPreviousModal()" class="btn btn-outline-cyan">Back</button>
+
+        <div class="forecast-form-step">
+          <div class="steps">
+            <div class="progressbar-wrapper">
+              <ul class="progressbar">
+                <li class="passed"></li>
+                <li class="passed"></li>
+                <li class="passed"></li>
+                <li class="passed"></li>
+                <li class="passed"></li>
+                <li class="passed"></li>
+                <li class="passed" *ngIf="methodology == 'MORBIDITY'"></li>
+                <li class="active"></li>
+                <li></li>
+                <li></li>
+                <li *ngIf="methodology == 'MORBIDITY'"></li>
+                <li *ngIf="methodology == 'MORBIDITY'"></li>
+                <li *ngIf="methodology == 'MORBIDITY'"></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <button (click)="openNextModal()" class="btn btn-cyan" [disabled]="loading">Next</button>
+      </div>
+    </div>
+  </form>
+</div>
+<ngx-loading [show]="loading"
+  [config]="{ backdropBorderRadius: '3px', primaryColour: '#20BDEF', secondaryColour: '#20BDEF', tertiaryColour: '#20BDEF' }">
+</ngx-loading>

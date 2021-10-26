@@ -1,0 +1,104 @@
+<div class="forecast-add-modal-header">
+  <a type="button" class="close-button" (click)="onCloseModal()" aria-hidden="true">
+  </a>
+</div>
+<div class="forecast-add-modal-body text-center">
+  <span class="forecast-add-program-modal-title color-darkblue">Create New Program</span>
+
+  <form class="forecast-add-form" [formGroup]="newProgram">
+    <div class="row">
+      <p class="assumption-type">Patient Assumption</p>
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-offset-2 col-md-4">
+            <div class="form-group">
+              <p class="forecast-select-variable__title">
+                Select Forecast Method
+              </p>
+              <div class="forecast-select-variable__buttons">
+                <div *ngFor="let type of forecastVarTypeList; let i = index">
+                  <div class="forecast-select-variable__buttons--button" [ngClass]="{'selected': selectedType == i}"
+                    (click)="handleChangeType(i)">
+                    {{ type }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <p class="forecast-select-variable__title">
+                Select Variable Effect
+              </p>
+              <div class="forecast-select-variable__buttons">
+                <div *ngFor="let effect of forecastVarEffectList; let i = index">
+                  <div class="forecast-select-variable__buttons--button" [ngClass]="{'selected': selectedEffect == i}"
+                    (click)="handleChangeEffect(i)">
+                    {{ effect }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-offset-3 col-md-6">
+        <div class="form-group">
+          <div class="create-group__form">
+            <div class="form-group"
+              [ngClass]="{'has-error':!newProgram.controls['variableName'].valid &&  newProgram.controls['variableName'].touched}">
+              <input type="text" class="form-control" name="variableName" formControlName="variableName"
+                placeholder="Variable Name" />
+              <div class="note note-error"
+                *ngIf="newProgram.controls['variableName'].hasError('required') && newProgram.controls['variableName'].touched">
+                Variable Name must not be empty</div>
+            </div>
+            <button (click)="onCreateVarieble()" class="btn btn-cyan add-group"
+              [disabled]="!newProgram.controls['variableName'].valid">Add</button>
+          </div>
+        </div>
+      </div>
+      <div class="custom-tag-input__field col-md-12">
+        <div class="custom-tag" *ngFor="let item of patientassumption; let i = index">
+          <div class="tag-wrapper">
+            <div class="tag__text">{{item.variableName}}</div>
+            <div class="tag__delete-icon" (click)="deleteAssumption(item)">
+              <svg viewBox="0 0 32 32" width="12px" height="12px">
+                <path
+                  d="M17.459,16.014l8.239-8.194c0.395-0.391,0.395-1.024,0-1.414c-0.394-0.391-1.034-0.391-1.428,0  l-8.232,8.187L7.73,6.284c-0.394-0.395-1.034-0.395-1.428,0c-0.394,0.396-0.394,1.037,0,1.432l8.302,8.303l-8.332,8.286  c-0.394,0.391-0.394,1.024,0,1.414c0.394,0.391,1.034,0.391,1.428,0l8.325-8.279l8.275,8.276c0.394,0.395,1.034,0.395,1.428,0  c0.394-0.396,0.394-1.037,0-1.432L17.459,16.014z"
+                  fill="#FA70A6"></path>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="forecast-add-program-modal-footer row">
+      <div class="flex-column col-md-offset-3 col-md-6">
+        <div class="forecast-add-program-modal-footer__container">
+          <button type="button" (click)="openPreviousModal()" class="btn btn-outline-cyan">Back</button>
+          <div class="forecast-form-step">
+            <div class="steps">
+              <div class="progressbar-wrapper">
+                <ul class="progressbar">
+                  <li class="passed"></li>
+                  <li class="passed"></li>
+                  <li class="passed"></li>
+                  <li class="active"></li>
+                  <li></li>
+                  <li></li>
+                  <li></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <button (click)="openNextModal()" class="btn btn-cyan">Next</button>
+        </div>
+        <div class="forecast-add-program-modal-footer__button">
+          <button (click)="cancelAndSelectCurrent()" class="btn btn-cyan">Cancel And Select From Current
+            Programs</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,20 @@
+#conduct-forecast-output {
+  padding: 13px 25px;
+  font-family: "Roboto";
+}
+
+#conduct-forecast-content {
+  padding: 25px 32px;
+  background-color: #FFFFFF;
+  height: calc(100vh - 110px);
+}
+
+.comparison-title {
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  color: #959CA6;
+}
+
+.comparison-chart {
+  margin-top: 27px;
+}

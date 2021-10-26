@@ -1,0 +1,197 @@
+<div id="content">
+  <div class="my-container">
+    <ng-template #customLoadingTemplate>
+      <div class="custom-class">
+        <h3>
+          Loading...
+        </h3>
+      </div>
+    </ng-template>
+
+  </div>
+  <div class="row">
+    <article class="col-sm-12">
+      <div sa-widget [editbutton]="false" color="blueDark" [deletebutton]="false">
+        <div>
+          <div class="widget-body no-padding">
+            <form class="smart-form" [formGroup]="Importform">
+              <fieldset>
+                <div class="row">
+                  <div class="col-md-1"></div>
+                  <div class="col-md-7">
+                    <div class="forecast-import-section">
+                      <p>Include some File <br>
+                        <span *ngIf="!ImportedFileName">Organize your manage data in your excel template</span>
+                        <span *ngIf="ImportedFileName">{{ImportedFileName}}</span>
+                      </p>
+                      <div class="input input-file">
+                        <span class="btn btn-cyan" type="button">
+                          <input type="file" #file (change)="incomingfile($event)" (click)="$event.target.value=null"
+                            placeholder="Upload file" accept=".xlsx, .xls">Import</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3 download-sample">
+                    <button type="button" class="btn btn-cyan btn-download" (click)="Downloadsample()">Download Sample
+                      File</button>
+                  </div>
+                  <div class="col-md-1"></div>
+                </div>
+                <div class="row check-panel">
+                  <div class="col-md-1"></div>
+                  <div class="col-md-10">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th scope="col">
+                            <div class="site-test-checkboxes__checkbox">
+                              <input class="styled-checkbox" id="styled-checkbox-all" type="checkbox"
+                                (change)="Selectall($event.target.checked)">
+                              <label for="styled-checkbox-all"></label>
+                            </div>
+                          </th>
+                          <th scope="col">Regular Sheet</th>
+                          <th scope="col">Document Sheet</th>
+                          <th scope="col">Select Columns</th>
+                          <th scope="col">Status</th>
+                          <th scope="col">Detail</th>
+                        </tr>
+                      </thead>
+                      <tbody *ngIf="documentArr.length">
+                        <tr *ngFor="let item of regularSheets; let i = index">
+                          <td>
+                            <input class="styled-checkbox" id="forecast-checkbox-{{i}}" type="checkbox"
+                              name="forecast-checkbox-{{i}}" [checked]="isAllChecked"
+                              (change)="SelectSheet($event.target.checked, item)">
+                            <label for="forecast-checkbox-{{i}}"></label>
+                          </td>
+                          <td>{{item.sheet}}</td>
+                          <td>
+                            <select class="form-control user-sheets"
+                              (change)="onChangeDocSheet(i, $event.target.value)">
+                              <option selected value="-1">-select Sheet-</option>
+                              <option *ngFor="let uItem of documentArr; let doci = index" [value]="doci"
+                                [selected]="item.sheetT === uItem.sheet"> {{uItem.sheet}}
+                              </option>
+                            </select>
+                          </td>
+                          <td>
+                            <button class="btn btn-outline-cyan btn-sm" (click)="openColumns(i)">Select Columns</button>
+                          </td>
+                          <td class="item-status">
+                            <i *ngIf="!item.success" class="fa fa-times" aria-hidden="true"></i>
+                            <i *ngIf="item.success" class="fa fa-check" aria-hidden="true"></i>
+                          </td>
+                          <td class="item-detail">
+                            <button *ngIf="!item.success" class="btn btn-outline-fail"
+                              (click)="onErrorReport(i)">Show</button>
+                            <button *ngIf="item.success" class="btn btn-outline-success"
+                              [disabled]="true">Success</button>
+                          </td>
+                        </tr>
+
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="col-md-1"></div>
+                </div>
+              </fieldset>
+              <footer>
+                <button *ngIf="btnUpload" type="button" class="btn btn-cyan" (click)="Upload()">Upload</button>
+                <button *ngIf="!btnUpload" type="button" class="btn btn-cyan" (click)="onManageDataList()">Done</button>
+              </footer>
+            </form>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+</div>
+<ngx-loading [show]="loading"
+  [config]="{ backdropBorderRadius: '3px', primaryColour: '#20BDEF', secondaryColour: '#20BDEF', tertiaryColour: '#20BDEF' }">
+</ngx-loading>
+<div bsModal #lgModal4="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div *ngIf="documentArr.length" class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" (click)="lgModal4.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Sheet Name: {{documentArr[openedDocSheetIndex]['sheet']}}</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="table-responsive" style="overflow-y: auto;height: 300px;padding: 0 10px;">
+            <table class="table table-striped table-select-columns">
+              <thead>
+                <tr>
+                  <th>Regular Columns</th>
+                  <th>Document Columns</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let column of regularSheets[openedSheetIndex]['columns']; let i = index;">
+                  <td>
+                    {{column.value}}
+                  </td>
+                  <td>
+                    <select class="form-control user-columns" (change)="onChangeDocColumn(i, $event.target.value)">
+                      <option selected value="-1">-select Column-</option>
+                      <option *ngFor="let docColumn of documentArr[openedDocSheetIndex]['columns']; let doci = index"
+                        [value]="doci" [selected]="column.valueT === docColumn.value"> {{docColumn.value}}
+                      </option>
+                    </select>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-cyan" (click)="onApplyColumns()">Apply Columns </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div bsModal #lgModalError="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div *ngIf="documentArr.length" class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" (click)="lgModalError.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Error Report: {{documentArr[openedDocSheetIndex]['sheet']}}</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="table-responsive" style="overflow-y: auto;height: 300px; padding: 0 10px;">
+            <table class="table table-striped table-select-columns">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Error Details</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let error of regularSheets[openedSheetIndex]['error']; let i = index;">
+                  <td>
+                    {{i+1}}
+                  </td>
+                  <td>
+                    <span>{{error}}</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-cyan" (click)="lgModalError.hide()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

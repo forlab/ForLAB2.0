@@ -1,0 +1,169 @@
+<div class="forecast-add-modal-header">
+  <a type="button" class="close-button" (click)="onCloseModal()" aria-hidden="true">
+  </a>
+</div>
+<div class="forecast-add-modal-body text-center">
+  <span class="forecast-add-modal-title color-darkblue">{{title}}</span>
+  <form class="forecast-add-form" novalidate="novalidate">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="col-md-10">
+          <div class="forecast-import-section">
+            <p>Include some File <br>
+              <span>Organize your historical or service data by site in your excel template</span>
+            </p>
+            <!-- <button class="btn btn-cyan" type="button"> Import</button> -->
+            <div class="input input-file d-flex">
+              <input type="text" class="file-name" [(ngModel)]='Filenamenew' [ngModelOptions]="{standalone: true}">
+              <span class="btn btn-cyan" type="button">
+                <input type="file" id="file" name="file" (change)="incomingfile($event)"
+                  (click)="$event.target.value=null">Import
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <button *ngIf="errorMsg.length" class="btn btn-report btn-outline-fail" (click)="onErrorDetail()">Show
+            Details</button>
+          <button *ngIf="!errorMsg.length" class="btn btn-report btn-outline-success" (click)="onUpload()"
+           >Upload</button>
+           <!--  -->
+        </div>
+      </div>
+    </div>
+    <div class="row sleect-sheet">
+      <div class="col-md-3">
+        Select Sheet Name for :
+      </div>
+      <div class="col-md-3">
+        <select class="form-control user-sheets" (change)="onChangeSheet($event.target.value)">
+          <option selected value="-1">-select Sheet-</option>
+          <option *ngFor="let sheet of SheetList; let i = index" [value]="sheet" [selected]="selectedSheet === sheet">
+            {{sheet}}
+          </option>
+        </select>
+      </div>
+    </div>
+    <!-- <div class="row">
+      <div class="col-md-12">
+       <span style="color: red;font-weight: bold;"> {{Messagelable}}</span>
+     </div>
+    </div> -->
+
+    <div *ngIf="!hasUploadedData" class="row">
+      <div class="col-md-12">
+        <div *ngIf="importedlist.length" class="forecast-import-data">
+          <table class="table table-striped table-responsive" style="table-layout: auto; width:100%;">
+            <thead>
+              <tr>
+                <th *ngFor="let header of headerlist" data-class="expand">{{header}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of importedlist; let i = index;">
+                <td *ngFor="let cell of item">
+                  <span>{{cell}}</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="hasUploadedData" class="row">
+      <div class="col-md-12">
+        <div class="forecast-import-data">
+          <table class="table table-striped table-responsive" style="table-layout: auto; width:100%;">
+            <thead>
+              <tr>
+                <th *ngFor="let header of loadedHeadlist" data-class="expand">{{header}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of loadedDatalist">
+                <td><span>{{item.regionName}}</span></td>
+                <td><span>{{item.siteName}}</span></td>
+                <td *ngIf="methodology=='SERVICE STATSTICS'"><span>{{item.testName}}</span></td>
+                <td *ngIf="methodology=='CONSUMPTION'"><span>{{item.proName}}</span></td>
+                <td *ngFor="let cell of item.row; let idx = index;">
+                  <span>{{cell.amount}}</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="forecast-add-modal-footer">
+      <div class="forecast-add-modal-footer__container">
+        <button type="button" (click)="openPreviousModal()" class="btn btn-outline-cyan">Back</button>
+        <div class="forecast-form-step">
+          <div class="steps">
+            <div class="progressbar-wrapper">
+              <ul class="progressbar">
+                <li class="passed"></li>
+                <li class="passed"></li>
+                <li class="passed"></li>
+                <li class="passed"></li>
+                <li class="passed"></li>
+                <li class="passed"></li>
+                <li class="passed"></li>
+                <li class="passed" *ngIf="methodology == 'MORBIDITY'"></li>
+                <li class="active"></li>
+                <li></li>
+                <li></li>
+                <li *ngIf="methodology == 'MORBIDITY'"></li>
+                <li *ngIf="methodology == 'MORBIDITY'"></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <button (click)="openNextModal()" class="btn btn-cyan" [disabled]="errorMsg.length">Next</button>
+      </div>
+    </div>
+  </form>
+</div>
+<ngx-loading [show]="loading"
+  [config]="{ backdropBorderRadius: '3px', primaryColour: '#20BDEF', secondaryColour: '#20BDEF', tertiaryColour: '#20BDEF' }">
+</ngx-loading>
+<div bsModal #lgModalError="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div *ngIf="errorMsg.length" class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" (click)="lgModalError.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Error Report</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="table-responsive" style="overflow-y: auto;height: 300px; padding: 0 10px;">
+            <table class="table table-striped table-error-report">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Error Details</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let error of errorMsg; let i = index;">
+                  <td>
+                    {{i+1}}
+                  </td>
+                  <td>
+                    <span>{{error}}</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-cyan" (click)="lgModalError.hide()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

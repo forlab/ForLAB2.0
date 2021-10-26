@@ -1,0 +1,72 @@
+<div class="forecast-add-modal-header">
+  <a type="button" class="close-button" (click)="onCloseModal()" aria-hidden="true">
+  </a>
+</div>
+<div class="forecast-add-modal-body text-center">
+  <span class="forecast-add-program-modal-title color-darkblue">Create New Program</span>
+
+  <form class="forecast-add-form" [formGroup]="newProgram">
+    <div class="row">
+      <div class="col-md-offset-3 col-md-6">
+        <div class="form-group">
+          <p class="forecast-create-group__title">
+            Create patient groups based on their disease progression
+          </p>
+          <div class="create-group__form">
+            <div class="form-group"
+              [ngClass]="{'has-error':!newProgram.controls['groupName'].valid &&  newProgram.controls['groupName'].touched}">
+              <input type="text" class="form-control" name="groupName" formControlName="groupName"
+                placeholder="Group Name" />
+              <div class="note note-error"
+                *ngIf="newProgram.controls['groupName'].hasError('required') && newProgram.controls['groupName'].touched">
+                Group Name must not be empty</div>
+            </div>
+            <button (click)="onCreateGroup()" class="btn btn-cyan add-group"
+              [disabled]="!newProgram.controls['groupName'].valid">Add</button>
+          </div>
+        </div>
+      </div>
+      <div class="custom-tag-input__field col-md-12">
+        <div class="custom-tag" *ngFor="let item of patientgroup; let i = index">
+          <div class="tag-wrapper">
+            <div class="tag__text">{{item.groupName}}</div>
+            <div class="tag__delete-icon" (click)="deleteGroup(item)">
+              <svg viewBox="0 0 32 32" width="12px" height="12px">
+                <path
+                  d="M17.459,16.014l8.239-8.194c0.395-0.391,0.395-1.024,0-1.414c-0.394-0.391-1.034-0.391-1.428,0  l-8.232,8.187L7.73,6.284c-0.394-0.395-1.034-0.395-1.428,0c-0.394,0.396-0.394,1.037,0,1.432l8.302,8.303l-8.332,8.286  c-0.394,0.391-0.394,1.024,0,1.414c0.394,0.391,1.034,0.391,1.428,0l8.325-8.279l8.275,8.276c0.394,0.395,1.034,0.395,1.428,0  c0.394-0.396,0.394-1.037,0-1.432L17.459,16.014z"
+                  fill="#FA70A6"></path>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="forecast-add-program-modal-footer row">
+      <div class="flex-column col-md-offset-3 col-md-6">
+        <div class="forecast-add-program-modal-footer__container">
+          <button type="button" (click)="openPreviousModal()" class="btn btn-outline-cyan">Back</button>
+          <div class="forecast-form-step">
+            <div class="steps">
+              <div class="progressbar-wrapper">
+                <ul class="progressbar">
+                  <li class="passed"></li>
+                  <li class="passed"></li>
+                  <li class="active"></li>
+                  <li></li>
+                  <li></li>
+                  <li></li>
+                  <li></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <button (click)="openNextModal()" class="btn btn-cyan">Next</button>
+        </div>
+        <div class="forecast-add-program-modal-footer__button">
+          <button (click)="cancelAndSelectCurrent()" class="btn btn-cyan">Cancel And Select From Current
+            Programs</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

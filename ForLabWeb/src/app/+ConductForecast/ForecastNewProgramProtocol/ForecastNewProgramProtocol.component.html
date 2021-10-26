@@ -1,0 +1,58 @@
+<div class="forecast-add-modal-header">
+  <a type="button" class="close-button" (click)="onCloseModal()" aria-hidden="true">
+  </a>
+</div>
+<div class="forecast-add-modal-body text-center">
+  <span class="forecast-add-program-modal-title color-darkblue">Create New Program</span>
+
+  <form class="forecast-add-form">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <p class="forecast-select-variable__title">
+            How many years/does this testing Protocol cycle have?1/2
+          </p>
+          <div class="row">
+            <div class="col-md-offset-4 col-md-4">
+              <div class="forecast-select-variable__buttons">
+                <div *ngFor="let protocol of forecastProtocolList; let i = index">
+                  <div class="forecast-select-variable__buttons--button" [ngClass]="{'selected': selectedProtocol == i}"
+                    (click)="handleChangeProtocol(i)">
+                    {{ protocol }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="forecast-add-program-modal-footer row">
+      <div class="flex-column col-md-offset-3 col-md-6">
+        <div class="forecast-add-program-modal-footer__container">
+          <button type="button" (click)="openPreviousModal()" class="btn btn-outline-cyan">Back</button>
+          <div class="forecast-form-step">
+            <div class="steps">
+              <div class="progressbar-wrapper">
+                <ul class="progressbar">
+                  <li class="passed"></li>
+                  <li class="passed"></li>
+                  <li class="passed"></li>
+                  <li class="passed"></li>
+                  <li class="passed"></li>
+                  <li class="passed"></li>
+                  <li class="active"></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <button (click)="openNextModal()" class="btn btn-cyan">Finish</button>
+        </div>
+        <div class="forecast-add-program-modal-footer__button">
+          <button (click)="cancelAndSelectCurrent()" class="btn btn-cyan">Cancel And Select From Current
+            Programs</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

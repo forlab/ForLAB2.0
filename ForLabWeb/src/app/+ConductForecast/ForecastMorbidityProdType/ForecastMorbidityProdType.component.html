@@ -1,0 +1,80 @@
+<div class="forecast-add-modal-header">
+  <a type="button" class="close-button" (click)="onCloseModal()" aria-hidden="true">
+  </a>
+</div>
+<div class="forecast-add-modal-body text-center">
+  <span class="forecast-add-modal-title color-darkblue">PROVIDE THE ASSUMPTION WHICH WILL AFFECT THE FINAL LABORATORY
+    PRODUCT OUTPUT</span>
+  <form class="forecast-add-form" novalidate="novalidate" [formGroup]="Productass">
+    <div class="forecast-prod-type-list" formArrayName="_productassumption">
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th data-class="expand">Product Type Name</th>
+            <th data-class="expand">wastage Rate</th>
+            <th data-class="expand">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of Productass.get('_productassumption')['controls']; let i = index;" [formGroupName]="i">
+            <td class="text-align-left">
+              {{item.getRawValue().productTypeName}}
+            </td>
+            <td>
+              <input type="number" class="form-control" name="wastageRate" value="0.00" />
+            </td>
+            <td>
+              <a type="button" (click)="delproductprice(i)" class='del icon-trash'>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="forecast-prod-type-add">
+      <div class="row">
+        <div class="col-md-5 add-prod-type__select">
+          <select class="form-control" (change)="getProdTypeList($event)">
+            <option value="0" selected>Select Product Type</option>
+            <option *ngFor="let type of prodTypeList" [value]="type.typeID">
+              {{type.typeName}}
+            </option>
+          </select>
+        </div>
+        <div class="col-md-1 add-prod-type__button">
+          <button (click)="onCreateProdType()" class="btn btn-cyan add-prod-type">Add</button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div class="forecast-add-modal-footer">
+    <div class="forecast-add-modal-footer__container">
+      <button type="button" (click)="openPreviousModal()" class="btn btn-outline-cyan">Back</button>
+
+      <div class="forecast-form-step">
+        <div class="steps">
+          <div class="progressbar-wrapper">
+            <ul class="progressbar">
+              <li class="passed"></li>
+              <li class="passed"></li>
+              <li class="passed"></li>
+              <li class="passed"></li>
+              <li class="passed"></li>
+              <li class="passed"></li>
+              <li class="passed"></li>
+              <li class="passed"></li>
+              <li class="passed"></li>
+              <li class="passed"></li>
+              <li class="passed"></li>
+              <li class="passed"></li>
+              <li class="active"></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <button (click)="openNextModal()" class="btn btn-cyan" [disabled]="loading">Run Forecast</button>
+    </div>
+  </div>
+</div>

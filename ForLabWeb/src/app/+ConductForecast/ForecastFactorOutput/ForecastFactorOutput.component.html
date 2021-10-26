@@ -1,0 +1,55 @@
+<div class="forecast-add-modal-header">
+  <a type="button" class="close-button" (click)="onCloseModal()" aria-hidden="true">
+  </a>
+</div>
+<div class="forecast-add-modal-body text-center">
+  <span class="forecast-add-modal-title color-darkblue">ARE THERE ANY FACTORS AFFECTING THE FINAL FORECAST OUTPUT</span>
+  <!-- <form class="forecast-add-form" (ngSubmit)="save()"> -->
+    <form class="forecast-add-form" [formGroup]="forecastfactor">
+    <div class="row">
+      <div class="col-md-offset-1 col-md-10">
+        <div class="factor-container form-group"
+               [ngClass]="{'has-error':!forecastfactor.controls['WastageRate'].valid && forecastfactor.controls['WastageRate'].touched}">
+          <p>Wastage rate of percentage</p>
+          <input class="form-control" name="testNumber" type="number" pattern="[0-9]+" minlength="0" maxlength="4"
+           formControlName="WastageRate">
+        </div>
+        <div class="factor-container form-group"
+                [ngClass]="{'has-error':!forecastfactor.controls['Scaleup'].valid && forecastfactor.controls['Scaleup'].touched}">
+          <p>Expected program growth over the forecast period in percentage</p>
+          <input class="form-control" name="testNumber" type="number" pattern="[0-9]+" minlength="0" maxlength="4"
+                formControlName="Scaleup">
+        </div>
+      </div>
+    </div>
+
+    <div class="forecast-add-modal-footer">
+      <div class="forecast-add-modal-footer__container">
+        <button type="button" (click)="openPreviousModal()" class="btn btn-outline-cyan">Back</button>
+  
+        <div class="forecast-form-step">
+          <div class="steps">
+            <div class="progressbar-wrapper">
+              <ul class="progressbar">
+                <li class="passed"></li>
+                <li class="passed"></li>
+                <li class="passed"></li>
+                <li class="passed"></li>
+                <li class="passed"></li>
+                <li class="passed"></li>
+                <li class="passed"></li>
+                <li class="passed"></li>
+                <li class="active"></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+  
+        <button (click)="openNextModal()" class="btn btn-cyan" [disabled]="!forecastfactor.valid">Run Forecast</button>
+      </div>
+    </div>
+  </form>
+</div>
+<ngx-loading [show]="loading"
+  [config]="{ backdropBorderRadius: '3px', primaryColour: '#20BDEF', secondaryColour: '#20BDEF', tertiaryColour: '#20BDEF' }">
+</ngx-loading>

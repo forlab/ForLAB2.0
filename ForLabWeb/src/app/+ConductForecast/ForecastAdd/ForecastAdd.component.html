@@ -1,0 +1,76 @@
+<div class="forecast-add-modal-header">
+  <a type="button" class="close-button" (click)="onCloseModal()" aria-hidden="true">
+  </a>
+</div>
+<div class="forecast-add-modal-body text-center">
+  <span class="forecast-add-modal-title color-darkblue">HOW WOULD YOU LIKE TO DEFINE YOUR FORECAST</span>
+  <form class="forecast-add-form" [formGroup]="defineforecast">
+    <div class="row">
+      <div class="col-md-offset-4 col-md-4">
+        <div class="form-group"
+          [ngClass]="{'has-error':!defineforecast.controls['ForecastID'].valid &&  defineforecast.controls['ForecastID'].touched}">
+          <input type="text" class="form-control" name="forecastName" formControlName="ForecastID"
+            placeholder="Name of Forecast" />
+          <div class="note note-error"
+            *ngIf="defineforecast.controls['ForecastID'].hasError('required') && defineforecast.controls['ForecastID'].touched">
+            Forecast ID must not be empty</div>
+          <div class="note note-error"
+            *ngIf="defineforecast.controls['ForecastID'].hasError('maxlength') && defineforecast.controls['ForecastID'].touched">
+            Maximun 32 charaters are allowed</div>
+        </div>
+
+        <div class="form-group">
+          <div class="forecast-type__buttons">
+            <div *ngFor="let type of forecastTypeList; let i = index">
+              <div class="forecast-type__buttons--button" [ngClass]="{'selected': myForecastType == i}"
+                (click)="handleForecastType(i)">
+                {{ type }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-8">
+        <div class="form-group forecast-duration"
+          [ngClass]="{'has-error':!defineforecast.controls['forecastdate'].valid && defineforecast.controls['forecastdate'].touched}">
+          <p>Forecast Duration</p>
+          <p><b>{{ duration }}</b></p>
+          <input id="duration" type="text" name="AsOfDate" class="datenew" #drp="bsDaterangepicker" bsDaterangepicker
+            [bsConfig]="{ dateInputFormat: 'dd/mmm/yy'}" (bsValueChange)="onValueChange($event)"
+            formControlName="forecastdate" />
+          <img (click)="drp.toggle()" [attr.aria-expanded]="drp.isOpen" src="../../../assets/img/new/calendar.png"
+            alt="calendar">
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div class="forecast-add-modal-footer">
+    <div class="forecast-add-modal-footer__container">
+      <button type="button" (click)="onCloseModal()" class="btn btn-outline-cyan">Cancel</button>
+
+      <div class="forecast-form-step">
+        <div class="steps">
+          <div class="progressbar-wrapper">
+            <ul class="progressbar">
+              <li class="active"></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <button (click)="openNextModal()" class="btn btn-cyan" [disabled]="!defineforecast.valid">Next</button>
+    </div>
+  </div>
+</div>

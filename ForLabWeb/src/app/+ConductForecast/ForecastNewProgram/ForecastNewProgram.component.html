@@ -1,0 +1,68 @@
+<div class="forecast-add-modal-header">
+  <a type="button" class="close-button" (click)="onCloseModal()" aria-hidden="true">
+  </a>
+</div>
+<div class="forecast-add-modal-body text-center">
+  <span class="forecast-add-program-modal-title color-darkblue">Create New Program</span>
+
+  <form class="forecast-add-form">
+    <div class="row">
+      <div class="col-md-offset-4 col-md-4">
+        <div class="form-group">
+          <p class="forecast-select-method__title">
+            Select Forecast Method
+          </p>
+          <div class="forecast-select-method__buttons">
+            <div *ngFor="let method of forecastMethodList; let i = index">
+              <div class="forecast-select-method__buttons--button" [ngClass]="{'selected': selectedMethod == i}"
+                (click)="handleChangeMethod(i)">
+                {{ method }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <p class="forecast-select-variable__title">
+            Select Variable Name
+          </p>
+          <div class="forecast-select-variable__buttons">
+            <div *ngFor="let variable of forecastVariableList; let i = index">
+              <div class="forecast-select-variable__buttons--button" [ngClass]="{'selected': selectedVariable == i}"
+                (click)="handleChangeVariable(i)">
+                {{ variable }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="forecast-add-program-modal-footer row">
+      <div class="flex-column col-md-offset-3 col-md-6">
+        <div class="forecast-add-program-modal-footer__container">
+          <button type="button" (click)="openPreviousModal()" class="btn btn-outline-cyan">Back</button>
+          <div class="forecast-form-step">
+            <div class="steps">
+              <div class="progressbar-wrapper">
+                <ul class="progressbar">
+                  <li class="passed"></li>
+                  <li class="active"></li>
+                  <li></li>
+                  <li></li>
+                  <li></li>
+                  <li></li>
+                  <li></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <button (click)="openNextModal()" class="btn btn-cyan">Next</button>
+        </div>
+        <div class="forecast-add-program-modal-footer__button">
+          <button (click)="cancelAndSelectCurrent()" class="btn btn-cyan">Cancel And Select From Current
+            Programs</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

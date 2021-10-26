@@ -1,0 +1,104 @@
+.close-button {
+  position: absolute;
+  right: 18px;
+  top: 14px;
+  width: 0;
+  height: 0;
+  opacity: 1;
+}
+
+.close-button:before, .close-button:after {
+  position: absolute;
+  left: 0;
+  content: ' ';
+  height: 13px;
+  width: 3px;
+  background-color: #F35A48;
+  z-index: 1;
+}
+
+.close-button:before {
+  transform: rotate(45deg);
+}
+
+.close-button:after {
+  transform: rotate(-45deg);
+}
+
+.forecast-add-modal-header {
+  height: 16px;
+}
+
+.forecast-add-modal-body {
+  height: calc(100% - 50px);
+  margin: auto 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.forecast-add-modal-title {
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+}
+
+.forecast-add-form {
+  width: 100%;
+  height: 100%;
+}
+
+.forecast-site-list {
+  margin-top: 20px;
+  padding: 0px 14px;
+  height: 350px;
+  overflow-y: auto;
+}
+
+.forecast-site-list .table>thead>tr>th {
+  border-bottom: 0;
+}
+
+.forecast-site-add {
+  margin-top: 25px;
+}
+
+.forecast-site-add .add-site__select {
+  padding-left: 40px;
+}
+
+.forecast-site-add .add-site__select select {
+  height: 36px;
+  border: 0;
+  border-radius: 10px !important;
+  box-shadow: none;
+  background-color: #FDFDFD;
+}
+
+.forecast-site-add .add-program {
+  height: 36px;
+  padding-top: 9px;
+  border-radius: 20px;
+  width: 76px;
+  margin: 3px 24px;
+}
+
+.forecast-add-modal-footer {
+  display: flex;
+  width: 100%;
+  height: 34px;
+  bottom: 0;
+}
+
+.forecast-add-modal-footer__container {
+  margin: 0 40px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.forecast-add-modal-footer button {
+  min-width: 130px;
+}

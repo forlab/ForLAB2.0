@@ -1,0 +1,142 @@
+.close-button {
+  position: absolute;
+  right: 18px;
+  top: 14px;
+  width: 0;
+  height: 0;
+  opacity: 1;
+}
+
+.close-button:before, .close-button:after {
+  position: absolute;
+  left: 0;
+  content: ' ';
+  height: 13px;
+  width: 3px;
+  background-color: #F35A48;
+  z-index: 1;
+}
+
+.close-button:before {
+  transform: rotate(45deg);
+}
+
+.close-button:after {
+  transform: rotate(-45deg);
+}
+
+.forecast-add-modal-header {
+  height: 61px;
+}
+
+.forecast-add-modal-body {
+  height: calc(100% - 180px);
+  margin: auto 30px;
+  position: relative;
+}
+
+.forecast-add-program-modal-footer {
+  height: 34px;
+  bottom: 0;
+}
+
+.forecast-add-program-modal-title {
+  position: relative;
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+}
+
+.forecast-add-program-modal-title:before, .forecast-add-program-modal-title:after {
+  content: "";
+  flex: 1 1;
+  border-bottom: 1px solid #2B394E;
+  margin: auto;
+  width: 62px;
+  position: absolute;
+  left: -85px;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+
+.forecast-add-program-modal-title:after {
+  right: -85px;
+  left: unset;
+}
+
+.forecast-select-variable__title {
+  margin: 0 0 26px;
+  font-size: 14px;
+  letter-spacing: 0.1em;
+}
+
+.forecast-select-variable__buttons {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 62px;
+}
+
+.forecast-select-variable__buttons--button {
+  width: 110px;
+  padding: 13px;
+  font-size: 12px;
+  font-family: 'OpenSans-Semibold';
+  border-radius: 5px;
+  color: rgba(43, 57, 78, .4);
+  background-color: rgba(43, 57, 78, .1);
+  cursor: pointer;
+}
+
+.selected {
+  color: #fff;
+  background-color: #2B394E;
+}
+
+.forecast-add-form {
+  margin-top: 144px;
+  height: inherit;
+  display: flex;
+  justify-content: center;
+}
+
+.forecast-add-form .row {
+  width: 100%;
+}
+
+.forecast-add-program-modal-footer {
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  width: 100%;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.forecast-add-program-modal-footer__container {
+  /* margin: 0 40px; */
+  margin-bottom: 28px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.forecast-add-program-modal-footer button {
+  min-width: 76px;
+  height: 36px;
+  border-radius: 25px;
+  padding: 0;
+}
+
+.forecast-add-program-modal-footer__button button {
+  width: 356px;
+  height: 46px;
+  border-radius: 5px;
+}
+
+.progressbar li:first-child {
+  margin-left: -32px;
+}

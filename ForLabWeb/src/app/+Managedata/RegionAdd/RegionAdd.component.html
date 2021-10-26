@@ -1,0 +1,26 @@
+<div class="region-add-modal-header">
+  <a type="button" class="close-button" (click)="onCloseModal();" aria-hidden="true">
+  </a>
+</div>
+<div class="region-add-modal-body text-center">
+  <span class="region-add-modal-title color-darkblue">Region Form</span>
+  <form class="region-add-form" [formGroup]="regionForm" (ngSubmit)="save()">
+    <div class="region-add-form__inner">
+      <div class="form-group"
+        [ngClass]="{'has-error':!regionForm.controls['regionName'].valid && regionForm.controls['regionName'].touched}">
+        <input type="text" class="form-control" name="regionName" placeholder="Region Name"
+          formControlName="regionName" />
+      </div>
+      <div class="form-group"
+        [ngClass]="{'has-error':!regionForm.controls['countryId'].valid && regionForm.controls['countryId'].touched}">
+        <select name="countryId" class="form-control" formControlName="countryId">
+          <option value="0" disabled>Select Country</option>
+          <option *ngFor="let country of countryList" [value]="country.id">{{ country.name }}</option>
+        </select>
+      </div>
+      <button class="btn btn-cyan" type="submit" [disabled]="!regionForm.valid">
+        {{submitBtnName}}
+      </button>
+    </div>
+  </form>
+</div>

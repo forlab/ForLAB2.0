@@ -1,0 +1,22 @@
+<div class="forecast-add-modal-header">
+  <a type="button" class="close-button" (click)="onCloseModal()" aria-hidden="true">
+  </a>
+</div>
+<div class="forecast-add-modal-body text-center">
+  <span class="forecast-add-modal-title success-title">{{forecastName}} Forecast added<br>
+    <p>Successful!</p>
+  </span>
+  <form class="forecast-add-form">
+    <div class="success-container">
+      <img src="../../../assets/img/new/confirmation.png" alt="confirmation">
+
+      <button (click)="openNextModal()" class="btn btn-cyan">View Forecast Report</button>
+    </div>
+  </form>
+
+  <div class="forecast-add-modal-footer">
+    <div class="forecast-add-modal-footer__container">
+      <button type="button" (click)="onCloseModal()" class="btn btn-outline-cyan">Back to Forecast</button>
+    </div>
+  </div>
+</div>

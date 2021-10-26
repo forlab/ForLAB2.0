@@ -1,0 +1,173 @@
+<div class="site-add-modal-header">
+  <a type="button" class="close-button" (click)="onCloseModal()" aria-hidden="true">
+  </a>
+</div>
+<form class="site-add-form" [formGroup]="siteForm1" (ngSubmit)="next()">
+  <div class="site-add-modal-body text-center">
+    <span class="site-add-modal-title color-darkblue">Site Form</span>
+    <div class="first-step">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="site-add-form-group">
+            <div class="form-group"
+              [ngClass]="{'has-error':!siteForm1.controls['SiteName'].valid && siteForm1.controls['SiteName'].touched}">
+              <input type="text" class="form-control" name="SiteName" placeholder="Site Name" formControlName="SiteName"
+                required />
+            </div>
+            <div class="note note-error"
+              *ngIf="siteForm1.controls['SiteName'].hasError('required') && siteForm1.controls['SiteName'].touched">
+              Please Enter Test Name</div>
+            <div class="note note-error"
+              *ngIf="siteForm1.controls['SiteName'].hasError('maxlength') && siteForm1.controls['SiteName'].touched">
+              Maximum 64 characters are allowed</div>
+          </div>
+
+          <div class="site-add-select">
+            <div class="site-add-select__country">
+              <div class="form-group"
+                [ngClass]="{'has-error':!siteForm1.controls['countryid'].valid  && siteForm1.controls['countryid'].touched}">
+                <select name="countryid" class="form-control" formControlName="countryid"
+                  (change)="getRegion($event.target.value)">
+                  <option value="0" selected disabled>Select Country</option>
+                  <option *ngFor="let country of countryList" [value]="country.id">
+                    {{country.name}}
+                  </option>
+                </select>
+              </div>
+              <div class="note note-error"
+                *ngIf="siteForm1.controls['countryid'].hasError('required') && siteForm1.controls['countryid'].touched">
+                Please Select Country
+              </div>
+            </div>
+
+            <div class="site-add-select__region">
+              <div class="form-group"
+                [ngClass]="{'has-error':!siteForm1.controls['RegionId'].valid && siteForm1.controls['RegionId'].touched}">
+                <select name="RegionId" class="form-control" formControlName="RegionId">
+                  <option value="0" disabled>Select Region</option>
+                  <option *ngFor="let region of regionList" [value]="region.regionID">
+                    {{region.regionName}}</option>
+
+                </select>
+              </div>
+              <div class="note note-error"
+                *ngIf="siteForm1.controls['RegionId'].hasError('required') && siteForm1.controls['RegionId'].touched">
+                Please Select Region
+              </div>
+            </div>
+
+            <div class="site-add-select__category">
+              <div class="form-group"
+                [ngClass]="{'has-error':!siteForm1.controls['CategoryID'].valid && siteForm1.controls['CategoryID'].touched}">
+                <select name="CategoryID" class="form-control" formControlName="CategoryID">
+                  <option value="0" disabled selected>Select Site Category</option>
+                  <option *ngFor="let category of categoryList" [value]="category.categoryID">
+                    {{ category.categoryName }}
+                  </option>
+                </select>
+              </div>
+              <div class="note note-error"
+                *ngIf="siteForm1.controls['CategoryID'].hasError('required') && siteForm1.controls['CategoryID'].touched">
+                Please Select Site Category</div>
+            </div>
+          </div>
+
+          <div class="site-add-other__req">
+            <div class="site-add-other__req--detail">
+              <div class="form-group">
+                <p>General Working Days</p>
+                <input type="number" class="form-control" name="WorkingDays" formControlName="WorkingDays" />
+              </div>
+            </div>
+            <div class="site-add-other__req--detail">
+              <div class="form-group">
+                <p>Latitude</p>
+                <input type="number" class="form-control" name="Latitude" formControlName="Latitude" />
+              </div>
+            </div>
+            <div class="site-add-other__req--detail">
+              <div class="form-group">
+                <p>Longitude</p>
+                <input type="number" class="form-control" name="Longitude" formControlName="Longitude" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-8">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="site-test-per-month">
+                <p class="title">Testing Days Per Month</p>
+                <button type="button" class="btn btn-cyan" (click)="Addtestingareaformarray()">Add Testing Days</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="site-test-checkboxes">
+                  <div class="col-md-3" *ngFor="let testarea of testingAreaList; let i = index">
+                    <div class="site-test-checkboxes__checkbox">
+                      <input class="styled-checkbox" id="styled-checkbox-{{i}}" type="checkbox" value="value{{i}}"
+                        (click)=Addmultitestingarea(testarea,$event.target.checked)>
+                      <label for="styled-checkbox-{{i}}">{{testarea.areaName}}</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="site-test-content" formArrayName="_sitetestingdays">
+              <table class="table table-bordered table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th data-class="expand">Testing Area</th>
+                    <th data-class="expand">Days</th>
+                    <th data-class="expand">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of siteForm1.get('_sitetestingdays')['controls']; let i = index;"
+                    [formGroupName]="i">
+                    <td>
+                      <input type="text" name="testingareaName" formControlName="testingareaName" />
+                    </td>
+                    <td class="mt-touch">
+                      <input type="number" name="testingdays" class="form-control color-darkblue"
+                        formControlName="testingdays" />
+                    </td>
+                    <td>
+                      <a type="button" class="icon-trash" (click)="deltestdays(i)">
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="site-add-modal-footer">
+    <div class="site-add-modal-footer__container">
+      <button type="button" (click)="onCloseModal()" class="btn btn-outline-cyan">Cancel</button>
+
+      <div class="site-form-step">
+        <div class="steps">
+          <div class="progressbar-wrapper">
+            <ul class="progressbar">
+              <li class="active"></li>
+              <li [ngClass]="{'list-disabled': !siteForm1.valid}"></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-cyan" [disabled]="!siteForm1.valid">Next</button>
+    </div>
+  </div>
+</form>
